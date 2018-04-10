@@ -1,0 +1,28 @@
+.credit-card-logo-header {
+  height:100px;
+}
+
+
+.payments-summary {
+  box-shadow: 0 0.1em 1.5em rgba(84, 85, 85, 0.5);
+}
+
+.payments-summary {
+  .card-header {
+    padding:1rem;
+  }
+  .card-block {
+    padding: 1rem;
+  }
+}
+
+.has-action-icons {
+  position: relative;
+}
+
+.action-icons {
+  position:absolute;
+  top:10px;
+  left:auto;
+  right:10px;
+}

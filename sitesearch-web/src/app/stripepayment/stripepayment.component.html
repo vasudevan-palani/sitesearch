@@ -1,0 +1,46 @@
+    <form #paymentform="ngForm" (ngSubmit)="purchase(paymentform.value)" >
+    	<div class="form-group">
+			<label>Credit Card Number</label>
+			<input  data-stripe="number" class="form-control" type="text" name="ccnumber" id="ccnumber" #ccnumber="ngModel" [(ngModel)]="paymentform.ccnumber" required />
+			<div *ngIf="ccnumber?.errors && (ccnumber.dirty || ccnumber.touched)">
+				<p class="validation-error" [hidden]="!ccnumber.errors.required">Credit Card Number is required !</p>
+			</div>
+		</div>
+    	<div class="form-group">
+			<div class="row">
+				<div class="col-lg-9 col-sm-9 col-md-9 col-xs-9">
+					<div class="form-group">
+						<label>Expiration (MM/YYYY) </label>
+						<div class="row">
+							<div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 form-group">
+								<input placeholder="Expiry Month"  data-stripe="exp_month" class="d-inline-block form-control" type="text" name="exp_month" id="exp_month" #exp_month="ngModel" [(ngModel)]="paymentform.exp_month" required />
+								<div *ngIf="exp_month?.errors && (exp_month.dirty || exp_month.touched)">
+									<p class="validation-error" [hidden]="!exp_month.errors.required">Expiry is required !</p>
+								</div>
+
+							</div>
+							<div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+								<input placeholder="Expiry Year" data-stripe="exp_year" class="d-inline-block form-control" type="text" name="exp_year" id="exp_year" #exp_year="ngModel" [(ngModel)]="paymentform.exp_year" required />
+								<div *ngIf="exp_year?.errors && (exp_year.dirty || exp_year.touched)">
+									<p class="validation-error" [hidden]="!exp_year.errors.required">Expiry is required !</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-sm-3 col-md-3 col-xs-3">
+					<div class="form-group">
+						<label>CVC </label>
+						<input  data-stripe="cvc" class="form-control" type="text" name="cvc" id="cvc" #cvc="ngModel" [(ngModel)]="paymentform.cvc" required />
+						<div *ngIf="cvc?.errors && (cvc.dirty || cvc.touched)">
+							<p class="validation-error" [hidden]="!cvc.errors.required">CVC is required !</p>
+						</div>
+					</div>
+				</div>
+			</div>
+      <p><i class="fa fa-exclamation"></i> By Clicking <strong>{{actionLabel}}</strong>, you agree to the <a routerLink="/terms"> Terms and Conditions</a>. Kindly note that, we save only one card for subscription. If you had a previous saved card, it will be overwritten.</p>
+		</div>
+	      <div class="form-group text-right">
+            <button type="submit" class="btn btn-primary" [disabled]="!paymentform.form.valid"><i *ngIf="isPaymentProgress" class="fa fa-spinner fa-spin"></i>  {{actionLabel}} </button>
+          </div>
+	</form>

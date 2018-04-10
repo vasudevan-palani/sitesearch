@@ -1,0 +1,124 @@
+
+<h4> Angular 2.x/4.x Tutorials </h4>
+<p> Jquery is a one of the Javascript libraries which have been around for a long time and most of the other Javascript libraries depend on it. Please find below sample code to use with Svolve Site-Search. </p>
+<div class="row">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <ngb-tabset #t="ngbTabset" (tabChange)="tabChange($event)">
+      <ngb-tab id="tab-selectbyid1" title="HTML">
+        <ng-template ngbTabContent>
+          <pre>
+            <code class="html"><![CDATA[
+<body>
+  <div class="row">
+    <div class="col-10">
+      <form #testsiteform="ngForm" (ngSubmit)="search(testsiteform.value)">
+        <h1> Test site </h1>
+        <div class="form-group">
+          <label>Search Tags</label>
+          <input class="form-control" type="text" name="tags" [(ngModel)]="testsiteform.tags" required placeholder="tags..."/>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="row svolve-search-results" *ngIf="results">
+    <div class="col-10">
+        <h2> Results : { {results.numFound}} Found. </h2>
+        <div class="row" *ngFor="let doc of results.docs">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <a class="title" href="{ {doc.url}}">{ {doc.title}}</a>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <p class="url">{ {doc.url}}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <p class="description">{ {doc.meta_description}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</body>
+              ]]>
+            </code>
+          </pre>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab id="tab-selectbyid2">
+        <ng-template ngbTabTitle>Javascript</ng-template>
+        <ng-template ngbTabContent>
+          <pre>
+              <code class="javascript"><![CDATA[
+@Component({
+  selector: 'testsite',
+  templateUrl: 'testsite.component.html',
+  styleUrls: ['testsite.component.scss']
+})
+export class TestSiteComponent {
+  constructor(private http: Http,private config : ConfigService){
+
+  }
+
+  public results : any ;
+
+  ngOnInit(){
+
+  }
+
+  search(data){
+    this.http.get(this.config.get("API_ENDPOINT")+'/api/search?q='+data.tags+'&domain='+data.domain+'&name='+data.site.name,{withCredentials:true})
+    .subscribe(function(response){
+      this.results = response.json().data;
+    });
+  }
+
+}
+                ]]>
+              </code>
+            </pre>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab id="tab-selectbyid3">
+        <ng-template ngbTabTitle>CSS</ng-template>
+        <ng-template ngbTabContent>
+          <pre>
+              <code class="css"><![CDATA[
+.svolve-search-results {
+  back-ground-color:white;
+
+}
+
+.svolve-search-results  .url {
+  color : grey;
+}
+
+.svolve-search-results .title {
+  color : blue;
+  font-size : 15px;
+
+}
+
+.svolve-search-results .description {
+  color : black;
+  font-size : 15px;
+
+}
+
+              ]]>
+              </code>
+            </pre>
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+nav {
+	padding-left : 2rem;
+	padding-right : 2rem;
+}
+header {
+	a {
+		margin-right: 2rem;
+	}
+
+	a {
+		&.active {
+			color : #0275d8 ! important;
+			font-weight : bold;
+		}
+	}
+}
+
+.header-bar {
+	line-height: 2.2rem;
+	background-color: #fff;
+	-webkit-box-shadow: 0 0.1em 1.5em rgba(84,85,85,.5);
+	box-shadow: 0 0.1em 1.5em rgba(84,85,85,.5);
+
+	.menu-button {
+		background-color: #fff;
+	}
+
+	button:focus {
+		outline-color: #fff;
+	}
+
+}
+
+ul {
+  font-size: 18px;
+  line-height: 2rem;
+  font-weight: 400;
+  padding-top: 1rem;
+  list-style: none;
+  padding-left : 1rem;
+
+	a:focus {
+		outline-color:#fff;
+	}
+}

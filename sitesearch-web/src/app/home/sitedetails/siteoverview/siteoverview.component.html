@@ -1,0 +1,122 @@
+<div class="row">
+  <div class="col">
+  </div>
+  <div class="col-md-10 col-12">
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-12">
+        <div class="card card-document card-document-peace">
+          <div class="card-header">
+            <h5>Details</h5>
+          </div>
+          <div class="card-block">
+            <table class="table">
+              <tr>
+                <th> Domains </th>
+                <td><p *ngFor="let domain of site?.domains">{{domain}}</p></td>
+              </tr>
+              <tr>
+                <th> Token </th>
+                <td>{{site?.id}}</td>
+              </tr>
+              <tr>
+                <th> Pages </th>
+                <td>{{site?.pageCount | async}}</td>
+              </tr>
+              <tr>
+                <th> STATUS </th>
+                <td>{{site?.status}}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6  col-12">
+        <div class="card card-document card-document-primary">
+          <div class="card-header">
+            <h5>Actions</h5>
+          </div>
+          <div class="card-block">
+            <div class="row">
+              <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12 mt-2">
+                <button (click)="crawl(site)" type="button" class="btn btn-block btn-success btn-round">
+                  <i class="fa fa-angle-double-right"></i> Crawl
+                </button>
+              </div>
+              <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12 mt-2">
+                <button (click)="delete(site)" type="button" class="btn btn-block btn-danger btn-round">
+                  <i class="fa fa-trash"></i> Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+  </div>
+</div>
+
+<div class="row">
+  <div class="col">
+  </div>
+  <div class="col-md-10 col-12">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card card-document card-document-third mt-lg-5 mt-md-5">
+          <div class="card-header">
+            <h5>Payments</h5>
+          </div>
+          <div class="card-block">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Date</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let payment of invoices; index as i">
+                  <td>{{i+1}}</td>
+                  <td>{{payment.date | date:'mediumDate'}}</td>
+                  <td>${{payment.total/100}}</td>
+                  <td>PAID</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- <div class="card card-document card-document-secondary">
+          <div class="card-header">
+            <h5>Crawl History</h5>
+          </div>
+          <div class="card-block">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Start</th>
+                  <th>Ends</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let crawl of site?.crawls; index as i">
+                  <td>{{i+1}}</td>
+                  <td>{{crawl.startTime}}</td>
+                  <td>{{crawl.endTime}}</td>
+                  <td>{{crawl.status}}</td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </div>
+  <div class="col">
+  </div>
+</div>

@@ -1,0 +1,46 @@
+.search-tag {
+  border-radius: 1.5rem;
+}
+
+.search-results {
+  p {
+    margin-bottom: 0;
+  }
+  .p-link {
+    color : #AABBAA;
+  }
+}
+
+
+.card-document {
+  border-style: none;
+  .card-header {
+    background-color: white;
+    padding-left: 0.2rem;
+    padding-bottom: 0.2rem;
+  }
+
+  .card-block {
+    padding-left: 0.2rem;
+  }
+
+  &.card-document-primary {
+    .card-header {
+      border-bottom: 3px solid #0275D8;
+    }
+
+  }
+  &.card-document-peace {
+    .card-header {
+      border-bottom: 3px solid #31A621;
+    }
+
+  }
+
+  &.card-document-secondary {
+    .card-header {
+      border-bottom: 3px solid #CB4343;
+    }
+
+  }
+}

@@ -1,0 +1,52 @@
+<div class="row">
+  <div class="col-10">
+    <form #testsiteform="ngForm" (ngSubmit)="search(testsiteform.value)">
+      <h1> Test site </h1>
+      <div class="form-group">
+
+        <label>Select a site </label>
+        <select class="form-control" name="site" [(ngModel)]="testsiteform.site" (ngModelChange)="selectSite($event)" >
+          <option *ngFor="let site of sites | async" [ngValue]="site">{{site.description}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Select a domain </label>
+        <select class="form-control" name="domain" [(ngModel)]="testsiteform.domain" >
+          <option *ngFor="let domain of domains" value="{{domain}}">{{domain}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Search Tags</label>
+        <input class="form-control" type="text" name="tags" [(ngModel)]="testsiteform.tags" required placeholder="tags..."/>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary" [disabled]="!testsiteform.form.valid">Search</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="row search-results" *ngIf="results">
+  <div class="col-10">
+      <h2> Results : {{results.numFound}} Found. </h2>
+      <div class="row" *ngFor="let doc of results.docs">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <a href="{{doc.url}}">{{doc.title}}</a>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <p class="p-link">{{doc.url}}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <p class="p-content">{{doc.meta_description}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>

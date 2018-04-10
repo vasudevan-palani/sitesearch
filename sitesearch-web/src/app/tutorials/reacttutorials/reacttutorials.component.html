@@ -1,0 +1,75 @@
+
+<h4> ReactJS Tutorials </h4>
+<p> Jquery is a one of the Javascript libraries which have been around for a long time and most of the other Javascript libraries depend on it. Please find below sample code to use with Svolve Site-Search. </p>
+<div class="row">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <ngb-tabset #t="ngbTabset" (tabChange)="tabChange($event)">
+      <ngb-tab id="tab-selectbyid1" title="HTML">
+        <ng-template ngbTabContent>
+          <pre>
+            <code class="html"><![CDATA[
+<body>
+  ....
+  <input type="text" class="svolve-search-input"/>
+  ....
+
+  <div class="svolve-search-results"></div>
+  ....
+
+</body>
+              ]]>
+            </code>
+          </pre>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab id="tab-selectbyid2">
+        <ng-template ngbTabTitle>Javascript</ng-template>
+        <ng-template ngbTabContent>
+          <pre>
+              <code class="javascript"><![CDATA[
+$(".svolve-search.input").submit(function(event){
+  $.ajax({
+    url: "https://sitesearch.svolve.com/api/search?token=23289uojf98usdfsdf&domain=www.mydomain.com&q=<USER_QUERY>"
+  }).done(function() {
+    $( ".svolve-search-results" ).addClass( "done" );
+  });
+});
+                ]]>
+              </code>
+            </pre>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab id="tab-selectbyid3">
+        <ng-template ngbTabTitle>CSS</ng-template>
+        <ng-template ngbTabContent>
+          <pre>
+              <code class="css"><![CDATA[
+.svolve-search-results {
+  back-ground-color:white;
+
+}
+
+.svolve-search-results  .url {
+  color : grey;
+}
+
+.svolve-search-results .title {
+  color : blue;
+  font-size : 15px;
+
+}
+
+.svolve-search-results .description {
+  color : black;
+  font-size : 15px;
+
+}
+
+              ]]>
+              </code>
+            </pre>
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
+  </div>
+</div>

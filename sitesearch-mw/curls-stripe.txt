@@ -1,0 +1,42 @@
+curl https://api.stripe.com/v1/plans \
+   -u sk_test_P4GXFh6a1i97ieWLSKpYsdt4: \
+   -d name="Standard Plan" \
+   -d id=standard-monthly \
+   -d interval=month \
+   -d currency=usd \
+   -d amount=24900
+
+
+curl https://api.stripe.com/v1/customers \
+   -u sk_test_ZCBKV1RqwquXp7v2WfiSNlxo: \
+   -d email="vasudevan.palani@gmail.com"
+
+curl https://api.stripe.com/v1/subscriptions \
+   -u sk_test_ZCBKV1RqwquXp7v2WfiSNlxo: \
+   -d customer=cus_AsZ9T4LVhlRSRS \
+   -d plan=basic-monthly
+
+curl https://api.stripe.com/v1/customers/cus_AsZ9T4LVhlRSRS \
+   -u sk_test_ZCBKV1RqwquXp7v2WfiSNlxo: \
+   -d description="Customer for elizabeth.thompson@example.com"
+
+
+curl https://api.stripe.com/v1/customers/cus_AsZ9T4LVhlRSRS/sources \
+   -u sk_test_P4GXFh6a1i97ieWLSKpYsdt4: \
+   -d source=tok_1AWp5YAQzfMlZRXXrpfSzx3F
+
+
+
+
+curl https://api.stripe.com/v1/tokens \
+   -u pk_test_e8JHtmbINNjiITAEcUyb77Fp: \
+   -d card[number]=4242424242424242 \
+   -d card[exp_month]=12 \
+   -d card[exp_year]=2018 \
+   -d card[cvc]=123
+
+curl https://api.stripe.com/v1/subscriptions \
+   -u sk_test_P4GXFh6a1i97ieWLSKpYsdt4: \
+   -d plan=basic-monthly \
+   -d customer=cus_AsZ9T4LVhlRSRS \
+   -d source = card_1AWw1gAQzfMlZRXXMuiwKuQ3

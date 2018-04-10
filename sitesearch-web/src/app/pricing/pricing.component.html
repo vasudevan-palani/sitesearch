@@ -1,0 +1,17 @@
+<div class="card m-sm-4 m-1">
+  <div class="card-header card-primary">
+    <h4><i class="fa fa-bar-chart"></i>  Pricing</h4>
+  </div>
+  <div class="card-block">
+    <div class="row no-gutters">
+      <div class="col"></div>
+      <div class="col-lg-4 p-md-2 col-sm-6 col-12">
+        <basicplan [showTrial]="showTrial" [currentPlan]="currentPlan == 'basic-monthly'"></basicplan>
+      </div>
+      <div class="col-lg-4 p-md-2 col-sm-6 col-12">
+        <standardplan [showTrial]="showTrial" [currentPlan]="currentPlan == 'standard-monthly'"></standardplan>
+      </div>
+      <div class="col"></div>
+    </div>
+  </div>
+</div>

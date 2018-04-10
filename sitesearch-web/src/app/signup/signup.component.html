@@ -1,0 +1,39 @@
+<div class="vertical-align-parent">
+  <form #signupform="ngForm" (ngSubmit)="signup(signupform.value)" class="vertical-align">
+    <div class="row" *ngIf="error">
+      <div class="col-12">
+        <div class="alert alert-danger"><i class="fa fa-warning"></i> {{error}}</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header card-primary">
+        <h4><i class="fa fa-user-plus"></i>  Sign Up</h4>
+      </div>
+      <div class="card-block">
+        <div class="form-group">
+          <label>Email</label>
+          <input class="form-control" type="email" name="email" id="email" #email="ngModel" [(ngModel)]="signupform.email" required email/>
+          <div *ngIf="email?.errors && (email.dirty || email.touched)">
+            <p class="validation-error" [hidden]="!email.errors.required">Email is required</p>
+            <p class="validation-error" *ngIf="!email.errors.required" [hidden]="!email.errors.email">Invalid Email</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input class="form-control" type="password" name="password" #password="ngModel" [(ngModel)]="signupform.password" required/>
+          <div *ngIf="password?.errors && (password.dirty || password.touched)">
+            <p class="validation-error" [hidden]="!password.errors.required">Password is required</p>
+          </div>
+          <a routerLink="['forgotpassword']">Forgot Password?</a>
+        </div>
+        <div class="form-group">
+          <recaptcha siteKey="6LdO7yMUAAAAAOrjMQ38zu1BgtQppvSGHMiLBtRm" name="captcha" [(ngModel)]="signupform.captcha" required></recaptcha>
+        </div>
+        <div class="form-group text-right">
+          <a routerLink="/login" class="mr-4">Login</a>
+          <button type="submit" class="btn btn-primary" [disabled]="!signupform.form.valid"><i *ngIf="isSignUpInProgress" class="fa fa-spinner fa-spin"></i>  Sign Up </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

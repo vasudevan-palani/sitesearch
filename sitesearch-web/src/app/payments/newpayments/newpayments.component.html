@@ -1,0 +1,9 @@
+
+<div class="card card-document card-document-peace">
+  <div class="card-header">
+    <h5>Add New Payment</h5>
+  </div>
+  <div class="card-block">
+     <stripepayment actionLabel="Save"  (tokenReceived)="add($event)" (invalidCard)="handleError($event)"></stripepayment>
+  </div>
+</div>

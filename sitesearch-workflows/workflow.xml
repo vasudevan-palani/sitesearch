@@ -1,0 +1,47 @@
+<workflow-app xmlns = "uri:oozie:workflow:0.4" name = "crawl-wf-${crawlId}">
+  <parameters>
+    <property>
+        <name>crawlId</name>
+    </property>
+    <property>
+        <name>nameNode</name>
+        <value>hdfs://localhost:9000</value>
+    </property>
+    <property>
+        <name>jobTracker</name>
+        <value>localhost:8032</value>
+    </property>
+  </parameters>
+   <start to = "inject-job" />
+
+   <action name = "inject-job">
+     <java>
+           <job-tracker>${jobTracker}</job-tracker>
+           <name-node>${nameNode}</name-node>
+           <main-class>org.apache.nutch.crawl.InjectorJob</main-class>
+           <arg>${crawlId}</arg>
+           <arg>-crawlId</arg>
+           <arg>${crawlId}</arg>
+           <capture-output />
+       </java>
+
+      <ok to = "crawl-loop-job" />
+      <error to = "kill_job" />
+   </action>
+
+   <action name="crawl-loop-job">
+       <sub-workflow>
+           <app-path>${wf:appPath()}/crawl-loop.xml</app-path>
+           <propagate-configuration/>
+       </sub-workflow>
+       <ok to="end"/>
+       <error to="kill_job" />
+   </action>
+
+   <kill name = "kill_job">
+      <message>Job failed</message>
+   </kill>
+
+   <end name = "end" />
+
+</workflow-app>

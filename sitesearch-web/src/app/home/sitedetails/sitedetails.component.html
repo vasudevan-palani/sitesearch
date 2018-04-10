@@ -1,0 +1,16 @@
+<div class="card m-sm-4 m-1">
+  <div class="card-header card-primary">
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-12">
+        <h4>Website : {{site?.name}}</h4>
+      </div>
+      <div class="col-lg-6 col-md-6 col-12 text-right">
+        <a class="card-header-right-icon" routerLinkActive="active" [routerLink]="['/home/site/overview']" [queryParams]="{'siteid':site?.id}"><i class="fa fa-flag-o"> </i>  Overview</a>
+        <a class="card-header-right-icon" routerLinkActive="active" [routerLink]="['/home/site/preview']" [queryParams]="{'siteid':site?.id}"><i class="fa fa-eye"> </i> Preview</a>
+      </div>
+    </div>
+  </div>
+  <div class="card-block">
+    <router-outlet></router-outlet>
+  </div>
+</div>

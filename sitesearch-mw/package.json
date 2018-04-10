@@ -1,0 +1,46 @@
+{
+  "name": "opensearch",
+  "version": "0.1.0",
+  "description": "An alternative to google custom search",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vasudevan-palani/opensearch.git"
+  },
+  "keywords": [
+    "opensearch",
+    "cse",
+    "custom",
+    "search",
+    "site",
+    "search"
+  ],
+  "author": "Vasudevan PALANI",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vasudevan-palani/opensearch/issues"
+  },
+  "homepage": "https://github.com/vasudevan-palani/opensearch#readme",
+  "dependencies": {
+    "aws4": "^1.7.0",
+    "axios": "^0.16.1",
+    "body-parser": "^1.17.2",
+    "cors": "^2.8.3",
+    "express": "^4.15.3",
+    "express-session": "^1.15.3",
+    "firebase": "^4.1.1",
+    "firebase-admin": "^5.0.0",
+    "q": "^1.5.0",
+    "stripe": "^4.23.0",
+    "uid-generator": "^1.0.0",
+    "usage-stats": "^0.9.1",
+    "webhdfs": "^1.2.0",
+    "winston": "^2.3.1"
+  },
+  "devDependencies": {
+    "axios-debug-log": "^0.3.0"
+  }
+}

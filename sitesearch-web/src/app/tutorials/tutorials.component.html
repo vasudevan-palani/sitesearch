@@ -1,0 +1,20 @@
+<div class="card m-lg-3 m-md-1 ml-lg-5 mr-lg-5 ml-md-5 mr-md-5">
+  <div class="card-header card-primary">
+    <h4>Tutorials</h4>
+  </div>
+  <div class="card-block">
+    <div class="row hidden-xs">
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+        <ul class="tutorials-list">
+          <li> <a routerLink="gettingstarted" routerLinkActive="active">Getting Started</a></li>
+          <li> <a routerLink="jquerytutorials" routerLinkActive="active">Jquery </a></li>
+          <li> <a routerLink="angular1tutorials" routerLinkActive="active">AngularJS 1.x </a></li>
+          <li> <a routerLink="angular24tutorials" routerLinkActive="active">AngularJS 2.x / 4.x </a></li>
+          <li> <a routerLink="reacttutorials" routerLinkActive="active">ReactJS </a></li>
+        </ul>
+      </div>
+      <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 main-content">
+        <router-outlet></router-outlet>
+      </div>
+  </div>
+</div>

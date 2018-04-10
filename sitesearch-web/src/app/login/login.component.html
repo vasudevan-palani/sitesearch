@@ -1,0 +1,47 @@
+<div class="vertical-align-parent">
+  <div class="vertical-align">
+    <div class="row" *ngIf="error">
+      <div class="col-12">
+        <div class="alert alert-danger"><i class="fa fa-warning"></i> {{error}}</div>
+      </div>
+    </div>
+    <div class="card ">
+      <div class="card-header card-primary">
+        <h4><i class="fa fa-sign-in"></i>  Login</h4>
+      </div>
+      <div class="card-block">
+        <div class="form-group">
+          <button class="btn btn-block g-signin2" (click)="signIn('google')"><img class="gmail-btn" src="assets/images/google-logo.png"/>Login With Gmail</button>
+        </div>
+        <div class="form-group">
+          <p class="text-center"> - OR - </p>
+        </div>
+        <form #loginform="ngForm" (ngSubmit)="login(loginform.value)">
+          <div class="form-group">
+            <label>Email</label>
+            <input class="form-control" type="email" name="email" id="email" #email="ngModel" [(ngModel)]="loginform.email" required email/>
+            <div *ngIf="email?.errors && (email.dirty || email.touched)">
+              <p class="validation-error" [hidden]="!email.errors.required">Email is required</p>
+              <p class="validation-error" *ngIf="!email.errors.required" [hidden]="!email.errors.email">Invalid Email</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input class="form-control" type="password" name="password" #password="ngModel" [(ngModel)]="loginform.password" required/>
+            <div *ngIf="password?.errors && (password.dirty || password.touched)">
+              <p class="validation-error" [hidden]="!password.errors.required">Password is required</p>
+            </div>
+            <a routerLink="['forgotpassword']">Forgot Password?</a>
+          </div>
+          <div class="form-group">
+            <recaptcha siteKey="6LdO7yMUAAAAAOrjMQ38zu1BgtQppvSGHMiLBtRm" name="captcha" [(ngModel)]="loginform.captcha" required></recaptcha>
+          </div>
+          <div class="form-group text-right">
+            <a routerLink="/signup" class="mr-4">Sign Up</a>
+            <button type="submit" class="btn btn-primary" [disabled]="!loginform.form.valid"><i *ngIf="isLogInProgress" class="fa fa-spinner fa-spin"></i>  Login</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

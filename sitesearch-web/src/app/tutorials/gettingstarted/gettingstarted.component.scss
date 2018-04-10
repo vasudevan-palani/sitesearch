@@ -1,0 +1,13 @@
+ul {
+	&.getting-started {
+		padding-left:0px;
+	}
+  li {
+    display: block;
+  }
+}
+span {
+  &.badge {
+    margin-right:0.5rem;
+  }
+}

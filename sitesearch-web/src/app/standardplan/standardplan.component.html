@@ -1,0 +1,42 @@
+        <div class="card plan-card">
+          <div class="card-block">
+            <div class="card-title">
+              <h4 class=" text-center">Standard</h4>
+              <h5 class="text-center price">$249/mo</h5>
+              <h5 class="text-center" *ngIf="currentPlan"> This is your current plan. </h5>
+            </div>
+            <div class="card-text">
+              <p class="plan-card-description">This plan lets you have email/phone support with our expert team along with all basic features.</p>
+              <ul class="plan-card-features">
+                <li>
+                  Instant Site Search
+                </li>
+                <li>
+                  Spell Check suggestions
+                </li>
+                <li>
+                  Auto Complete suggestions
+                </li>
+                <li>
+                  Automatic Re-Indexing ( 24 hrs )
+                </li>
+                <li>
+                  Email/Chat Support
+                </li>
+                <li>
+                  Phone Support ( By Appoinment )
+                </li>
+              </ul>
+            </div>
+            <div class="text-center card-footer" *ngIf="showActions">
+              <div class="row" *ngIf="!currentPlan">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-2">
+                  <button (click)="select({id:1})" type="button" class="btn btn-block btn-success btn-round"><i class="fa fa-check"></i> Select</button>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-2" *ngIf="showTrial">
+                  <button (click)="trial({id:1})" type="button" class="btn btn-block btn-alert btn-round">Free Trial <i class="fa fa-angle-double-right"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>

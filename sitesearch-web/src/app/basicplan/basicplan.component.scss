@@ -1,0 +1,49 @@
+.plan-card-description {
+  height : 8rem;
+  padding : 0.5rem;
+  padding-top:1rem;
+}
+
+.plan-card-features {
+
+  height:10rem;
+
+  .unavailable {
+    color : lightgrey;
+  }
+
+  li {
+    padding-top : 0.2rem;
+    padding-bottom : 0.2rem;
+  }
+}
+
+.card-title {
+  background-color: #eee;
+  padding-top : 0.5rem;
+  padding-bottom : 0.5rem;
+}
+
+h5 {
+  &.price {
+    color : green;
+  }
+}
+
+.card-block {
+  padding : 0px;
+}
+
+.card-footer {
+  background-color: white;
+  border-top : none;
+}
+
+
+.btn-round {
+  border-radius: 1rem;
+}
+
+.card-block {
+  padding :0px;
+}
