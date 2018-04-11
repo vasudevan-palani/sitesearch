@@ -69,7 +69,7 @@
            <capture-output />
        </java>
 
-      <ok to = "end" />
+      <ok to = "loop" />
       <error to = "kill_job" />
    </action>
 
