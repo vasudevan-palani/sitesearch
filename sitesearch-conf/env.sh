@@ -1,10 +1,10 @@
-HADOOP_MASTER=localhost
-SITESEARCH_INSTALL_PATH=/Users/vpalan799/Documents/projects/sitesearch/build
+HADOOP_MASTER=hadoop-master
+SITESEARCH_INSTALL_PATH=/home/ubuntu/sitesearch/build
 HADOOP_HOME=${SITESEARCH_INSTALL_PATH}/hadoop
 
 MYSQL_HOME=
 MYSQL_PORT=3306
-USERNAME=vpalan799
+USERNAME=ubuntu
 
 MONGO_PORT=27017
 
@@ -23,5 +23,8 @@ OOZIE_DB_PORT=${MYSQL_PORT}
 NUTCH_DB_HOST=${HADOOP_MASTER}
 NUTCH_DB_PORT=${MONGO_PORT}
 
-PLUGIN_FOLDERS=/Users/vpalan799/Documents/projects/sitesearch/build/crawl-dev/plugins
-JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_161.jdk/Contents/Home
+PLUGIN_FOLDERS=/home/ubuntu/sitesearch/build/workflows/plugins
+JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+
+DATANODE_DIR=/home/ubuntu/datanode
+NAMENODE_DIR=/home/ubuntu/namenode

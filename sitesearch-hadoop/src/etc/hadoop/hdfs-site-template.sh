@@ -1,5 +1,5 @@
 cat << EOF
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
 <!--
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,12 +19,21 @@ cat << EOF
 
 <configuration>
     <property>
-        <name>mapreduce.framework.name</name>
-        <value>yarn</value>
+        <name>dfs.replication</name>
+        <value>1</value>
     </property>
     <property>
-        <name>mapreduce.job.user.classpath.first</name>
+        <name>dfs.webhdfs.enabled</name>
         <value>true</value>
+    </property>
+    <property>
+            <name>dfs.namenode.name.dir</name>
+            <value>${NAMENODE_DIR}</value>
+    </property>
+
+    <property>
+            <name>dfs.datanode.data.dir</name>
+            <value>${DATANODE_DIR}</value>
     </property>
 </configuration>
 EOF

@@ -25,4 +25,13 @@
         <name>dfs.webhdfs.enabled</name>
         <value>true</value>
     </property>
+    <property>
+            <name>dfs.namenode.name.dir</name>
+            <value>/home/ubuntu/namenode</value>
+    </property>
+
+    <property>
+            <name>dfs.datanode.data.dir</name>
+            <value>/home/ubuntu/datanode</value>
+    </property>
 </configuration>

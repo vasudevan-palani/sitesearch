@@ -1,3 +1,4 @@
+"use strict";
 var config = require('./config/config');
 var axios = require('axios');
 var Q = require('q');
@@ -26,7 +27,7 @@ admin.initializeApp({
   databaseURL: config.firebase.auth.databaseURL
 });
 
-db = admin.database();
+let db = admin.database();
 
 let app = express();
 app.server = http.createServer(app);
@@ -35,7 +36,7 @@ app.server = http.createServer(app);
 app.use(cors({origin:config.weborigin,credentials:true}));
 
 // Session Management
-sessionConfig = {
+let sessionConfig = {
   secret: 'keyboard cat',
   cookie: {}
 };
@@ -63,6 +64,7 @@ app.use('/api/notification',function(req,res,next){
       if(siteId){
         db.ref('/websites').orderByChild("id").equalTo(siteId).once('value',function(websiteList){
             websiteList.forEach(function(website) {
+	      let websitestatus="PREP";
 
               if(status == "KILLED"){
                 websitestatus = 'FAILED';
@@ -155,7 +157,7 @@ app.post('/api/site/crawl',function(req,res){
     .then(function(response) {
       //trigger the crawl
       //
-      axios.post(config.oozie.url, "<?xml version=\"1.0\" encoding=\"UTF-8\"?> \
+      axios.post(config.oozie.url+"/jobs", "<?xml version=\"1.0\" encoding=\"UTF-8\"?> \
 <configuration> \
   <property> \
       <name>user.name</name> \
@@ -186,7 +188,7 @@ app.post('/api/site/crawl',function(req,res){
       .then(function(response) {
         console.log(response);
         db.ref('/crawl-Q/'+response.data.id).update({'id':response.data.id,'status':'PREP','website':website});
-        axios.put(config.oozie.url+"/"+response.data.id+'?action=start',{}).then(resp =>{
+        axios.put(config.oozie.url+"/job/"+response.data.id+'?action=start',{}).then(resp =>{
           console.log(resp);
           res.send({'status' : { 'code' : 0 }, 'id':response.data.id});
         })
@@ -250,14 +252,12 @@ app.get('/api/search',function(req,res){
       secretAccessKey: process.env["SECRET_ACCESS_KEY"],
       accessKeyId: process.env["ACCESS_KEY_ID"]
   });
-  console.log(request);
+  console.log(process.env);
   axios(request,params)
   .then(function(response){
-    console.log(response.data);
     res.send({'status' : { 'code' : 0 },'results':response.data});
   })
   .catch(function(response){
-    console.log(response);
     res.send({'status' : { 'code' : "site/search/error" },'context':response.data});
   });
 });
@@ -339,6 +339,6 @@ app.post('/api/payments/details',function(req,res){
 
 });
 
-app.server.listen(process.env.PORT || config.port, () => {
+app.server.listen(80, () => {
 		console.log(`Started on port ${app.server.address().port}`);
 });

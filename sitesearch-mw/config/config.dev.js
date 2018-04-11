@@ -1,15 +1,15 @@
 module.exports = {
-  hdfs : 'http://localhost:50070/webhdfs/v1/user/vpalan799/',
+  hdfs : 'http://localhost:50070/webhdfs/v1/user/ubuntu/',
   aws : {
     'region' : 'us-east-1',
     'service' : 'es',
     'host' : 'search-sitesearch-dev-ysygv3etypruskqtfow55cgfiy.us-east-1.es.amazonaws.com'
   },
   oozie : {
-    url : 'http://localhost:11000/oozie/v1/jobs',
-    username : 'vpalan799',
-    notificationUrl : 'http://localhost:8085/api/notification?id=$jobId&amp;status=$status',
-    workflowPath : 'hdfs://localhost:9000/user/vpalan799/workflows/crawl-dev'
+    url : 'http://hadoop-master:11000/oozie/v1',
+    username : 'ubuntu',
+    notificationUrl : 'http://hadoop-master/api/notification?id=$jobId&amp;status=$status',
+    workflowPath : 'hdfs://hadoop-master:9000/user/ubuntu/workflows/crawl'
   },
   firebase : {
   	auth : {
@@ -20,11 +20,11 @@ module.exports = {
       storageBucket: "opensearch-2a0db.appspot.com",
       messagingSenderId: "710024249927"
   	},
-  	ppk : '/Users/vpalan799/Downloads/opensearch-2a0db-firebase-adminsdk-c87oh-80d58a586e.json',
+  	ppk : '/home/ubuntu/opensearch-2a0db-firebase-adminsdk-c87oh-80d58a586e.json',
     admin : {
       username : 'opensearch.svolve@gmail.com',
       password : 'password'
     }
   },
-  weborigin : 'http://localhost:4200'
+  weborigin : 'http://sitesearch.svolve.com'
 };

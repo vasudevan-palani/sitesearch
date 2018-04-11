@@ -31,7 +31,7 @@ install_nutch(){
   # Install hadoop
 install_hadoop(){
   cd sitesearch-hadoop/build/
-  mv hadoop* ${SITESEARCH_INSTALL_PATH}/hadoop
+  cp -rf hadoop* ${SITESEARCH_INSTALL_PATH}/hadoop
   cd ${CURRENT_PATH}
 }
 
@@ -50,7 +50,7 @@ install_workflows(){
   cd ${SITESEARCH_INSTALL_PATH}/workflows && rm -rf ./tmp
   rm ${SITESEARCH_INSTALL_PATH}/hadoop/share/hadoop/common/lib/http*.jar
   rm ${SITESEARCH_INSTALL_PATH}/workflows/lib/httpcore*4.2.5*.jar
-  rm ${SITESEARCH_INSTALL_PATH}/workflows/lib/httpclient*4.2.6*.jar
+  #rm ${SITESEARCH_INSTALL_PATH}/workflows/lib/httpclient*4.2.6*.jar
   cp ${SITESEARCH_INSTALL_PATH}/workflows/lib/http*.jar ${SITESEARCH_INSTALL_PATH}/hadoop/share/hadoop/common/lib/
   cd ${CURRENT_PATH}
 }
