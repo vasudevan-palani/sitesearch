@@ -1,0 +1,143 @@
+# Welcome to Serverless!
+#
+# This file is the main config file for your service.
+# It's very minimal at this point and uses default values.
+# You can always add more config options for more control.
+# We've included some commented out config examples here.
+# Just uncomment any of them to get that config option.
+#
+# For full config options, check the docs:
+#    docs.serverless.com
+#
+# Happy Coding!
+
+service: sitesearch-api
+
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+# frameworkVersion: "=X.X.X"
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+
+package:
+  individually: true
+
+functions:
+  welcome:
+    handler: handler.welcome
+    package:
+       artifact: ./sitesearch-api.zip
+    events:
+          - schedule:
+                name: ${opt:stage}-welcome-api-warmer
+                rate: cron(0/10 5-23 * * ? *)
+                enabled: true
+                input:
+                    request: {}
+          - http:
+                 name: ${opt:stage}-Welcome
+                 path: /
+                 method: get
+                 cors:
+                   origins:
+                     - '*'
+                   headers:
+                     - Content-Type
+                     - X-Amz-Date
+                     - X-Api-Key
+                     - X-Amz-Security-Token
+                   methods:
+                     - GET
+                     - OPTIONS
+                 integration: lambda
+                 request:
+                     parameters:
+                       headers:
+                           Authorization: true
+                     passThrough: WHEN_NO_TEMPLATES
+                     template:
+                       application/json: '
+                                              #set($allParams = $input.params())
+                                              {
+                                                "request": $input.body,
+                                                "params" : {
+                                                  #foreach($type in $allParams.keySet())
+                                                  #set($params = $allParams.get($type))
+                                                  "$type" : {
+                                                    #foreach($paramName in $params.keySet())
+                                                    "$paramName" : "$util.escapeJavaScript($params.get($paramName))"
+                                                    #if($foreach.hasNext),#end
+                                                    #end
+                                                  }
+                                                  #if($foreach.hasNext),#end
+                                                  #end
+                                                }
+                                              }
+                                          '
+                 response:
+                     headers:
+                       Content-Type: "'application/json'"
+                     statusCodes:
+                       200:
+                         pattern: '' # Default response method
+  notification:
+    handler: handler.notification
+    package:
+       artifact: ./sitesearch-api.zip
+    events:
+          - schedule:
+                name: ${opt:stage}-notification-api-warmer
+                rate: cron(0/10 5-23 * * ? *)
+                enabled: true
+                input:
+                    request: {}
+          - http:
+                 name: ${opt:stage}-Notification
+                 path: /notification
+                 method: put
+                 cors:
+                   origins:
+                     - '*'
+                   headers:
+                     - Content-Type
+                     - X-Amz-Date
+                     - X-Api-Key
+                     - X-Amz-Security-Token
+                   methods:
+                     - PUT
+                     - OPTIONS
+                 integration: lambda
+                 request:
+                     parameters:
+                       querystrings:
+                         id : true
+                         status : true
+                         token : true
+                     passThrough: WHEN_NO_TEMPLATES
+                     template:
+                       application/json: '
+                                              #set($allParams = $input.params())
+                                              {
+                                                "request": $input.body,
+                                                "params" : {
+                                                  #foreach($type in $allParams.keySet())
+                                                  #set($params = $allParams.get($type))
+                                                  "$type" : {
+                                                    #foreach($paramName in $params.keySet())
+                                                    "$paramName" : "$util.escapeJavaScript($params.get($paramName))"
+                                                    #if($foreach.hasNext),#end
+                                                    #end
+                                                  }
+                                                  #if($foreach.hasNext),#end
+                                                  #end
+                                                }
+                                              }
+                                          '
+                 response:
+                     headers:
+                       Content-Type: "'application/json'"
+                     statusCodes:
+                       200:
+                         pattern: '' # Default response method

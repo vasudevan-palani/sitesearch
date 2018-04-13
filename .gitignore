@@ -3,3 +3,5 @@ sitesearch-archives/
 sitesearch-mw/node_modules/
 sitesearch-nutch/build/
 sitesearch-oozie/build/
+**/opensearch*.json
+.ftpconfig

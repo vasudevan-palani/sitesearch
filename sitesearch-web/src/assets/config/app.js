@@ -1,4 +1,4 @@
 config = {};
 config.app = {
-  API_ENDPOINT : "http://localhost:8085"
+  API_ENDPOINT : "http://api.sitesearch.svolve.com"
 }
