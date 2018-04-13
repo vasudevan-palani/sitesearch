@@ -12,19 +12,7 @@ module.exports = {
     workflowPath : 'hdfs://hadoop-master:9000/user/vpalan799/workflows/crawl'
   },
   firebase : {
-  	auth : {
-      apiKey: "AIzaSyALwIRzd8-0tACUGay3xa0gaT6dXoED8yQ",
-      authDomain: "opensearch-2a0db.firebaseapp.com",
-      databaseURL: "https://opensearch-2a0db.firebaseio.com",
-      projectId: "opensearch-2a0db",
-      storageBucket: "opensearch-2a0db.appspot.com",
-      messagingSenderId: "710024249927"
-  	},
-  	ppk : './opensearch-2a0db-firebase-adminsdk-c87oh-80d58a586e.json',
-    admin : {
-      username : 'opensearch.svolve@gmail.com',
-      password : 'password'
-    }
+  	url : 'https://opensearch-2a0db.firebaseio.com'
   },
   weborigin : 'http://sitesearch.svolve.com:4200'
 };
