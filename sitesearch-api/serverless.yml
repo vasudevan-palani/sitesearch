@@ -141,3 +141,7 @@ functions:
                      statusCodes:
                        200:
                          pattern: '' # Default response method
+                       500:
+                         pattern: '.*internalerror:.*'
+                         template:
+                           application/json: "$input.path('$.errorMessage')"

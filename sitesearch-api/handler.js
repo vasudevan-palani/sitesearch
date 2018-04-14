@@ -73,12 +73,58 @@ module.exports.crawl = (event, context, callback) => {
 }
 
 module.exports.search = (event, context, callback) => {
-  console.log(event,context);
 
-  // let id = event.queryParams['id'];
-  // let status = event.queryParams['status'];
-  //
-  // let token = event['token']
+  let query = event.params['querystring']['q'];
+  let siteId = event.params['querystring']['siteId']
+  let countOnly = event.params['querystring']['countOnly']
+
+  let params = {
+      "query" : { "match" : {"content":"*"+query+"*"} }
+  }
+
+  let awsurl = "http://"+config.aws.host;
+
+  if(countOnly){
+    awsurl = awsurl+"/"+siteId + "/_count"
+  }
+  else {
+    awsurl = awsurl+"/"+siteId + "/_search"
+  }
+
+  let awspath = "";
+  if(countOnly){
+    awspath = "/"+siteId + "/_count"
+  }
+  else {
+    awspath = "/"+siteId + "/_search"
+  }
+
+  let request = {
+    host: config.aws.host,
+    method: 'GET',
+    url: awsurl,
+    path: awspath,
+    service: config.aws.service, region: config.aws.region
+  }
+
+  let signedRequest = aws4.sign(request,
+  {
+      // assumes user has authenticated and we have called
+      // AWS.config.credentials.get to retrieve keys and
+      // session tokens
+      secretAccessKey: process.env["SECRET_ACCESS_KEY"],
+      accessKeyId: process.env["ACCESS_KEY_ID"]
+  });
+  console.log(request);
+  axios(request,params)
+  .then(function(response){
+    console.log(response.data);
+    res.send({'status' : { 'code' : 0 },'results':response.data});
+  })
+  .catch(function(response){
+    console.log(response);
+    res.send({'status' : { 'code' : "site/search/error" },'context':response.data});
+  });
 
   callback(null,{});
 }
