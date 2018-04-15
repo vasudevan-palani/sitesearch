@@ -20,13 +20,13 @@ export class PaymentService {
 
 
   list(token,customerid) {
-    return this.http.get(this.config.get("API_ENDPOINT")+'/api/payments/list?token='+token+'&customerid='+customerid,{withCredentials:true})
+    return this.http.get(this.config.get("API_ENDPOINT")+'/cards?token='+token+'&customerid='+customerid,{withCredentials:true})
     .map((res:Response) => res.json());
   }
 
 
   invoices(token,customerid) {
-    return this.http.get(this.config.get("API_ENDPOINT")+'/api/payments/invoices?token='+token+'&customerid='+customerid,{withCredentials:true})
+    return this.http.get(this.config.get("API_ENDPOINT")+'/invoices?token='+token+'&customerid='+customerid,{withCredentials:true})
     .map((res:Response) => res.json().results);
   }
 
@@ -45,7 +45,7 @@ export class PaymentService {
     else {
       data["email"] = user.email;
     }
-    return this.http.post(this.config.get("API_ENDPOINT")+'/api/payments/charge',data,{withCredentials:true})
+    return this.http.post(this.config.get("API_ENDPOINT")+'/charge',data,{withCredentials:true})
     .map((res:Response) => res.json());
   }
 
@@ -58,7 +58,7 @@ export class PaymentService {
     };
     if(user.customerid){
       data["customerid"] = user.customerid;
-      return this.http.post(this.config.get("API_ENDPOINT")+'/api/payments/details',data,{withCredentials:true})
+      return this.http.post(this.config.get("API_ENDPOINT")+'/customer',data,{withCredentials:true})
       .map((res:Response) => res.json());
     }
     return null;

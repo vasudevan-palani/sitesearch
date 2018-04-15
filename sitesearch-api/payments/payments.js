@@ -1,7 +1,5 @@
 var config = require('../config/config');
 var Q = require('q');
-var winston = require('winston');
-winston.level = "debug";
 
 var stripe = require("stripe")(
   "sk_test_P4GXFh6a1i97ieWLSKpYsdt4"

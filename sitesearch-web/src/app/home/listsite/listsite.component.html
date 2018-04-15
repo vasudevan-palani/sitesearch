@@ -45,7 +45,7 @@
                           <h5>{{site.name}}</h5>
                         </div>
                         <div class="card-block">
-                          <div><strong>STATUS : </strong>{{site.status}}</div>
+                          <div><strong>Last Crawl : </strong>{{site.lastCrawlTime}}</div>
                           <div>Pages : {{ site.pageCount | async}}</div>
                           <div><p class="footnote">Created : {{ site.created |date:'mediumDate' }}</p></div>
                         </div>

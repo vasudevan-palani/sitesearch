@@ -20,6 +20,7 @@ service: sitesearch-api
 provider:
   name: aws
   runtime: nodejs6.10
+  timeout: 60
 
 package:
   individually: true
@@ -115,6 +116,375 @@ functions:
                          id : true
                          status : true
                          token : true
+                     passThrough: WHEN_NO_TEMPLATES
+                     template:
+                       application/json: '
+                                              #set($allParams = $input.params())
+                                              {
+                                                "request": $input.body,
+                                                "params" : {
+                                                  #foreach($type in $allParams.keySet())
+                                                  #set($params = $allParams.get($type))
+                                                  "$type" : {
+                                                    #foreach($paramName in $params.keySet())
+                                                    "$paramName" : "$util.escapeJavaScript($params.get($paramName))"
+                                                    #if($foreach.hasNext),#end
+                                                    #end
+                                                  }
+                                                  #if($foreach.hasNext),#end
+                                                  #end
+                                                }
+                                              }
+                                          '
+                 response:
+                     headers:
+                       Content-Type: "'application/json'"
+                     statusCodes:
+                       200:
+                         pattern: '' # Default response method
+                       500:
+                         pattern: '.*internalerror:.*'
+                         template:
+                           application/json: "$input.path('$.errorMessage')"
+  search:
+    handler: handler.search
+    package:
+       artifact: ./sitesearch-api.zip
+    environment:
+
+    events:
+          - schedule:
+                name: ${opt:stage}-search-api-warmer
+                rate: cron(0/10 5-23 * * ? *)
+                enabled: true
+                input:
+                    request: {}
+          - http:
+                 name: ${opt:stage}-Search
+                 path: /search
+                 method: get
+                 cors:
+                   origins:
+                     - '*'
+                   headers:
+                     - Content-Type
+                     - X-Amz-Date
+                     - X-Api-Key
+                     - X-Amz-Security-Token
+                   methods:
+                     - GET
+                     - OPTIONS
+                 integration: lambda
+                 request:
+                     parameters:
+                       querystrings:
+                         siteId : true
+                         q : true
+                         countOnly : false
+                     passThrough: WHEN_NO_TEMPLATES
+                     template:
+                       application/json: '
+                                              #set($allParams = $input.params())
+                                              {
+                                                "request": $input.body,
+                                                "params" : {
+                                                  #foreach($type in $allParams.keySet())
+                                                  #set($params = $allParams.get($type))
+                                                  "$type" : {
+                                                    #foreach($paramName in $params.keySet())
+                                                    "$paramName" : "$util.escapeJavaScript($params.get($paramName))"
+                                                    #if($foreach.hasNext),#end
+                                                    #end
+                                                  }
+                                                  #if($foreach.hasNext),#end
+                                                  #end
+                                                }
+                                              }
+                                          '
+                 response:
+                     headers:
+                       Content-Type: "'application/json'"
+                     statusCodes:
+                       200:
+                         pattern: '' # Default response method
+                       500:
+                         pattern: '.*internalerror:.*'
+                         template:
+                           application/json: "$input.path('$.errorMessage')"
+  crawl:
+    handler: handler.crawl
+    package:
+       artifact: ./sitesearch-api.zip
+    events:
+          - schedule:
+                name: ${opt:stage}-crawl-api-warmer
+                rate: cron(0/10 5-23 * * ? *)
+                enabled: true
+                input:
+                    request: {}
+          - http:
+                 name: ${opt:stage}-Crawl
+                 path: /crawl
+                 method: post
+                 cors:
+                   origins:
+                     - '*'
+                   headers:
+                     - Content-Type
+                     - X-Amz-Date
+                     - X-Api-Key
+                     - X-Amz-Security-Token
+                   methods:
+                     - POST
+                     - OPTIONS
+                 integration: lambda
+                 request:
+                     parameters:
+                       querystrings:
+                         siteid : true
+                         token : true
+                     passThrough: WHEN_NO_TEMPLATES
+                     template:
+                       application/json: '
+                                              #set($allParams = $input.params())
+                                              {
+                                                "request": $input.body,
+                                                "params" : {
+                                                  #foreach($type in $allParams.keySet())
+                                                  #set($params = $allParams.get($type))
+                                                  "$type" : {
+                                                    #foreach($paramName in $params.keySet())
+                                                    "$paramName" : "$util.escapeJavaScript($params.get($paramName))"
+                                                    #if($foreach.hasNext),#end
+                                                    #end
+                                                  }
+                                                  #if($foreach.hasNext),#end
+                                                  #end
+                                                }
+                                              }
+                                          '
+                 response:
+                     headers:
+                       Content-Type: "'application/json'"
+                     statusCodes:
+                       200:
+                         pattern: '' # Default response method
+                       500:
+                         pattern: '.*internalerror:.*'
+                         template:
+                           application/json: "$input.path('$.errorMessage')"
+  invoices:
+    handler: handler.invoices
+    package:
+       artifact: ./sitesearch-api.zip
+    events:
+          - schedule:
+                name: ${opt:stage}-invoices-api-warmer
+                rate: cron(0/10 5-23 * * ? *)
+                enabled: true
+                input:
+                    request: {}
+          - http:
+                 name: ${opt:stage}-invoices
+                 path: /invoices
+                 method: get
+                 cors:
+                   origins:
+                     - '*'
+                   headers:
+                     - Content-Type
+                     - X-Amz-Date
+                     - X-Api-Key
+                     - X-Amz-Security-Token
+                   methods:
+                     - GET
+                     - OPTIONS
+                 integration: lambda
+                 request:
+                     parameters:
+                       querystrings:
+                         customerid : true
+                     passThrough: WHEN_NO_TEMPLATES
+                     template:
+                       application/json: '
+                                              #set($allParams = $input.params())
+                                              {
+                                                "request": $input.body,
+                                                "params" : {
+                                                  #foreach($type in $allParams.keySet())
+                                                  #set($params = $allParams.get($type))
+                                                  "$type" : {
+                                                    #foreach($paramName in $params.keySet())
+                                                    "$paramName" : "$util.escapeJavaScript($params.get($paramName))"
+                                                    #if($foreach.hasNext),#end
+                                                    #end
+                                                  }
+                                                  #if($foreach.hasNext),#end
+                                                  #end
+                                                }
+                                              }
+                                          '
+                 response:
+                     headers:
+                       Content-Type: "'application/json'"
+                     statusCodes:
+                       200:
+                         pattern: '' # Default response method
+                       500:
+                         pattern: '.*internalerror:.*'
+                         template:
+                           application/json: "$input.path('$.errorMessage')"
+  cards:
+    handler: handler.cards
+    package:
+       artifact: ./sitesearch-api.zip
+    events:
+          - schedule:
+                name: ${opt:stage}-cards-api-warmer
+                rate: cron(0/10 5-23 * * ? *)
+                enabled: true
+                input:
+                    request: {}
+          - http:
+                 name: ${opt:stage}-cards
+                 path: /cards
+                 method: get
+                 cors:
+                   origins:
+                     - '*'
+                   headers:
+                     - Content-Type
+                     - X-Amz-Date
+                     - X-Api-Key
+                     - X-Amz-Security-Token
+                   methods:
+                     - GET
+                     - OPTIONS
+                 integration: lambda
+                 request:
+                     parameters:
+                       querystrings:
+                         customerid : true
+                     passThrough: WHEN_NO_TEMPLATES
+                     template:
+                       application/json: '
+                                              #set($allParams = $input.params())
+                                              {
+                                                "request": $input.body,
+                                                "params" : {
+                                                  #foreach($type in $allParams.keySet())
+                                                  #set($params = $allParams.get($type))
+                                                  "$type" : {
+                                                    #foreach($paramName in $params.keySet())
+                                                    "$paramName" : "$util.escapeJavaScript($params.get($paramName))"
+                                                    #if($foreach.hasNext),#end
+                                                    #end
+                                                  }
+                                                  #if($foreach.hasNext),#end
+                                                  #end
+                                                }
+                                              }
+                                          '
+                 response:
+                     headers:
+                       Content-Type: "'application/json'"
+                     statusCodes:
+                       200:
+                         pattern: '' # Default response method
+                       500:
+                         pattern: '.*internalerror:.*'
+                         template:
+                           application/json: "$input.path('$.errorMessage')"
+  charge:
+    handler: handler.charge
+    package:
+       artifact: ./sitesearch-api.zip
+    events:
+          - schedule:
+                name: ${opt:stage}-charge-api-warmer
+                rate: cron(0/10 5-23 * * ? *)
+                enabled: true
+                input:
+                    request: {}
+          - http:
+                 name: ${opt:stage}-invoices
+                 path: /charge
+                 method: post
+                 cors:
+                   origins:
+                     - '*'
+                   headers:
+                     - Content-Type
+                     - X-Amz-Date
+                     - X-Api-Key
+                     - X-Amz-Security-Token
+                   methods:
+                     - POST
+                     - OPTIONS
+                 integration: lambda
+                 request:
+                     parameters:
+                     passThrough: WHEN_NO_TEMPLATES
+                     template:
+                       application/json: '
+                                              #set($allParams = $input.params())
+                                              {
+                                                "request": $input.body,
+                                                "params" : {
+                                                  #foreach($type in $allParams.keySet())
+                                                  #set($params = $allParams.get($type))
+                                                  "$type" : {
+                                                    #foreach($paramName in $params.keySet())
+                                                    "$paramName" : "$util.escapeJavaScript($params.get($paramName))"
+                                                    #if($foreach.hasNext),#end
+                                                    #end
+                                                  }
+                                                  #if($foreach.hasNext),#end
+                                                  #end
+                                                }
+                                              }
+                                          '
+                 response:
+                     headers:
+                       Content-Type: "'application/json'"
+                     statusCodes:
+                       200:
+                         pattern: '' # Default response method
+                       500:
+                         pattern: '.*internalerror:.*'
+                         template:
+                           application/json: "$input.path('$.errorMessage')"
+  customer:
+    handler: handler.customer
+    package:
+       artifact: ./sitesearch-api.zip
+    events:
+          - schedule:
+                name: ${opt:stage}-customer-api-warmer
+                rate: cron(0/10 5-23 * * ? *)
+                enabled: true
+                input:
+                    request: {}
+          - http:
+                 name: ${opt:stage}-customer
+                 path: /customer
+                 method: get
+                 cors:
+                   origins:
+                     - '*'
+                   headers:
+                     - Content-Type
+                     - X-Amz-Date
+                     - X-Api-Key
+                     - X-Amz-Security-Token
+                   methods:
+                     - GET
+                     - OPTIONS
+                 integration: lambda
+                 request:
+                     parameters:
+                       querystrings:
+                         customerid : true
                      passThrough: WHEN_NO_TEMPLATES
                      template:
                        application/json: '

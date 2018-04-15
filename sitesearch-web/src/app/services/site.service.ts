@@ -83,12 +83,12 @@ export class SiteService {
   }
 
   createCollection(data){
-    return this.http.post(this.config.get("API_ENDPOINT")+'/api/site/add',data,{withCredentials:true})
+    return this.http.post(this.config.get("API_ENDPOINT")+'/site/add',data,{withCredentials:false})
     .map((res:Response) => res.json());
   }
 
   deleteCollection(data){
-    return this.http.post(this.config.get("API_ENDPOINT")+'/api/site/delete',data,{withCredentials:true})
+    return this.http.post(this.config.get("API_ENDPOINT")+'/site/delete',data,{withCredentials:false})
     .map((res:Response) => res.json());
   }
 
@@ -115,23 +115,20 @@ export class SiteService {
       websites.map(website => {
         websitesObservable.update(website.$key,{status:SiteStatus.SCHEDULED});
 
-        //trigger the crawl
-        //
-        this.http.post(this.config.get("API_ENDPOINT")+'/api/site/crawl?siteid='+siteid,{'token':token},{withCredentials:true})
-        .toPromise()
-        .then((res:Response) => {
-          let resp:any = res.json();
-        })
-        .catch((res:any) => {
-
+        let crawls = this.db.list("/crawlq/"+website.$key);
+        crawls.push({
+          'siteId' : siteid,
+          'created' : new Date().getTime() / 1000,
+          'status' : 'SCHEDULED'
         });
+
       });
     });
   }
 
   search(data) {
     console.log(data);
-    return this.http.get(this.config.get("API_ENDPOINT")+'/api/search?q='+data.tag+'&siteid='+data.siteid,{withCredentials:true})
+    return this.http.get(this.config.get("API_ENDPOINT")+'/search?q='+data.tag+'&siteid='+data.siteid,{withCredentials:false})
     .map((res:Response) => res.json());
   }
 
@@ -147,7 +144,7 @@ export class SiteService {
   }
   private _getPageCount(data) {
     console.log(data);
-    return this.http.get(this.config.get("API_ENDPOINT")+'/api/search?countOnly=true&siteid='+data.id,{withCredentials:true})
+    return this.http.get(this.config.get("API_ENDPOINT")+'/search?countOnly=true&siteid='+data.id,{withCredentials:false})
     .map((res:Response) => {
       var jsonResponse = res.json();
       console.log(jsonResponse);

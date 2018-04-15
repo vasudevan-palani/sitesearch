@@ -29,16 +29,18 @@ export class NewSiteComponent {
     console.log("Adding site : ",data);
     data.domains = data.sitedomains.split(',');
     data.userId = this.user.id;
+    data.lastCrawlTime = 'None';
+
     var siteid = this.siteSvc.add(data).subscribe(site => {
       console.log("Site added to firebase : ",site);
       this.userSvc.getToken().then(token => {
         console.log("User Token received : ",token);
         data.token = token;
-        this.siteSvc.createCollection(site).subscribe(response => {
-          console.log("Collection created : ",response);
-          this.isAddInProgress = false;
-          this.router.navigate(['home','list']);
-        });
+        // this.siteSvc.createCollection(site).subscribe(response => {
+        //   console.log("Collection created : ",response);
+        //   this.isAddInProgress = false;
+        //   this.router.navigate(['home','list']);
+        // });
       });
     });
 
