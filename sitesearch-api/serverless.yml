@@ -83,69 +83,6 @@ functions:
                      statusCodes:
                        200:
                          pattern: '' # Default response method
-  notification:
-    handler: handler.notification
-    package:
-       artifact: ./sitesearch-api.zip
-    events:
-          - schedule:
-                name: ${opt:stage}-notification-api-warmer
-                rate: cron(0/10 5-23 * * ? *)
-                enabled: true
-                input:
-                    request: {}
-          - http:
-                 name: ${opt:stage}-Notification
-                 path: /notification
-                 method: put
-                 cors:
-                   origins:
-                     - '*'
-                   headers:
-                     - Content-Type
-                     - X-Amz-Date
-                     - X-Api-Key
-                     - X-Amz-Security-Token
-                   methods:
-                     - PUT
-                     - OPTIONS
-                 integration: lambda
-                 request:
-                     parameters:
-                       querystrings:
-                         id : true
-                         status : true
-                         token : true
-                     passThrough: WHEN_NO_TEMPLATES
-                     template:
-                       application/json: '
-                                              #set($allParams = $input.params())
-                                              {
-                                                "request": $input.body,
-                                                "params" : {
-                                                  #foreach($type in $allParams.keySet())
-                                                  #set($params = $allParams.get($type))
-                                                  "$type" : {
-                                                    #foreach($paramName in $params.keySet())
-                                                    "$paramName" : "$util.escapeJavaScript($params.get($paramName))"
-                                                    #if($foreach.hasNext),#end
-                                                    #end
-                                                  }
-                                                  #if($foreach.hasNext),#end
-                                                  #end
-                                                }
-                                              }
-                                          '
-                 response:
-                     headers:
-                       Content-Type: "'application/json'"
-                     statusCodes:
-                       200:
-                         pattern: '' # Default response method
-                       500:
-                         pattern: '.*internalerror:.*'
-                         template:
-                           application/json: "$input.path('$.errorMessage')"
   search:
     handler: handler.search
     package:
@@ -181,68 +118,6 @@ functions:
                          siteId : true
                          q : true
                          countOnly : false
-                     passThrough: WHEN_NO_TEMPLATES
-                     template:
-                       application/json: '
-                                              #set($allParams = $input.params())
-                                              {
-                                                "request": $input.body,
-                                                "params" : {
-                                                  #foreach($type in $allParams.keySet())
-                                                  #set($params = $allParams.get($type))
-                                                  "$type" : {
-                                                    #foreach($paramName in $params.keySet())
-                                                    "$paramName" : "$util.escapeJavaScript($params.get($paramName))"
-                                                    #if($foreach.hasNext),#end
-                                                    #end
-                                                  }
-                                                  #if($foreach.hasNext),#end
-                                                  #end
-                                                }
-                                              }
-                                          '
-                 response:
-                     headers:
-                       Content-Type: "'application/json'"
-                     statusCodes:
-                       200:
-                         pattern: '' # Default response method
-                       500:
-                         pattern: '.*internalerror:.*'
-                         template:
-                           application/json: "$input.path('$.errorMessage')"
-  crawl:
-    handler: handler.crawl
-    package:
-       artifact: ./sitesearch-api.zip
-    events:
-          - schedule:
-                name: ${opt:stage}-crawl-api-warmer
-                rate: cron(0/10 5-23 * * ? *)
-                enabled: true
-                input:
-                    request: {}
-          - http:
-                 name: ${opt:stage}-Crawl
-                 path: /crawl
-                 method: post
-                 cors:
-                   origins:
-                     - '*'
-                   headers:
-                     - Content-Type
-                     - X-Amz-Date
-                     - X-Api-Key
-                     - X-Amz-Security-Token
-                   methods:
-                     - POST
-                     - OPTIONS
-                 integration: lambda
-                 request:
-                     parameters:
-                       querystrings:
-                         siteid : true
-                         token : true
                      passThrough: WHEN_NO_TEMPLATES
                      template:
                        application/json: '

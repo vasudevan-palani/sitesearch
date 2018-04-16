@@ -1,5 +1,6 @@
 module.exports = {
   hdfs : 'http://localhost:50070/webhdfs/v1/user/ubuntu/',
+  port : 8085,
   aws : {
     'region' : 'us-east-1',
     'service' : 'es',

@@ -115,9 +115,10 @@ export class SiteService {
       websites.map(website => {
         websitesObservable.update(website.$key,{status:SiteStatus.SCHEDULED});
 
-        let crawls = this.db.list("/crawlq/"+website.$key);
+        let crawls = this.db.list("/crawlq");
         crawls.push({
           'siteId' : siteid,
+          'siteKey' : website.$key,
           'created' : new Date().getTime() / 1000,
           'status' : 'SCHEDULED'
         });
