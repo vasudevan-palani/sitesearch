@@ -119,7 +119,7 @@ export class SiteService {
         crawls.push({
           'siteId' : siteid,
           'siteKey' : website.$key,
-          'created' : new Date().getTime() / 1000,
+          'created' : new Date().getTime(),
           'status' : 'SCHEDULED'
         });
 

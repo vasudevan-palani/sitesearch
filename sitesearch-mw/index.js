@@ -58,11 +58,23 @@ app.use('/api/notification',function(req,res,next){
   db.ref('/crawlq').orderByChild("oozieJobId").equalTo(id).once('value',(crawlqRef)=>{
     let crawlq =crawlqRef.val();
 
-    crawlqRef.update({'status':status});
+    if(crawlq == null){
+      res.send({});
+      return;
+    }
 
-    if(crawlq && crawlq["siteKey"]){
+    let crawlKey = Object.keys(crawlq)[0];
 
-      let siteKey = crawlq.siteKey;
+    if(status == "SUCCEEDED" || status == "KILLED"){
+      db.ref('/crawlq/'+crawlKey).update({'status':status,'endTime':Date.now()});
+    }
+    else {
+      db.ref('/crawlq/'+crawlKey).update({'status':status});
+    }
+
+    if(crawlq && crawlq[crawlKey]["siteKey"]){
+
+      let siteKey = crawlq[crawlKey]["siteKey"];
 
       if(siteKey){
         db.ref('/websites/'+siteKey).once('value',(website)=>{
