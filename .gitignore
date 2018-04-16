@@ -7,3 +7,4 @@ sitesearch-oozie/build/
 **/opensearch*.json
 .ftpconfig
 */nohup.out
+sitesearch-web/dist
