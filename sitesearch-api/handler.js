@@ -20,7 +20,7 @@ module.exports.search = (event, context, callback) => {
   let countOnly = event.params['querystring']['countOnly']
 
   let params = {
-      "query" : { "match" : {"content":"*"+query+"*"} }
+      "query" : { "multi_match" : {"query":query,"fields":["title","content"] } }
   }
 
   let awsurl = "http://"+config.aws.host;
@@ -42,12 +42,14 @@ module.exports.search = (event, context, callback) => {
 
   let request = {
     host: config.aws.host,
-    method: 'GET',
-    url: awsurl,
     path: awspath,
     service: config.aws.service, region: config.aws.region
   }
-
+  request.method= 'POST';
+  request.url= awsurl;
+  request.body = JSON.stringify(params);
+  request.data = params;
+  request.headers = {'Content-Type':"application/json"};
   let signedRequest = aws4.sign(request,
   {
       // assumes user has authenticated and we have called
@@ -56,12 +58,14 @@ module.exports.search = (event, context, callback) => {
       secretAccessKey: process.env["SECRET_ACCESS_KEY"],
       accessKeyId: process.env["ACCESS_KEY_ID"]
   });
-  axios(request,params)
+  console.log(request,params);
+  axios(request)
   .then(function(response){
     console.log("searchrequest "+siteId);
     callback(null,{'status' : { 'code' : 0 },'results':response.data});
   })
   .catch(function(response){
+    console.log(response);
     callback(null,{'status' : { 'code' : "site/search/error" },'context':response.data});
   });
 }
