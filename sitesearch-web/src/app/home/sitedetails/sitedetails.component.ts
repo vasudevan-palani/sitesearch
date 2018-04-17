@@ -24,13 +24,8 @@ export class SitedetailsComponent implements OnInit {
       if(params['siteid']){
         console.log(params['siteid']);
         siteid = params['siteid'];
-        this.db.list("/websites",{
-          query : {
-            orderByChild : 'id',
-            equalTo : siteid
-          }
-        }).subscribe(sites => {
-          this.site = sites[0];
+        this.db.object("/websites/"+siteid).subscribe(site => {
+          this.site = site;
           console.log(this.site);
         });
       }
