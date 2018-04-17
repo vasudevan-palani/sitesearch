@@ -15,7 +15,7 @@ import 'rxjs/add/operator/debounceTime';
 })
 export class ListSiteComponent {
 
-  public sites : Observable<any[]>;
+  public sites : any;
 
   public user : User;
 
@@ -36,7 +36,7 @@ export class ListSiteComponent {
     window.scrollTo(0, 0);
     this.userSvc.user.debounceTime(100).first().subscribe((user: User) => {
       this.user = user;
-      this.sites = this.siteSvc.list(this.user.id).map(siteList => {
+      this.sites = this.siteSvc.list(this.user.id).map((siteList:any) => {
         return siteList.map(site => {
           site.pageCount = this.siteSvc.getPageCount(site);
           site.created = new Date(site.created * 1000);

@@ -23,14 +23,14 @@ db.ref('/crawlq').orderByChild("status").equalTo("SCHEDULED").once('value').then
 
     jobIds.forEach(jobId => {
       let job = crawlJobs[jobId];
-
+      console.log(job.siteKey);
       db.ref('/websites/'+job.siteKey).once('value').then(
         websiteRef => {
 
           let website = websiteRef.val();
           let timestamp = Date.now();
 
-          let crawlId = job.siteId+"-"+timestamp;
+          let crawlId = job.siteKey+"-"+timestamp;
 
           axios.put(config.hdfs + crawlId+"/urls.txt?op=CREATE&user.name="+config.oozie.username, website.domains.join("\n"))
           .then((hdfsresponse)=> {

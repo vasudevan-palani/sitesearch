@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from 'app/services/user.service';
-import {LocalStorage, SessionStorage} from 'ng2-webstorage';
+import {LocalStorage, SessionStorage} from 'ngx-webstorage';
 import { Subject } from 'rxjs/Subject';
 import { User } from 'app/defs/user';
 import {trigger, state, style, transition, animate} from '@angular/animations';
