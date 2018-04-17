@@ -57,26 +57,16 @@ export class SiteService {
   }
 
   crawl(siteid,token) {
-    var websitesObservable = this.db.list("/websites/",{
-      query : {
-        orderByChild : 'id',
-        equalTo : siteid
-      }
-    });
-    websitesObservable.first().subscribe( (websites:any) => {
-      websites.map(website => {
-        websitesObservable.update(website.$key,{status:SiteStatus.SCHEDULED});
+    console.log(siteid);
+    this.db.object("/websites/"+siteid).update({status:SiteStatus.SCHEDULED});
 
-        let crawls = this.db.list("/crawlq");
-        crawls.push({
-          'siteId' : siteid,
-          'siteKey' : website.$key,
-          'created' : new Date().getTime(),
-          'status' : 'SCHEDULED'
-        });
-
-      });
+    let crawls = this.db.list("/crawlq");
+    crawls.push({
+      'siteKey' : siteid,
+      'created' : new Date().getTime(),
+      'status' : 'SCHEDULED'
     });
+
   }
 
   search(data) {

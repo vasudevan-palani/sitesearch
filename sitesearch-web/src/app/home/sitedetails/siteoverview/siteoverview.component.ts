@@ -63,7 +63,7 @@ export class SiteOverviewComponent implements OnInit {
   }
   crawl(site){
     this.userSvc.getToken().then(token => {
-      this.siteSvc.crawl(site.id,token);
+      this.siteSvc.crawl(site.$key,token);
     });
   }
 
