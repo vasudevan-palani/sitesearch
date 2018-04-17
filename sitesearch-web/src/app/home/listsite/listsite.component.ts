@@ -36,8 +36,8 @@ export class ListSiteComponent {
     window.scrollTo(0, 0);
     this.userSvc.user.debounceTime(100).first().subscribe((user: User) => {
       this.user = user;
-      this.sites = this.siteSvc.list(this.user.id).map(siteList => {
-        return siteList.map(site => {
+      this.siteSvc.list(this.user.id).first().subscribe((siteList:any) => {
+        this.sites =  siteList.map(site => {
           site.pageCount = this.siteSvc.getPageCount(site);
           site.created = new Date(site.created * 1000);
           console.log(site);

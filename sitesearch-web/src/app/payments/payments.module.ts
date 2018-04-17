@@ -4,7 +4,6 @@ import { SiteService } from 'app/services/site.service';
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CustomFormsModule } from 'ng2-validation';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserModule } from '@angular/platform-browser';
 import {SelectModule} from 'ng2-select';
@@ -49,7 +48,6 @@ const paymentsRoutes: Routes = [
   imports : [
     BrowserModule,
     FormsModule,
-    CustomFormsModule,
     NgbModule,
     SelectModule,
     RouterModule.forChild(paymentsRoutes)

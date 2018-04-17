@@ -7,8 +7,6 @@ import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/databa
 import 'rxjs/add/operator/first';
 import { SiteStatus } from 'app/defs/sitestatus';
 import { ServiceResponse } from 'app/defs/serviceresponse';
-import { UUID } from 'angular2-uuid';
-
 import { Subject } from 'rxjs/Subject';
 
 @Injectable()
@@ -18,25 +16,6 @@ export class SiteService {
     private config : ConfigService,
     private db : AngularFireDatabase
   ) {}
-
-  getNewUUID(askForMore ?: Observable<boolean>) : Observable<string> {
-    var returnObjservable = new Subject();
-
-
-    setTimeout(function(){
-      returnObjservable.next(UUID.UUID().replace(/-/g,''));
-    });
-
-    if(askForMore instanceof Observable){
-      askForMore.subscribe(isNextRequired => {
-        if(isNextRequired){
-            returnObjservable.next(UUID.UUID().replace(/-/g,''));
-        }
-      });
-    }
-
-    return returnObjservable.asObservable();
-  }
 
   add(data,userId) : Observable<any> {
     console.log("SVC Adding site : ",data);
@@ -49,7 +28,7 @@ export class SiteService {
 
     var websiteObservable = this.db.object("/websites/"+sitekey).set(data).then(resp => {
       console.log("SVC Added website  : ",data);
-      returnObjservable.next(data);      
+      returnObjservable.next(data);
     });
 
     return returnObjservable.asObservable();

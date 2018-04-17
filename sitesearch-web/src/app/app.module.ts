@@ -3,7 +3,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CustomFormsModule } from 'ng2-validation';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
@@ -17,7 +16,7 @@ import { UserService } from 'app/services/user.service';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule, Routes } from '@angular/router';
-import { RecaptchaModule } from 'ng2-recaptcha';
+import { RecaptchaModule } from 'ng-recaptcha';
 
 import {HomeModule} from 'app/home/home.module';
 import {TutorialsModule} from 'app/tutorials/tutorials.module';
@@ -25,7 +24,7 @@ import {TutorialsModule} from 'app/tutorials/tutorials.module';
 import {ConfigService} from 'app/services/config.service';
 import {PaymentService} from 'app/services/payment.service';
 
-import {Ng2Webstorage} from 'ng2-webstorage';
+import {Ng2Webstorage} from 'ngx-webstorage';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule,AngularFireDatabase } from 'angularfire2/database';
@@ -112,7 +111,6 @@ let loginproviders = {
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
-    CustomFormsModule,
     HttpModule,
     HomeModule,
     TutorialsModule,
