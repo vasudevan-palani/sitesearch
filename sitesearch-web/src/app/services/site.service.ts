@@ -38,45 +38,18 @@ export class SiteService {
     return returnObjservable.asObservable();
   }
 
-  add(data) : Observable<any> {
+  add(data,userId) : Observable<any> {
     console.log("SVC Adding site : ",data);
 
     var returnObjservable = new Subject();
     data.status = SiteStatus.NEW;
-    data.created = (new Date().getTime())/1000;
+    data.created = Date.now();
 
-    var keyRequestor = new Subject();
+    let sitekey = userId + data.created;
 
-    this.getNewUUID(keyRequestor.asObservable()).subscribe(keyId => {
-      console.log("SVC Got New Id  : ",keyId);
-      this.db.list('/websites',{
-          query : {
-            orderByChild : 'id',
-            equalTo : keyId
-          }
-        }).first().subscribe(websiteList => {
-          console.log("SVC Checking existing websites  : ",websiteList);
-          var idExists = false;
-          websiteList.forEach(website => {
-            console.log("SVC Checking existing website  : ",website);
-            if(website.id == keyId){
-              idExists = true;
-            }
-          });
-
-          if(websiteList.length == 0 || idExists==false){
-            data.id = keyId;
-            var sitekey = this.db.list("/websites").push(data).key;
-
-            var websiteObservable = this.db.object("/websites/"+sitekey);
-            console.log("SVC Added website  : ",data);
-            returnObjservable.next(data);
-          }
-          else {
-            console.log("SVC Requesting new key");
-            keyRequestor.next(true);
-          }
-        });
+    var websiteObservable = this.db.object("/websites/"+sitekey).set(data).then(resp => {
+      console.log("SVC Added website  : ",data);
+      returnObjservable.next(data);      
     });
 
     return returnObjservable.asObservable();

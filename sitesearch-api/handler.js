@@ -97,19 +97,21 @@ module.exports.charge = (event, context, callback) => {
 
   let request = event.request;
 
-  payments.createCustomer(request).then(function(response) {
-    req.body.customerid = response.customerid;
-    if(response.cardid){
-      req.body.stripetoken = response.cardid;
-    }
-    payments.subscribe(request).then(function(subscription){
+  console.log(event);
+
+  payments.createCustomer(request).then((response)=> {
+    console.log("created customer successfully",response);
+
+    payments.subscribe({customerid : response.customerid,stripetoken:response.cardid, plan:request.plan}).then((subscription)=>{
       callback(null,{'status' : { 'code' : 0 },'results':subscription});
     })
-    .catch(function(err){
+    .catch((subscriptionerr)=>{
+      console.log(subscriptionerr);
       callback(null,{'status' : { 'code' : -1 }});
     });
   })
-  .catch(function(error){
+  .catch((error)=>{
+    console.log(error);
     callback(null,{'status' : { 'code' : -1 }});
   });
 

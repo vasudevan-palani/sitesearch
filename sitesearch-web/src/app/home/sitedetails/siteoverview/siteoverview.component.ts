@@ -33,15 +33,9 @@ export class SiteOverviewComponent implements OnInit {
     var siteid = "";
     this.route.queryParams.subscribe(params => {
       if(params['siteid']){
-        console.log(params['siteid']);
         siteid = params['siteid'];
-        this.db.list("/websites",{
-          query : {
-            orderByChild : 'id',
-            equalTo : siteid
-          }
-        }).subscribe(sites => {
-          this.site = sites[0];
+        this.db.object("/websites/"+siteid).subscribe(site => {
+          this.site = site;
           this.site.pageCount = this.siteSvc.getPageCount(this.site);
           this.site.created = new Date(this.site.created * 1000);
           console.log(this.site);
@@ -84,6 +78,6 @@ export class SiteOverviewComponent implements OnInit {
   }
 
   select(site){
-    this.router.navigate(['/home/site'],{queryParams:{'siteid':site.id}});
+    this.router.navigate(['/home/site'],{queryParams:{'siteid':site.$key}});
   }
 }

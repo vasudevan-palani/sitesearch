@@ -67,11 +67,14 @@ Payments.prototype.createCustomer = function(request){
 
   var createCustomer_defer = Q.defer();
 
+  console.log(request);
+
   if(request.customerid){
 
     if(request.stripetoken){
       // Add the card to customer
       //
+      console.log("updating the customer");
       stripe.customers.update(request.customerid, {
         source: request.stripetoken
       }, function(err, customer) {
@@ -91,6 +94,7 @@ Payments.prototype.createCustomer = function(request){
 
   }
   else {
+    console.log("creating the customer");
     var stripe_req = {};
     if(request.email){
       stripe_req.email  = request.email;
@@ -99,6 +103,7 @@ Payments.prototype.createCustomer = function(request){
       stripe_req.source  = request.stripetoken;
     }
     stripe.customers.create(stripe_req, function(err, customer) {
+      console.log(err,customer);
       if(customer && customer.id){
         createCustomer_defer.resolve({customerid:customer.id,cardid:customer.sources.data[0].id});
       }
@@ -112,12 +117,13 @@ Payments.prototype.createCustomer = function(request){
 Payments.prototype.subscribe = function(request){
 
   var subscribe_defer = Q.defer();
-
+  console.log("creating subscription",request);
   stripe.subscriptions.create({
     customer: request.customerid,
     source : request.stripetoken,
     plan: request.plan == 0? "basic-monthly" : "standard-monthly"
   }, function(err, subscription) {
+    console.log(err,subscription);
       if(subscription && subscription.id){
         subscribe_defer.resolve(subscription);
       }

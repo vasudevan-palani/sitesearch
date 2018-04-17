@@ -49,16 +49,18 @@ export class ListSiteComponent {
         this.userSvc.getPreferences(this.user).then((user:any) => {
           this.user = user;
           console.log(this.user);
-          this.pymtSvc.details(token,this.user).first().subscribe(response => {
-            this.customer = response.customer;
+          if(this.user.customerid){
+            this.pymtSvc.details(token,this.user).first().subscribe(response => {
+              this.customer = response.customer;
 
-            if(this.customer && this.customer.subscription){
-              console.log(this.customer.subscription);
-              this.user.account.subscription = this.customer.subscription;
-              this.customer.subscription.end_date = new Date(this.customer.subscription.end_date*1000);
-            }
+              if(this.customer && this.customer.subscription){
+                console.log(this.customer.subscription);
+                this.user.account.subscription = this.customer.subscription;
+                this.customer.subscription.end_date = new Date(this.customer.subscription.end_date*1000);
+              }
 
-          });
+            });
+          }
         });
       });
 
@@ -100,6 +102,7 @@ export class ListSiteComponent {
   }
 
   select(site){
-    this.router.navigate(['/home/site'],{queryParams:{'siteid':site.id}});
+    console.log(site);
+    this.router.navigate(['/home/site'],{queryParams:{'siteid':site.$key}});
   }
 }
