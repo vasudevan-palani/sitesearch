@@ -2,8 +2,28 @@
 var config = require('./config/config');
 var axios = require('axios');
 var aws4 = require('aws4');
+var AWS = require('aws-sdk');
 var payments = require("./payments/payments.js");
 
+var cloudwatch = new AWS.CloudWatch();
+
+var sendMetricData = function(siteId){
+  var params = {
+	"MetricData": [{
+		"MetricName": "searchRequests",
+		"Dimensions": [{
+			"Name": "website",
+			"Value": siteId
+		}],
+		"Value": 1
+	}],
+	"Namespace": "sitesearch"
+};
+    cloudwatch.putMetricData(params, function(err, data) {
+      if (err) console.log(err, err.stack); // an error occurred
+      else     console.log(data);           // successful response
+    });
+}
 
 module.exports.welcome = (event, context, callback) => {
   const response = {
@@ -20,7 +40,7 @@ module.exports.search = (event, context, callback) => {
   let countOnly = event.params['querystring']['countOnly']
 
   let params = {
-      "query" : { "multi_match" : {"query":query,"fields":["title","content"] } }
+      "query" : { "multi_match" : {"query":query,"fields":["*title*^3","content","meta*"] } }
   }
 
   let awsurl = "http://"+config.aws.host;
@@ -60,11 +80,12 @@ module.exports.search = (event, context, callback) => {
   });
   console.log(request,params);
   axios(request)
-  .then(function(response){
+  .then((response)=>{
     console.log("searchrequest "+siteId);
+    sendMetricData(siteId);
     callback(null,{'status' : { 'code' : 0 },'results':response.data});
   })
-  .catch(function(response){
+  .catch((response)=>{
     console.log(response);
     callback(null,{'status' : { 'code' : "site/search/error" },'context':response.data});
   });
