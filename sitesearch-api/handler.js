@@ -39,6 +39,10 @@ module.exports.search = (event, context, callback) => {
   let siteId = event.params['querystring']['siteId']
   let countOnly = event.params['querystring']['countOnly']
 
+  if(query == null || query == undefined){
+    query = "*";
+  }
+
   let params = {
       "query" : { "multi_match" : {"query":query,"fields":["*title*^3","content","meta*"] } }
   }
@@ -47,6 +51,9 @@ module.exports.search = (event, context, callback) => {
 
   if(countOnly){
     awsurl = awsurl+"/"+siteId + "/_count"
+    params = {
+
+    }
   }
   else {
     awsurl = awsurl+"/"+siteId + "/_search"
