@@ -24,7 +24,7 @@ export class SiteService {
     data.status = SiteStatus.NEW;
     data.created = Date.now();
 
-    let sitekey = userId + data.created;
+    let sitekey = userId.toLowerCase() + data.created;
 
     var websiteObservable = this.db.object("/websites/"+sitekey).set(data).then(resp => {
       console.log("SVC Added website  : ",data);
@@ -71,7 +71,7 @@ export class SiteService {
 
   search(data) {
     console.log(data);
-    return this.http.get(this.config.get("API_ENDPOINT")+'/search?q='+data.tag+'&siteid='+data.siteid,{withCredentials:false})
+    return this.http.get(this.config.get("API_ENDPOINT")+'/search?q='+data.tag+'&siteId='+data.siteid,{withCredentials:false})
     .map((res:Response) => res.json());
   }
 
@@ -87,7 +87,7 @@ export class SiteService {
   }
   private _getPageCount(data) {
     console.log(data);
-    return this.http.get(this.config.get("API_ENDPOINT")+'/search?countOnly=true&siteid='+data.id,{withCredentials:false})
+    return this.http.get(this.config.get("API_ENDPOINT")+'/search?countOnly=true&siteId='+data.$key,{withCredentials:false})
     .map((res:Response) => {
       var jsonResponse = res.json();
       console.log(jsonResponse);

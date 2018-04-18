@@ -5,8 +5,8 @@
         <h4>Website : {{site?.name}}</h4>
       </div>
       <div class="col-lg-6 col-md-6 col-12 text-right">
-        <a class="card-header-right-icon" routerLinkActive="active" [routerLink]="['/home/site/overview']" [queryParams]="{'siteid':site?.id}"><i class="fa fa-flag-o"> </i>  Overview</a>
-        <a class="card-header-right-icon" routerLinkActive="active" [routerLink]="['/home/site/preview']" [queryParams]="{'siteid':site?.id}"><i class="fa fa-eye"> </i> Preview</a>
+        <a class="card-header-right-icon" routerLinkActive="active" [routerLink]="['/home/site/overview']" [queryParams]="{'siteid':site?.$key}"><i class="fa fa-flag-o"> </i>  Overview</a>
+        <a class="card-header-right-icon" routerLinkActive="active" [routerLink]="['/home/site/preview']" [queryParams]="{'siteid':site?.$key}"><i class="fa fa-eye"> </i> Preview</a>
       </div>
     </div>
   </div>
