@@ -1,5 +1,5 @@
 module.exports = {
-  hdfs : 'http://localhost:50070/webhdfs/v1/user/ubuntu/',
+  hdfs : 'http://hadoop-master:50070/webhdfs/v1/user/hadoop/',
   port : 8085,
   aws : {
     'region' : 'us-east-1',
@@ -8,9 +8,9 @@ module.exports = {
   },
   oozie : {
     url : 'http://hadoop-master:11000/oozie/v1',
-    username : 'ubuntu',
+    username : 'hadoop',
     notificationUrl : 'http://hadoop-master/api/notification?id=$jobId&amp;status=$status',
-    workflowPath : 'hdfs://hadoop-master:9000/user/ubuntu/workflows/crawl'
+    workflowPath : 'hdfs://hadoop-master:8020/user/hadoop/workflows/crawl'
   },
   firebase : {
   	auth : {

@@ -1,4 +1,4 @@
-. ../sitesearch-conf/env.sh
+. ../sitesearch-conf/envdev.sh
 export PATH=~/Documents/tools/apache/ant/apache-ant-1.10.2/bin/:$PATH
 export PATH=~/Documents/tools/apache/maven/apache-maven-3.5.0/bin/:$PATH
 mkdir -p build

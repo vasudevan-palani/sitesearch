@@ -1,5 +1,5 @@
 module.exports = {
-  hdfs : 'http://hadoop-master:50070/webhdfs/v1/user/ubuntu/',
+  hdfs : 'http://hadoop-master:50070/webhdfs/v1/user/hadoop/',
   aws : {
     'region' : 'us-east-1',
     'service' : 'es',
@@ -7,9 +7,12 @@ module.exports = {
   },
   oozie : {
     url : 'http://hadoop-master:11000/oozie/v1',
-    username : 'ubuntu',
-    notificationUrl : 'http://hadoop-master:8085/api/notification?id=$jobId&amp;status=$status',
-    workflowPath : 'hdfs://hadoop-master:9000/user/ubuntu/workflows/crawl'
+    username : 'hadoop',
+    notificationUrl : 'http://ip-172-31-52-238:8085/api/notification?id=$jobId&amp;status=$status',
+    apps : {
+      clean : 'hdfs://hadoop-master:8020/user/hadoop/oozieapps/crawl/clean.xml',
+      crawl : 'hdfs://hadoop-master:8020/user/hadoop/oozieapps/crawl'
+    }
   },
   firebase : {
   	auth : {
@@ -20,7 +23,7 @@ module.exports = {
       storageBucket: "opensearch-2a0db.appspot.com",
       messagingSenderId: "710024249927"
   	},
-  	ppk : './opensearch-2a0db-firebase-adminsdk-c87oh-80d58a586e.json',
+  	ppk : '/home/hadoop/opensearch-2a0db-firebase-adminsdk-c87oh-80d58a586e.json',
     admin : {
       username : 'opensearch.svolve@gmail.com',
       password : 'password'

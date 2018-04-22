@@ -58,7 +58,7 @@
 
 		<!-- Hadoop Dependencies -->
 		<dependency org="org.apache.hadoop" name="hadoop-common"
-			rev="2.5.2" conf="*->default">
+			rev="3.1.0" conf="*->default">
 			<exclude org="hsqldb" name="hsqldb" />
 			<exclude org="net.sf.kosmosfs" name="kfs" />
 			<exclude org="net.java.dev.jets3t" name="jets3t" />
@@ -67,11 +67,11 @@
 			<exclude org="ant" name="ant" />
 		</dependency>
 		<dependency org="org.apache.hadoop" name="hadoop-hdfs"
-			rev="2.5.2" conf="*->default" />
+			rev="3.1.0" conf="*->default" />
 		<dependency org="org.apache.hadoop"
-			name="hadoop-mapreduce-client-core" rev="2.5.2" conf="*->default" />
+			name="hadoop-mapreduce-client-core" rev="3.1.0" conf="*->default" />
 		<dependency org="org.apache.hadoop"
-			name="hadoop-mapreduce-client-jobclient" rev="2.5.2"
+			name="hadoop-mapreduce-client-jobclient" rev="3.1.0"
 			conf="*->default" />
 		<!-- End of Hadoop Dependencies -->
 
@@ -132,7 +132,7 @@
 			SNAPSHOT version and add changing="true" alongside the dependency declaration.
 			An example has been provided for the gora-core dependency as below -->
 		<dependency org="org.apache.gora" name="gora-core"
-			rev="0.6.1" conf="*->default" />
+			rev="0.8" conf="*->default" />
 
 		<!-- Uncomment this to use SQL as Gora backend. It should be noted that
 			the gora-sql 0.1.1-incubating artifact is NOT compatable with gora-core 0.3.
@@ -143,28 +143,30 @@
 		<!-- Uncomment this to use MySQL as database with SQL as Gora store. -->
 		<!-- <dependency org="mysql" name="mysql-connector-java" rev="5.1.18" conf="*->default"/> -->
 		<!-- Uncomment this to use HBase as Gora backend. -->
-		<!-- <dependency org="org.apache.gora" name="gora-hbase" rev="0.6.1" conf="*->default"
+		<!-- <dependency org="org.apache.gora" name="gora-hbase" rev="0.8" conf="*->default"
 			/> -->
 		<!-- Uncomment this to use Accumulo as Gora backend. -->
-		<!-- <dependency org="org.apache.gora" name="gora-accumulo" rev="0.6.1"
+		<!-- <dependency org="org.apache.gora" name="gora-accumulo" rev="0.8"
 			conf="*->default" /> -->
 		<!-- Uncomment this to use Cassandra as Gora backend. -->
-		<!-- <dependency org="org.apache.gora" name="gora-cassandra" rev="0.6.1"
+		<!-- <dependency org="org.apache.gora" name="gora-cassandra" rev="0.8"
 			conf="*->default" /> -->
 		<!-- Uncomment this to use MongoDB as Gora backend. -->
 
-		<dependency org="org.apache.gora" name="gora-mongodb"
-			rev="0.6.1" conf="*->default" />
+		 <dependency org="org.apache.gora" name="gora-mongodb"
+			rev="0.8" conf="*->default" />
+		<!--<dependency org="org.apache.gora" name="gora-dynamodb"
+				rev="0.8" conf="*->default" />-->
 
 		<!-- Uncomment this to use Solr as Gora backend. -->
-		<!-- <dependency org="org.apache.gora" name="gora-solr" rev="0.6.1" conf="*->default"
+		<!-- <dependency org="org.apache.gora" name="gora-solr" rev="0.8" conf="*->default"
 			/> -->
 		<!-- The gora-compiler is used within the 'ant generate-gora-src' target
 			to compile the Gora .avsc files within ./src/gora -->
 		<dependency org="org.apache.gora" name="gora-compiler-cli"
-			rev="0.6.1" conf="*->default" />
+			rev="0.8" conf="*->default" />
 		<dependency org="org.apache.gora" name="gora-compiler"
-			rev="0.6.1" conf="*->default" />
+			rev="0.8" conf="*->default" />
 
 		<!-- web app dependencies -->
 

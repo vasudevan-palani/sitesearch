@@ -27,15 +27,26 @@ export class SiteOverviewComponent implements OnInit {
   public site:any;
   public user:User;
 
+  public fromItem:number;
+  public size:number;
+  public totalPages:number;
+
+  public pages:any[];
+
+
   public invoices:any[];
 
   ngOnInit() {
     var siteid = "";
+    this.fromItem=0;
+    this.size=10;
     this.route.queryParams.subscribe(params => {
       if(params['siteid']){
         siteid = params['siteid'];
         this.db.object("/websites/"+siteid).subscribe(site => {
+
           this.site = site;
+          this.getPages();
           this.site.pageCount = this.siteSvc.getPageCount(this.site);
           this.site.created = new Date(this.site.created * 1000);
           console.log(this.site);
@@ -67,14 +78,34 @@ export class SiteOverviewComponent implements OnInit {
     });
   }
 
-  delete(data){
-    this.siteSvc.remove(data.id);
-    this.userSvc.getToken().then(token => {
-      data.token = token;
-      this.siteSvc.deleteCollection(data).subscribe(response => {
-        console.log(response);
-      });
+  getNextPages(){
+    console.log(this.fromItem);
+
+    this.fromItem = this.fromItem + this.size > this.totalPages ? this.fromItem : this.fromItem + this.size;
+    console.log(this.fromItem);
+    this.getPages();
+  }
+  getPrevPages(){
+    this.fromItem = this.fromItem - this.size < 0 ? 0 : this.fromItem - this.size;
+    this.getPages();
+  }
+  getPages(){
+    this.siteSvc.getPages(this.site.$key,this.fromItem,this.size).then((pages:any) => {
+      console.log(pages);
+      if(pages.results != undefined){
+        this.pages = pages.results.hits.hits;
+        this.totalPages = pages.results.hits.total;
+      }
+      else {
+        this.pages = [];
+        this.totalPages = 0;
+      }
     });
+  }
+
+  delete(data){
+    this.siteSvc.remove(data.$key);
+    this.router.navigate(['/home/list']);
   }
 
   select(site){
