@@ -21,7 +21,7 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.BasicHttpEntity;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.protocol.HttpContext;
-
+import com.amazonaws.util.StringUtils;
 /*
  * Copyright 2012-2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -75,6 +75,20 @@ public class AWSRequestSigningApacheInterceptor implements HttpRequestIntercepto
         this.awsCredentialsProvider = awsCredentialsProvider;
     }
 
+    public HttpMethodName fromValue(String value) {
+            if (StringUtils.isNullOrEmpty(value)) {
+                return null;
+            }
+
+            final String upperCaseValue = value.toUpperCase();
+            for (HttpMethodName httpMethodName : HttpMethodName.values()) {
+                if (httpMethodName.name().equals(upperCaseValue)) {
+                    return httpMethodName;
+                }
+            }
+            throw new IllegalArgumentException("Unsupported HTTP method name " + value);
+        }
+
     /**
      * {@inheritDoc}
      */
@@ -96,7 +110,7 @@ public class AWSRequestSigningApacheInterceptor implements HttpRequestIntercepto
             signableRequest.setEndpoint(URI.create(host.toURI()));
         }
         final HttpMethodName httpMethod =
-                HttpMethodName.fromValue(request.getRequestLine().getMethod());
+                this.fromValue(request.getRequestLine().getMethod());
         signableRequest.setHttpMethod(httpMethod);
         try {
             signableRequest.setResourcePath(uriBuilder.build().getRawPath());
@@ -145,7 +159,7 @@ public class AWSRequestSigningApacheInterceptor implements HttpRequestIntercepto
         	else {
         		argsList = new ArrayList<>();
         	}
-                    
+
             argsList.add(nvp.getValue());
         }
         return parameterMap;

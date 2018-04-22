@@ -38,20 +38,22 @@
               </div>
               <div class="card-block p-1 p-md-2 p-lg-4">
                 <div class="row">
-                  <div class="col-lg-2 col-12"></div>
-                  <div class="col-lg-4 col-md-6 col-sm-12 col-12 mt-2 mt-md-0" *ngFor="let site of sites| async;let i = index">
+                  <ng-container *ngFor="let site of sites| async;let i = index">
+                  <div class="col-lg-1 col-md-12 col-sm-12 col-xs-12"></div>
+                  <div class="col-lg-4 col-md-6 col-sm-12 col-12 mt-2 mt-md-0 mb-4" >
                       <div class="card card-document card-document-primary site-summary" (click)="select(site)">
                         <div class="card-header">
                           <h5>{{site.name}}</h5>
                         </div>
                         <div class="card-block">
-                          <div><strong>Last Crawl : </strong>{{site.lastCrawlTime}}</div>
+                          <div><strong>Last Crawl : </strong>{{site.lastCrawlTime /1000 |date:'mediumDate'}}</div>
                           <div>Pages : {{ site.pageCount | async}}</div>
-                          <div><p class="footnote">Created : {{ site.created |date:'mediumDate' }}</p></div>
+                          <div><p class="footnote">Created : {{ site.created /1000 |date:'mediumDate' }}</p></div>
                         </div>
                       </div>
                   </div>
-                  <div class="col-lg-2 col-12"></div>
+                  <div class="col-lg-1 col-md-12 col-sm-12 col-xs-12"></div>
+                </ng-container>
                 </div>
               </div>
             </div>

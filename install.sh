@@ -5,7 +5,7 @@ if [ "$#" -ne 1 ]; then
   exit 1
 fi
 
-. ./sitesearch-conf/env.sh
+. ./sitesearch-conf/envdev.sh
 
 CURRENT_PATH=`pwd`
 

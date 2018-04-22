@@ -23,8 +23,8 @@
             </div>
           </div>
           <div class="form-group">
-            <label>Site URL</label>
-            <input class="form-control" name="sitedomains" #sitedomains="ngModel" [(ngModel)]="newsiteform.sitedomains" required url/>
+            <label>URL(s)</label>
+            <textarea placeholder="Line seperated urls" class="form-control" name="sitedomains" #sitedomains="ngModel" [(ngModel)]="newsiteform.sitedomains" required url></textarea>
             <div *ngIf="sitedomains?.errors && (sitedomains.dirty || sitedomains.touched)">
               <p class="validation-error" [hidden]="!sitedomains.errors.required">URL is required</p>
               <p class="validation-error" *ngIf="!sitedomains.errors.required" [hidden]="!sitedomains.errors.url">URL is invalid</p>

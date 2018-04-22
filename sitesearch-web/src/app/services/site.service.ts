@@ -25,9 +25,10 @@ export class SiteService {
     data.created = Date.now();
 
     let sitekey = userId.toLowerCase() + data.created;
+    data.id = sitekey;
 
     var websiteObservable = this.db.object("/websites/"+sitekey).set(data).then(resp => {
-      console.log("SVC Added website  : ",data);
+      console.log("SVC Added website  : ",resp);
       returnObjservable.next(data);
     });
 
@@ -45,15 +46,7 @@ export class SiteService {
   }
 
   remove(siteid) {
-    var websitesObservable = this.db.list("/websites/",{
-      query : {
-        orderByChild : 'id',
-        equalTo : siteid
-      }
-    });
-    websitesObservable.subscribe((website:any) => {
-      websitesObservable.remove(website.$key);
-    });
+    var websitesObservable = this.db.object("/websites/"+siteid).remove();
   }
 
   crawl(siteid,token) {
@@ -67,6 +60,12 @@ export class SiteService {
       'status' : 'SCHEDULED'
     });
 
+  }
+
+  getPages(siteKey,from,size) {
+    return this.http.get(this.config.get("API_ENDPOINT")+'/pages?from='+from+'&siteId='+siteKey+"&size="+size,{withCredentials:false})
+    .map((res:Response) => res.json())
+    .toPromise();
   }
 
   search(data) {

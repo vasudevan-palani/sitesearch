@@ -27,11 +27,23 @@ export class NewSiteComponent {
   addsite(data){
     this.isAddInProgress = true;
     console.log("Adding site : ",data);
-    data.domains = data.sitedomains.split(',');
-    data.userId = this.user.id;
-    data.lastCrawlTime = 'None';
+    let newsite :any;
+    newsite = {
+      'userId' : this.user.id,
+      'lastCrawlTime' : 'None',
+      'name' : data.name,
+      'description' : data.description,
+      'newurls':[]
 
-    var siteid = this.siteSvc.add(data,data.userId).subscribe(site => {
+    }
+
+    data.sitedomains.split("\n").forEach(url => {
+      if(url != undefined && url != ""){
+        newsite.newurls.push(url);
+      }
+    })
+
+    var siteid = this.siteSvc.add(newsite,newsite.userId).subscribe(site => {
       console.log("Site added to firebase : ",site);
       this.userSvc.getToken().then(token => {
         console.log("User Token received : ",token);

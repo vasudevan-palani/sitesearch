@@ -1,0 +1,7 @@
+<!-- Default values for the workflow job parameters -->
+<configuration>
+	<property>
+		<name>oozie.launcher.mapred.job.queue.name</name>
+		<value>oozielauncher</value>
+	</property>
+</configuration>

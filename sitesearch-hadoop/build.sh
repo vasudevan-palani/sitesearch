@@ -1,9 +1,9 @@
-. ../sitesearch-conf/env.sh
+. ../sitesearch-conf/envdev.sh
 export PATH=~/Documents/tools/apache/ant/apache-ant-1.10.2/bin/:$PATH
 export PATH=~/Documents/tools/apache/maven/apache-maven-3.5.0/bin/:$PATH
 mkdir -p build
 cd build
-tar zxvf ../../sitesearch-archives/hadoop*.tar.gz
+tar zxvf ../../sitesearch-archives/hadoop-2.8*.tar.gz
 cd hadoop*
 cp -rf ../../src/* .
 chmod +x ./etc/hadoop/*-template.sh

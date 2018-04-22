@@ -64,7 +64,7 @@ public class AWSIndexWriter implements IndexWriter {
 
 	private Configuration config;
 
-	private void sendRequest(String type,String id, Map<String,String> source) throws IOException {
+	private void sendRequest(String method, String type,String id, Map<String,String> source) throws IOException {
 
       String json = new JSONObject(source).toString();
 
@@ -87,9 +87,17 @@ public class AWSIndexWriter implements IndexWriter {
       HttpEntity entity = new NStringEntity(json, ContentType.APPLICATION_JSON);
 
 			LOG.info("AWS Indexer : sending request : "+ this.awsIndex + "/" + type + "/" + URLEncoder.encode(id,"UTF-8"));
-			Response response = client.performRequest("PUT", "/" + this.awsIndex + "/" + type + "/" + URLEncoder.encode(id,"UTF-8"),
-		  	Collections.<String, String>emptyMap(), entity);
-			LOG.info("AWS Indexer : response : "+ response.toString());
+
+			if(method.equalsIgnoreCase("put")){
+				Response response = client.performRequest("PUT", "/" + this.awsIndex + "/" + type + "/" + URLEncoder.encode(id,"UTF-8"),
+			  	Collections.<String, String>emptyMap(), entity);
+				LOG.info("AWS Indexer PUT : response : "+ response.toString());
+			}
+			else if(method.equalsIgnoreCase("delete")){
+				Response response = client.performRequest("DELETE", "/" + this.awsIndex + "/" + type + "/" + URLEncoder.encode(id,"UTF-8"));
+				LOG.info("AWS Indexer DELETE : response : "+ response.toString());
+			}
+
 
   }
 
@@ -117,12 +125,13 @@ public class AWSIndexWriter implements IndexWriter {
 		}
 		LOG.info("AWS Indexer : "+type+" : "+id);
 
-		this.sendRequest(type, id, source);
+		this.sendRequest("PUT",type, id, source);
 	}
 
 	@Override
 	public void delete(String key) throws IOException {
-
+		Map<String, String> source = new HashMap<String, String>();
+		this.sendRequest("DELETE","doc", key,source);
 	}
 
 	@Override

@@ -33,6 +33,58 @@ module.exports.welcome = (event, context, callback) => {
   callback(null, response);
 };
 
+module.exports.pages = (event, context, callback) => {
+
+  let from = event.params['querystring']['from'];
+  let siteId = event.params['querystring']['siteId'];
+  let size = event.params['querystring']['size'];
+
+  let params = {
+      "from" : from,
+      "size" : size,
+      "_source" : ["url"]
+  };
+
+  let awsurl = "http://"+config.aws.host;
+
+  awsurl = awsurl+"/"+siteId + "/_search";
+
+  let awspath = "";
+  awspath = "/"+siteId + "/_search";
+
+  let request = {
+    host: config.aws.host,
+    path: awspath,
+    service: config.aws.service, region: config.aws.region
+  }
+  request.method= 'POST';
+  request.url= awsurl;
+  request.body = JSON.stringify(params);
+  request.data = params;
+  request.headers = {'Content-Type':"application/json"};
+
+  let signedRequest = aws4.sign(request,
+  {
+      // assumes user has authenticated and we have called
+      // AWS.config.credentials.get to retrieve keys and
+      // session tokens
+      secretAccessKey: process.env["SECRET_ACCESS_KEY"],
+      accessKeyId: process.env["ACCESS_KEY_ID"]
+  });
+  console.log(request,params);
+  axios(request)
+  .then((response)=>{
+    console.log("searchrequest "+siteId);
+    sendMetricData(siteId);
+    callback(null,{'status' : { 'code' : 0 },'results':response.data});
+  })
+  .catch((response)=>{
+    console.log(response);
+    callback(null,{'status' : { 'code' : "site/search/error" },'context':response.data});
+  });
+}
+
+
 module.exports.search = (event, context, callback) => {
 
   let query = event.params['querystring']['q'];

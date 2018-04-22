@@ -28,7 +28,7 @@ cat<<EOF
 </property>
 <property>
   <name>plugin.includes</name>
- <value>protocol-http|urlfilter-regex|parse-(html|tika|metatags)|index-(basic|anchor|metadata)|urlnormalizer-(pass|regex|basic)|scoring-opic|indexer-aws</value>
+ <value>protocol-http|language-identifier|urlfilter-regex|parse-(html|tika|metatags)|index-(basic|anchor|metadata)|urlnormalizer-(pass|regex|basic)|scoring-opic|indexer-aws</value>
 </property>
 <property>
   <name>storage.data.store.class</name>
