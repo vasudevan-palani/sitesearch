@@ -63,14 +63,7 @@ module.exports.pages = (event, context, callback) => {
   request.data = params;
   request.headers = {'Content-Type':"application/json"};
 
-  let signedRequest = aws4.sign(request,
-  {
-      // assumes user has authenticated and we have called
-      // AWS.config.credentials.get to retrieve keys and
-      // session tokens
-      secretAccessKey: process.env["SECRET_ACCESS_KEY"],
-      accessKeyId: process.env["ACCESS_KEY_ID"]
-  });
+  let signedRequest = aws4.sign(request);
   console.log(request,params);
   axios(request)
   .then((response)=>{
@@ -129,14 +122,7 @@ module.exports.search = (event, context, callback) => {
   request.body = JSON.stringify(params);
   request.data = params;
   request.headers = {'Content-Type':"application/json"};
-  let signedRequest = aws4.sign(request,
-  {
-      // assumes user has authenticated and we have called
-      // AWS.config.credentials.get to retrieve keys and
-      // session tokens
-      secretAccessKey: process.env["SECRET_ACCESS_KEY"],
-      accessKeyId: process.env["ACCESS_KEY_ID"]
-  });
+  let signedRequest = aws4.sign(request);
   console.log(request,params);
   axios(request)
   .then((response)=>{

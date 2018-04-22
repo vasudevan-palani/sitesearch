@@ -45,6 +45,7 @@ import java.net.URLEncoder;
 import com.amazonaws.auth.AWS4Signer;
 import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
+import com.amazonaws.auth.InstanceProfileCredentialsProvider;
 
 /**
  */
@@ -72,7 +73,7 @@ public class AWSIndexWriter implements IndexWriter {
       signer.setServiceName(this.AWS_SERVICE);
       signer.setRegionName(this.AWS_REGION);
 
-      AWSCredentialsProvider credentialsProvider = new ProfileCredentialsProvider(this.awsProfile);
+      AWSCredentialsProvider credentialsProvider = InstanceProfileCredentialsProvider.getInstance();
       final HttpRequestInterceptor interceptor = new AWSRequestSigningApacheInterceptor(this.AWS_SERVICE, signer, credentialsProvider);
 
       RestClient client = RestClient.builder(new HttpHost(this.awsEndpoint, 443, "https"))

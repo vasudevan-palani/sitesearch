@@ -21,16 +21,23 @@ export class SiteService {
     console.log("SVC Adding site : ",data);
 
     var returnObjservable = new Subject();
-    data.status = SiteStatus.NEW;
     data.created = Date.now();
 
     let sitekey = userId.toLowerCase() + data.created;
     data.id = sitekey;
 
+
+    let urls = data.urls;
+
+    data.urls = [];
+
     var websiteObservable = this.db.object("/websites/"+sitekey).set(data).then(resp => {
       console.log("SVC Added website  : ",resp);
       returnObjservable.next(data);
+      this.crawl(sitekey,urls);
     });
+
+
 
     return returnObjservable.asObservable();
   }
@@ -49,13 +56,26 @@ export class SiteService {
     var websitesObservable = this.db.object("/websites/"+siteid).remove();
   }
 
-  crawl(siteid,token) {
+  crawl(siteid,urls) {
     console.log(siteid);
-    this.db.object("/websites/"+siteid).update({status:SiteStatus.SCHEDULED});
 
-    let crawls = this.db.list("/crawlq");
+    let crawls = this.db.list("/crawlq/");
     crawls.push({
       'siteKey' : siteid,
+      'created' : new Date().getTime(),
+      'crawlTime' : new Date().getTime(),
+      'status' : 'SCHEDULED',
+      'urls' : urls
+    });
+
+  }
+
+  recrawl(siteid) {
+    console.log(siteid);
+    let crawls = this.db.list("/recrawlq/");
+    crawls.push({
+      'siteKey' : siteid,
+      'crawlTime' : new Date().getTime(),
       'created' : new Date().getTime(),
       'status' : 'SCHEDULED'
     });

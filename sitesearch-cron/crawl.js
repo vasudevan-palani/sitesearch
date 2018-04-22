@@ -39,7 +39,7 @@ db.ref('/crawlq').orderByChild("status").equalTo("SCHEDULED").once('value').then
           let masterNodeName = require('os').hostname();
 
 
-          axios.put(config.hdfs + crawlId + "-crawl/urls.txt?op=CREATE&overwrite=true&user.name=" + config.oozie.username, website.domains.join("\n"))
+          axios.put(config.hdfs + crawlId + "-crawl/urls.txt?op=CREATE&overwrite=true&user.name=" + config.oozie.username, job.urls.join("\n"))
             .then((hdfsresponse) => {
 
               //trigger the crawl
