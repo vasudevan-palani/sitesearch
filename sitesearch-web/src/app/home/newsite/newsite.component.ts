@@ -33,13 +33,13 @@ export class NewSiteComponent {
       'lastCrawlTime' : 'None',
       'name' : data.name,
       'description' : data.description,
-      'newurls':[]
+      'urls':[]
 
     }
 
     data.sitedomains.split("\n").forEach(url => {
       if(url != undefined && url != ""){
-        newsite.newurls.push(url);
+        newsite.urls.push(url);
       }
     })
 

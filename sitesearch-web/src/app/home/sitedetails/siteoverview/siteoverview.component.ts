@@ -32,6 +32,7 @@ export class SiteOverviewComponent implements OnInit {
   public totalPages:number;
 
   public pages:any[];
+  public crawls:any[];
 
 
   public invoices:any[];
@@ -47,6 +48,7 @@ export class SiteOverviewComponent implements OnInit {
 
           this.site = site;
           this.getPages();
+          this.getCrawls();
           this.site.pageCount = this.siteSvc.getPageCount(this.site);
           this.site.created = new Date(this.site.created * 1000);
           console.log(this.site);
@@ -73,9 +75,7 @@ export class SiteOverviewComponent implements OnInit {
     });
   }
   crawl(site){
-    this.userSvc.getToken().then(token => {
-      this.siteSvc.crawl(site.$key,token);
-    });
+      this.siteSvc.recrawl(site.$key);
   }
 
   getNextPages(){
@@ -101,6 +101,20 @@ export class SiteOverviewComponent implements OnInit {
         this.totalPages = 0;
       }
     });
+  }
+
+  getCrawls(){
+    console.log("in getCrawls",this.site);
+    this.db.list("/crawlq", {
+      query : {
+        orderByChild:"siteKey",
+        equalTo:this.site.$key
+      }
+
+    }).subscribe(crawls => {
+      this.crawls = crawls;
+    });
+
   }
 
   delete(data){
