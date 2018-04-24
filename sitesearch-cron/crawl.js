@@ -13,6 +13,7 @@ let db = admin.database();
 
 let MAX_CRAWL = 2;
 
+
 db.ref('/crawlq').orderByChild("status").equalTo("SCHEDULED").once('value').then(
   (value) => {
     let crawlJobs = value.val();
@@ -32,6 +33,7 @@ db.ref('/crawlq').orderByChild("status").equalTo("SCHEDULED").once('value').then
         websiteRef => {
 
           let website = websiteRef.val();
+
           let timestamp = Date.now();
 
           let crawlId = job.siteKey;

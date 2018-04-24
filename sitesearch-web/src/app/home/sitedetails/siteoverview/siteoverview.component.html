@@ -63,7 +63,6 @@
             <table class="table">
               <thead>
                 <tr>
-                  <th>#</th>
                   <th>Created</th>
                   <th>Started</th>
                   <th>Ended</th>
@@ -71,12 +70,23 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let crawl of crawls; index as i">
-                  <td>{{i+1}}</td>
+                <tr *ngFor="let crawl of crawlhist; index as i">
                   <td>{{ crawl.created |date:'medium' }}</td>
                   <td>{{ crawl.startTime |date:'medium' }}</td>
                   <td>{{ crawl.endTime |date:'medium' }}</td>
                   <td>{{ crawl.status }}</td>
+                </tr>
+                <tr *ngFor="let crawl of crawls; index as i">
+                  <td>{{ crawl.created |date:'medium' }}</td>
+                  <td>{{ crawl.startTime |date:'medium' }}</td>
+                  <td>{{ crawl.endTime |date:'medium' }}</td>
+                  <td>{{ crawl.status }}</td>
+                </tr>
+                <tr *ngFor="let recrawl of recrawls; index as i">
+                  <td>{{ recrawl.created |date:'medium' }}</td>
+                  <td>{{ recrawl.startTime |date:'medium' }}</td>
+                  <td>{{ recrawl.endTime |date:'medium' }}</td>
+                  <td>{{ recrawl.status }}</td>
                 </tr>
               </tbody>
             </table>

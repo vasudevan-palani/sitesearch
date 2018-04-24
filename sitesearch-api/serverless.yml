@@ -213,7 +213,6 @@ functions:
                          pattern: '.*internalerror:.*'
                          template:
                            application/json: "$input.path('$.errorMessage')"
-
   invoices:
     handler: handler.invoices
     package:
@@ -456,3 +455,36 @@ functions:
                          pattern: '.*internalerror:.*'
                          template:
                            application/json: "$input.path('$.errorMessage')"
+  crawlScheduler:
+    handler: handler.crawlScheduler
+    package:
+       artifact: ./sitesearch-api.zip
+    events:
+          - schedule:
+                name: ${opt:stage}-cron-scheduler-api
+                rate: cron(0 */6 * * ? *)
+                enabled: true
+                input:
+                    request: {}
+  recrawlScheduler:
+    handler: handler.recrawlScheduler
+    package:
+       artifact: ./sitesearch-api.zip
+    events:
+          - schedule:
+                name: ${opt:stage}-cron-recrawl-scheduler-api
+                rate: cron(0 */6 * * ? *)
+                enabled: true
+                input:
+                    request: {}
+  recrawlEMRScheduler:
+    handler: handler.recrawlEMRScheduler
+    package:
+       artifact: ./sitesearch-api.zip
+    events:
+          - schedule:
+                name: ${opt:stage}-cron-emrrecrawl-scheduler-api
+                rate: cron(0 */6 * * ? *)
+                enabled: true
+                input:
+                    request: {}

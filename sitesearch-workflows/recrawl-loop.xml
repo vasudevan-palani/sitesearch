@@ -1,0 +1,99 @@
+<workflow-app xmlns = "uri:oozie:workflow:0.4" name = "recrawl-subwf-${crawlId}-${counter}">
+   <start to = "generate-job" />
+
+   <action name = "generate-job">
+     <java>
+           <job-tracker>${jobTracker}</job-tracker>
+           <name-node>${nameNode}</name-node>
+           <main-class>org.apache.nutch.crawl.GeneratorJob</main-class>
+           <arg>-crawlId</arg>
+           <arg>${crawlId}</arg>
+           <arg>-adddays</arg>
+           <arg>90</arg>
+           <capture-output />
+       </java>
+
+      <ok to = "fetch-job" />
+      <error to = "end" />
+   </action>
+
+   <action name = "fetch-job">
+     <java>
+           <job-tracker>${jobTracker}</job-tracker>
+           <name-node>${nameNode}</name-node>
+           <main-class>org.apache.nutch.fetcher.FetcherJob</main-class>
+           <arg>-all</arg>
+           <arg>-crawlId</arg>
+           <arg>${crawlId}</arg>
+           <capture-output />
+       </java>
+
+      <ok to = "parse-job" />
+      <error to = "kill_job" />
+   </action>
+
+   <action name = "parse-job">
+     <java>
+           <job-tracker>${jobTracker}</job-tracker>
+           <name-node>${nameNode}</name-node>
+           <main-class>org.apache.nutch.parse.ParserJob</main-class>
+           <arg>-all</arg>
+           <arg>-crawlId</arg>
+           <arg>${crawlId}</arg>
+           <capture-output />
+       </java>
+
+      <ok to = "updatedb-job" />
+      <error to = "kill_job" />
+   </action>
+   <action name = "updatedb-job">
+     <java>
+           <job-tracker>${jobTracker}</job-tracker>
+           <name-node>${nameNode}</name-node>
+           <main-class>org.apache.nutch.crawl.DbUpdaterJob</main-class>
+           <arg>-all</arg>
+           <arg>-crawlId</arg>
+           <arg>${crawlId}</arg>
+           <capture-output />
+       </java>
+
+      <ok to = "index-job" />
+      <error to = "kill_job" />
+   </action>
+   <action name = "index-job">
+     <java>
+           <job-tracker>${jobTracker}</job-tracker>
+           <name-node>${nameNode}</name-node>
+           <main-class>org.apache.nutch.indexer.IndexingJob</main-class>
+           <arg>-all</arg>
+           <arg>-crawlId</arg>
+           <arg>${crawlId}</arg>
+           <capture-output />
+       </java>
+
+      <ok to = "end" />
+      <error to = "kill_job" />
+   </action>
+
+   <action name="loop">
+       <sub-workflow>
+           <app-path>${wf:appPath()}/../recrawl-loop.xml</app-path>
+           <propagate-configuration/>
+           <configuration>
+               <property>
+                   <name>counter</name>
+                   <value>${counter + 1}</value>
+               </property>
+           </configuration>
+       </sub-workflow>
+       <ok to="end"/>
+       <error to="kill_job" />
+   </action>
+
+   <kill name = "kill_job">
+      <message>Job failed</message>
+   </kill>
+
+   <end name = "end" />
+
+</workflow-app>

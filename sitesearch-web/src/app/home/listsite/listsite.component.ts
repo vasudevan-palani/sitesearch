@@ -56,6 +56,7 @@ export class ListSiteComponent {
               if(this.customer && this.customer.subscription){
                 console.log(this.customer.subscription);
                 this.user.account.subscription = this.customer.subscription;
+                this.userSvc.updatePlanId(this.customer.subscription.plan_id);
                 this.customer.subscription.end_date = new Date(this.customer.subscription.end_date*1000);
               }
 
