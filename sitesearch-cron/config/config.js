@@ -11,7 +11,8 @@ module.exports = {
     notificationUrl : 'http://ip-172-31-52-238:8085/api/notification?id=$jobId&amp;status=$status',
     apps : {
       clean : 'hdfs://hadoop-master:8020/user/hadoop/oozieapps/crawl/clean.xml',
-      crawl : 'hdfs://hadoop-master:8020/user/hadoop/oozieapps/crawl'
+      crawl : 'hdfs://hadoop-master:8020/user/hadoop/oozieapps/crawl',
+      recrawl : 'hdfs://hadoop-master:8020/user/hadoop/oozieapps/crawl/recrawl.xml'
     }
   },
   firebase : {

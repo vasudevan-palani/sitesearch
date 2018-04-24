@@ -133,6 +133,21 @@ export class UserService {
     return this.afAuth.auth.currentUser.getToken(true);
   }
 
+  updatePlanId(planId){
+    let websites = this.db.list('/websites',{
+        query : {
+          orderByChild : 'userId',
+          equalTo : this.userValue.id
+        }
+    });
+
+    websites.subscribe((siteList)=>{
+      siteList.map(site => {
+        this.db.object("/websites/"+site.$key).update({'planId':planId});
+      })
+    });
+  }
+
   getPreferences(user){
     return new Promise((resolve,reject)=>{
       this.db.list('/user-preferences',{

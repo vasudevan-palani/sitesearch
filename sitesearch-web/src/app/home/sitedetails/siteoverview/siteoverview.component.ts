@@ -32,7 +32,9 @@ export class SiteOverviewComponent implements OnInit {
   public totalPages:number;
 
   public pages:any[];
+  public crawlhist:any[];
   public crawls:any[];
+  public recrawls:any[];
 
 
   public invoices:any[];
@@ -41,6 +43,9 @@ export class SiteOverviewComponent implements OnInit {
     var siteid = "";
     this.fromItem=0;
     this.size=10;
+    this.crawlhist = [];
+    this.crawls = [];
+    this.recrawls = [];
     this.route.queryParams.subscribe(params => {
       if(params['siteid']){
         siteid = params['siteid'];
@@ -105,14 +110,28 @@ export class SiteOverviewComponent implements OnInit {
 
   getCrawls(){
     console.log("in getCrawls",this.site);
+    this.db.list("/crawls/"+this.site.$key).subscribe(crawls => {
+      this.crawlhist = crawls;
+    });
+
     this.db.list("/crawlq", {
       query : {
         orderByChild:"siteKey",
         equalTo:this.site.$key
       }
 
-    }).subscribe(crawls => {
-      this.crawls = crawls;
+    }).subscribe(recrawls => {
+      this.crawls = recrawls;
+    });
+
+    this.db.list("/recrawlq", {
+      query : {
+        orderByChild:"siteKey",
+        equalTo:this.site.$key
+      }
+
+    }).subscribe(recrawls => {
+      this.recrawls = recrawls;
     });
 
   }
