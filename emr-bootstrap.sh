@@ -33,6 +33,7 @@ then
   #only in master
   cd /home/hadoop
   tar zxvf workflows.tgz
+  cp /home/hadoop/sitesearch-workflows/*.xml /home/hadoop/workflows/
   #hdfs dfs -mkdir -p /user/hadoop/workflows/crawl
   #hdfs dfs -put /home/hadoop/workflows/* /user/hadoop/workflows/crawl
 

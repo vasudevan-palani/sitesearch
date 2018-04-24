@@ -1,0 +1,37 @@
+[
+  {
+    "classification": "mapred-site",
+    "properties": {
+      "mapreduce.framework.name": "yarn",
+      "mapreduce.job.user.classpath.first": "true",
+      "mapreduce.map.cpu.vcores" : "1",
+      "mapreduce.map.memory.mb" : "1024",
+      "mapreduce.reduce.cpu.vcores" : "1",
+      "mapreduce.reduce.memory.mb" : "1024",
+      "mapreduce.task.io.sort.mb" : "512"
+    }
+  },
+  {
+    "classification": "yarn-site",
+    "properties": {
+      "yarn.scheduler.fair.allocation.file":"/home/hadoop/yarn-queue.xml",
+      "yarn.scheduler.fair.sizebasedweight": "true",
+      "yarn.nodemanager.aux-services":"mapreduce_shuffle",
+      "yarn.resourcemanager.scheduler.class":"org.apache.hadoop.yarn.server.resourcemanager.scheduler.fair.FairScheduler",
+      "yarn.app.mapreduce.am.resource.cpu-vcores" : "1",
+      "yarn.app.mapreduce.am.resource.mb" : "1024",
+      "yarn.scheduler.maximum-allocation-mb" : "4096",
+      "yarn.scheduler.increment-allocation-mb" : "512",
+      "yarn.scheduler.increment-allocation-vcores" : "1",
+      "yarn.scheduler.maximum-allocation-vcores" : "4"
+    }
+  },
+  {
+    "classification": "oozie-site",
+    "properties": {
+      "oozie.launcher.mapreduce.map.memory.mb":"1024",
+      "oozie.launcher.yarn.app.mapreduce.am.resource.mb":"1024",
+      "oozie.launcher.mapred.job.queue.name":"launcher"
+    }
+  }
+]

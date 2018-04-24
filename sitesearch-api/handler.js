@@ -272,7 +272,7 @@ module.exports.crawlScheduler = (event, context, callback) => {
     let s3 = new AWS.S3();
     s3.getObject({
       "Bucket" : "sitesearch-emr-archives",
-      "Key" : "emr-config-crawl-sdk.json"
+      "Key" : "sitesearch-conf/emr-config-crawl-sdk.json"
     },(err,data)=>{
       console.log(err,data.Body.toString());
       if(data != null && data.Body != null){
@@ -425,7 +425,7 @@ module.exports.recrawlEMRScheduler = (event, context, callback) => {
     let s3 = new AWS.S3();
     s3.getObject({
       "Bucket" : "sitesearch-emr-archives",
-      "Key" : "emr-config-recrawl-sdk.json"
+      "Key" : "sitesearch-conf/emr-config-recrawl-sdk.json"
     },(err,data)=>{
       console.log(err,data.Body.toString());
       if(data != null && data.Body != null){
