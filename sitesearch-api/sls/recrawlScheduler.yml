@@ -1,0 +1,10 @@
+handler: handler.recrawlScheduler
+package:
+   artifact: ./sitesearch-api.zip
+events:
+      - schedule:
+            name: ${opt:stage}-cron-recrawl-scheduler-api
+            rate: cron(0/15 * * * ? *)
+            enabled: true
+            input:
+                request: {}
