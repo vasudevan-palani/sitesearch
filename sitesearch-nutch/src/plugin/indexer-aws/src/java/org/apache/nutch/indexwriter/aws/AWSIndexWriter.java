@@ -25,6 +25,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.http.HttpEntity;
+import org.apache.http.util.EntityUtils;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpRequestInterceptor;
 import org.apache.http.entity.ContentType;
@@ -62,6 +63,7 @@ public class AWSIndexWriter implements IndexWriter {
 	private String awsProfile;
 	private String awsEndpoint;
 	private String awsIndex;
+	private RestClient client;
 
 	private Configuration config;
 
@@ -69,35 +71,21 @@ public class AWSIndexWriter implements IndexWriter {
 
       String json = new JSONObject(source).toString();
 
-      AWS4Signer signer = new AWS4Signer();
-      signer.setServiceName(this.AWS_SERVICE);
-      signer.setRegionName(this.AWS_REGION);
-
-      AWSCredentialsProvider credentialsProvider = InstanceProfileCredentialsProvider.getInstance();
-      final HttpRequestInterceptor interceptor = new AWSRequestSigningApacheInterceptor(this.AWS_SERVICE, signer, credentialsProvider);
-
-      RestClient client = RestClient.builder(new HttpHost(this.awsEndpoint, 443, "https"))
-    		  .setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
-
-				@Override
-				public HttpAsyncClientBuilder customizeHttpClient(HttpAsyncClientBuilder hacb) {
-					hacb.addInterceptorLast(interceptor);
-					return hacb;
-				}}).build();
-
       HttpEntity entity = new NStringEntity(json, ContentType.APPLICATION_JSON);
 
 			LOG.info("AWS Indexer : sending request : "+ this.awsIndex + "/" + type + "/" + URLEncoder.encode(id,"UTF-8"));
 
 			if(method.equalsIgnoreCase("put")){
-				Response response = client.performRequest("PUT", "/" + this.awsIndex + "/" + type + "/" + URLEncoder.encode(id,"UTF-8"),
+				Response response = this.client.performRequest("PUT", "/" + this.awsIndex + "/" + type + "/" + URLEncoder.encode(id,"UTF-8"),
 			  	Collections.<String, String>emptyMap(), entity);
 				LOG.info("AWS Indexer PUT : response : "+ response.toString());
 			}
 			else if(method.equalsIgnoreCase("delete")){
-				Response response = client.performRequest("DELETE", "/" + this.awsIndex + "/" + type + "/" + URLEncoder.encode(id,"UTF-8"));
+				Response response = this.client.performRequest("DELETE", "/" + this.awsIndex + "/" + type + "/" + URLEncoder.encode(id,"UTF-8"));
 				LOG.info("AWS Indexer DELETE : response : "+ response.toString());
 			}
+
+			EntityUtils.consume(entity);
 
 
   }
@@ -147,7 +135,13 @@ public class AWSIndexWriter implements IndexWriter {
 
 	@Override
 	public void close() throws IOException {
-
+		try{
+			LOG.info("AWS Indexer : closing client");
+			this.client.close();
+			LOG.info("AWS Indexer : closed client");
+		}catch(Exception e){
+			LOG.info("AWS Indexer : exception while closing client");
+		}
 	}
 
 	@Override
@@ -179,6 +173,22 @@ public class AWSIndexWriter implements IndexWriter {
 			LOG.error(message);
 			throw new RuntimeException(message);
 		}
+
+		AWS4Signer signer = new AWS4Signer();
+		signer.setServiceName(this.AWS_SERVICE);
+		signer.setRegionName(this.AWS_REGION);
+
+		AWSCredentialsProvider credentialsProvider = InstanceProfileCredentialsProvider.getInstance();
+		final HttpRequestInterceptor interceptor = new AWSRequestSigningApacheInterceptor(this.AWS_SERVICE, signer, credentialsProvider);
+
+		this.client = RestClient.builder(new HttpHost(this.awsEndpoint, 443, "https"))
+				.setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
+
+			@Override
+			public HttpAsyncClientBuilder customizeHttpClient(HttpAsyncClientBuilder hacb) {
+				hacb.addInterceptorLast(interceptor);
+				return hacb;
+			}}).build();
 	}
 
 	@Override

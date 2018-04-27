@@ -43,6 +43,7 @@ export class AppHeaderComponent {
   public _toggleSidebar(sidebar:any) {
     this._opened = !this._opened;
     if(this._opened){
+      console.log("opening sidebar",sidebar);
       sidebar.open();
     }
     else {

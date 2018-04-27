@@ -1,4 +1,4 @@
-<workflow-app xmlns = "uri:oozie:workflow:0.4" name = "recrawl-subwf-${crawlId}-${counter}">
+<workflow-app xmlns = "uri:oozie:workflow:0.4" name = "rs-${crawlId}-${counter}">
    <start to = "generate-job" />
 
    <action name = "generate-job">
@@ -86,7 +86,7 @@
                </property>
            </configuration>
        </sub-workflow>
-       <ok to="end"/>
+       <ok to="generate-job"/>
        <error to="kill_job" />
    </action>
 

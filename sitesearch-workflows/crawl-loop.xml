@@ -1,4 +1,4 @@
-<workflow-app xmlns = "uri:oozie:workflow:0.4" name = "crawl-subwf-${crawlId}-${counter}">
+<workflow-app xmlns = "uri:oozie:workflow:0.4" name = "cs-${crawlId}-${counter}">
    <start to = "generate-job" />
 
    <action name = "generate-job">
@@ -69,9 +69,18 @@
            <capture-output />
        </java>
 
-      <ok to = "loop" />
+      <ok to = "loop-check" />
       <error to = "kill_job" />
    </action>
+
+   <decision name="loop-check">
+	<switch>
+	    <case to ="loop">
+		${counter lt 9}
+	    </case>
+	    <default to="end"/>
+	</switch>
+   </decision>
 
    <action name="loop">
        <sub-workflow>

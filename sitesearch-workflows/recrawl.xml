@@ -1,4 +1,4 @@
-<workflow-app xmlns = "uri:oozie:workflow:0.4" name = "recrawl-wf-${crawlId}">
+<workflow-app xmlns = "uri:oozie:workflow:0.4" name = "r-${crawlId}">
   <parameters>
     <property>
         <name>crawlId</name>
