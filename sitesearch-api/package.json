@@ -25,7 +25,6 @@
   },
   "homepage": "https://github.com/vasudevan-palani/opensearch#readme",
   "dependencies": {
-    "aws-sdk": "^2.224.1",
     "aws4": "^1.7.0",
     "axios": "^0.16.1",
     "googleapis": "^29.0.0",
