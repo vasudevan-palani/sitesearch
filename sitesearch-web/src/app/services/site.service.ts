@@ -106,7 +106,7 @@ export class SiteService {
   }
   private _getPageCount(data) {
     console.log(data);
-    return this.http.get(this.config.get("API_ENDPOINT")+'/search?countOnly=true&siteId='+data.$key,{withCredentials:false})
+    return this.http.get(this.config.get("API_ENDPOINT")+'/count?siteId='+data.$key,{withCredentials:false})
     .map((res:Response) => {
       var jsonResponse = res.json();
       console.log(jsonResponse);

@@ -4,27 +4,11 @@ var axios = require('axios');
 var aws4 = require('aws4');
 var AWS = require('aws-sdk');
 var Q = require('q');
-var payments = require("./payments/payments.js");
+var payments = require("./functions/payments.js");
+var websiteHandler = require("./functions/website.js");
 
 var cloudwatch = new AWS.CloudWatch();
 
-var sendMetricData = function(siteId){
-  var params = {
-	"MetricData": [{
-		"MetricName": "searchRequests",
-		"Dimensions": [{
-			"Name": "website",
-			"Value": siteId
-		}],
-		"Value": 1
-	}],
-	"Namespace": "sitesearch"
-};
-    cloudwatch.putMetricData(params, function(err, data) {
-      if (err) console.log(err, err.stack); // an error occurred
-      else     console.log(data);           // successful response
-    });
-}
 var accessToken = "";
 var getToken = function(){
   let defer = Q.defer();
@@ -73,166 +57,9 @@ module.exports.welcome = (event, context, callback) => {
   callback(null, response);
 };
 
-module.exports.pages = (event, context, callback) => {
-
-  let from = event.params['querystring']['from'];
-  let siteId = event.params['querystring']['siteId'];
-  let size = event.params['querystring']['size'];
-
-  let params = {
-      "from" : from,
-      "size" : size,
-      "_source" : ["url"]
-  };
-
-  let awsurl = "http://"+config.aws.host;
-
-  awsurl = awsurl+"/"+siteId + "/_search";
-
-  let awspath = "";
-  awspath = "/"+siteId + "/_search";
-
-  let request = {
-    host: config.aws.host,
-    path: awspath,
-    service: config.aws.service, region: config.aws.region
-  }
-  request.method= 'POST';
-  request.url= awsurl;
-  request.body = JSON.stringify(params);
-  request.data = params;
-  request.headers = {'Content-Type':"application/json"};
-
-  let signedRequest = aws4.sign(request);
-  console.log(request,params);
-  axios(request)
-  .then((response)=>{
-    console.log("searchrequest "+siteId);
-    sendMetricData(siteId);
-    callback(null,{'status' : { 'code' : 0 },'results':response.data});
-  })
-  .catch((response)=>{
-    console.log(response);
-    callback(null,{'status' : { 'code' : "site/search/error" },'context':response.data});
-  });
-}
-
-
-module.exports.search = (event, context, callback) => {
-
-  let query = event.params['querystring']['q'];
-  let siteId = event.params['querystring']['siteId'];
-  let countOnly = event.params['querystring']['countOnly'];
-  let lang = event.params['querystring']['lang'];
-  let fromIndex = event.params['querystring']['from'];
-  let size = event.params['querystring']['size'];
-
-  if(query == null || query == undefined){
-    query = "*";
-  }
-
-  let params = {};
-
-  let queryObject = {
-      "multi_match" : {"query":query,"fields":["*title*^3","content","meta*"] }
-  }
-
-  if(lang != null){
-    queryObject = {
-      "bool":{
-         "must":[
-            {
-               "multi_match":{
-                  "query":query,
-                  "fields":[
-                     "*title*^3",
-                     "content",
-                     "meta*"
-                  ]
-               }
-            },
-            {
-               "match":{
-                  "lang":lang
-               }
-            }
-         ]
-      }
-    }
-  }
-
-  params.query = queryObject;
-
-  if(size != null){
-    params.size = size;
-  }
-
-  if(fromIndex != null){
-    params.from = fromIndex;
-  }
-
-  params._source = ["title","url","content","lang","meta_description"];
-
-  let awsurl = "http://"+config.aws.host;
-
-  if(countOnly){
-    awsurl = awsurl+"/"+siteId + "/_count"
-    params = {
-
-    }
-  }
-  else {
-    awsurl = awsurl+"/"+siteId + "/_search"
-  }
-
-  let awspath = "";
-  if(countOnly){
-    awspath = "/"+siteId + "/_count"
-  }
-  else {
-    awspath = "/"+siteId + "/_search"
-  }
-
-  let request = {
-    host: config.aws.host,
-    path: awspath,
-    service: config.aws.service, region: config.aws.region
-  }
-  request.method= 'POST';
-  request.url= awsurl;
-  request.body = JSON.stringify(params);
-  request.data = params;
-  request.headers = {'Content-Type':"application/json"};
-  let signedRequest = aws4.sign(request);
-  console.log(request,params);
-  axios(request)
-  .then((response)=>{
-    console.log(response.data);
-    sendMetricData(siteId);
-    let hits = [];
-
-    let total = 0;
-    if(response.data.count != null){
-      total = response.data.count;
-    }
-    if(response.data.hits != null){
-      total = response.data.hits.total;
-      response.data.hits.hits.forEach(hit => {
-        hits.push(hit._source);
-      });
-    }
-
-    callback(null,{
-      'status' : { 'code' : 0 },
-      'total' : total,
-      'results':hits
-    });
-  })
-  .catch((response)=>{
-    console.log(response);
-    callback(null,{'status' : { 'code' : "site/search/error" },'context':response.data});
-  });
-}
+module.exports.pages = websiteHandler.pages;
+module.exports.search = websiteHandler.search;
+module.exports.count = websiteHandler.count;
 
 module.exports.invoices = (event, context, callback) => {
 
