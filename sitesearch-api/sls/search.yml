@@ -32,6 +32,9 @@ events:
                      siteId : true
                      q : true
                      countOnly : false
+                     from : false
+                     lang : false
+                     size : false
                  passThrough: WHEN_NO_TEMPLATES
                  template:
                    application/json: '
