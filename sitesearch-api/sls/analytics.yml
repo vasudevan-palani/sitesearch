@@ -1,18 +1,18 @@
-handler: handler.search
+handler: handler.analytics
 package:
    artifact: ./sitesearch-api.zip
 environment:
    MetricsTable: ${opt:stage}-sitesearch-metrics
 events:
       - schedule:
-            name: ${opt:stage}-search-api-warmer
+            name: ${opt:stage}-analytics-api-warmer
             rate: cron(0/10 5-23 * * ? *)
             enabled: true
             input:
                 request: {}
       - http:
-             name: ${opt:stage}-Search
-             path: /search
+             name: ${opt:stage}-analytics
+             path: /analytics
              method: get
              cors:
                origins:
@@ -30,11 +30,6 @@ events:
                  parameters:
                    querystrings:
                      siteId : true
-                     q : true
-                     countOnly : false
-                     from : false
-                     lang : false
-                     size : false
                  passThrough: WHEN_NO_TEMPLATES
                  template:
                    application/json: '

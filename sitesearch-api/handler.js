@@ -6,6 +6,7 @@ var AWS = require('aws-sdk');
 var Q = require('q');
 var payments = require("./functions/payments.js");
 var websiteHandler = require("./functions/website.js");
+var analyticsHandler = require("./functions/analytics.js");
 
 var cloudwatch = new AWS.CloudWatch();
 
@@ -60,6 +61,7 @@ module.exports.welcome = (event, context, callback) => {
 module.exports.pages = websiteHandler.pages;
 module.exports.search = websiteHandler.search;
 module.exports.count = websiteHandler.count;
+module.exports.analytics = analyticsHandler.analytics;
 
 module.exports.invoices = (event, context, callback) => {
 
