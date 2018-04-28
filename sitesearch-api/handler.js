@@ -7,6 +7,7 @@ var Q = require('q');
 var payments = require("./functions/payments.js");
 var websiteHandler = require("./functions/website.js");
 var analyticsHandler = require("./functions/analytics.js");
+var stripeHandler = require("./functions/stripe.js");
 
 var cloudwatch = new AWS.CloudWatch();
 
@@ -58,10 +59,6 @@ module.exports.welcome = (event, context, callback) => {
   callback(null, response);
 };
 
-module.exports.pages = websiteHandler.pages;
-module.exports.search = websiteHandler.search;
-module.exports.count = websiteHandler.count;
-module.exports.analytics = analyticsHandler.analytics;
 
 module.exports.invoices = (event, context, callback) => {
 
@@ -331,3 +328,10 @@ module.exports.recrawlEMRScheduler = (event, context, callback) => {
   });
 
 }
+
+
+module.exports.pages = websiteHandler.pages;
+module.exports.search = websiteHandler.search;
+module.exports.count = websiteHandler.count;
+module.exports.analytics = analyticsHandler.analytics;
+module.exports.stripe = stripeHandler.stripe;
