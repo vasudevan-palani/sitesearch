@@ -28,6 +28,7 @@ package:
 functions:
   welcome: ${file(./sls/welcome.yml)}
   search: ${file(./sls/search.yml)}
+  count: ${file(./sls/count.yml)}
   pages: ${file(./sls/pages.yml)}
   invoices: ${file(./sls/invoices.yml)}
   cards: ${file(./sls/cards.yml)}
