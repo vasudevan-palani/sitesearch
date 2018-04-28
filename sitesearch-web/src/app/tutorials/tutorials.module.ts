@@ -18,6 +18,7 @@ import { JquerytutorialsComponent } from './jquerytutorials/jquerytutorials.comp
 import { Angular1tutorialsComponent } from './angular1tutorials/angular1tutorials.component';
 import { Angular24tutorialsComponent } from './angular24tutorials/angular24tutorials.component';
 import { ReacttutorialsComponent } from './reacttutorials/reacttutorials.component';
+import { IntegrationComponent } from './integration/integration.component';
 
 const tutorialRoutes: Routes = [
   {
@@ -32,6 +33,10 @@ const tutorialRoutes: Routes = [
       {
         path : 'gettingstarted',
         component : GettingstartedComponent
+      },
+      {
+        path : 'integration',
+        component : IntegrationComponent
       },
       {
         path : 'jquerytutorials',
@@ -59,7 +64,8 @@ const tutorialRoutes: Routes = [
     JquerytutorialsComponent,
     Angular1tutorialsComponent,
     Angular24tutorialsComponent,
-    ReacttutorialsComponent
+    ReacttutorialsComponent,
+    IntegrationComponent
   ],
   exports : [
     RouterModule
