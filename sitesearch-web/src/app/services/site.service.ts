@@ -110,7 +110,7 @@ export class SiteService {
     .map((res:Response) => {
       var jsonResponse = res.json();
       console.log(jsonResponse);
-      return jsonResponse["results"]["count"];
+      return jsonResponse["total"];
     });
   }
 

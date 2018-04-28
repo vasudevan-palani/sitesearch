@@ -121,16 +121,57 @@ module.exports.pages = (event, context, callback) => {
 module.exports.search = (event, context, callback) => {
 
   let query = event.params['querystring']['q'];
-  let siteId = event.params['querystring']['siteId']
-  let countOnly = event.params['querystring']['countOnly']
+  let siteId = event.params['querystring']['siteId'];
+  let countOnly = event.params['querystring']['countOnly'];
+  let lang = event.params['querystring']['lang'];
+  let fromIndex = event.params['querystring']['from'];
+  let size = event.params['querystring']['size'];
 
   if(query == null || query == undefined){
     query = "*";
   }
 
-  let params = {
-      "query" : { "multi_match" : {"query":query,"fields":["*title*^3","content","meta*"] } }
+  let params = {};
+
+  let queryObject = {
+      "multi_match" : {"query":query,"fields":["*title*^3","content","meta*"] }
   }
+
+  if(lang != null){
+    queryObject = {
+      "bool":{
+         "must":[
+            {
+               "multi_match":{
+                  "query":query,
+                  "fields":[
+                     "*title*^3",
+                     "content",
+                     "meta*"
+                  ]
+               }
+            },
+            {
+               "match":{
+                  "lang":lang
+               }
+            }
+         ]
+      }
+    }
+  }
+
+  params.query = queryObject;
+
+  if(size != null){
+    params.size = size;
+  }
+
+  if(fromIndex != null){
+    params.from = fromIndex;
+  }
+
+  params._source = ["title","url","content","lang","meta_description"];
 
   let awsurl = "http://"+config.aws.host;
 
@@ -166,9 +207,26 @@ module.exports.search = (event, context, callback) => {
   console.log(request,params);
   axios(request)
   .then((response)=>{
-    console.log("searchrequest "+siteId);
+    console.log(response.data);
     sendMetricData(siteId);
-    callback(null,{'status' : { 'code' : 0 },'results':response.data});
+    let hits = [];
+
+    let total = 0;
+    if(response.data.count != null){
+      total = response.data.count;
+    }
+    if(response.data.hits != null){
+      total = response.data.hits.total;
+      response.data.hits.hits.forEach(hit => {
+        hits.push(hit._source);
+      });
+    }
+
+    callback(null,{
+      'status' : { 'code' : 0 },
+      'total' : total,
+      'results':hits
+    });
   })
   .catch((response)=>{
     console.log(response);

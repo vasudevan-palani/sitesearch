@@ -10,7 +10,7 @@ export class SitePreviewComponent implements OnInit {
 
   constructor(private siteSvc : SiteService,private route : ActivatedRoute) { }
 
-  public results: any;
+  public response: any;
   private siteid : string;
 
   ngOnInit() {
@@ -25,6 +25,6 @@ export class SitePreviewComponent implements OnInit {
     data.siteid = this.siteid;
     console.log(data);
     window["dataLayer"].push({'event':'test-event','data':data})
-    this.siteSvc.search(data).subscribe(response => this.results = response.results);
+    this.siteSvc.search(data).subscribe(response => this.response = response);
   }
 }

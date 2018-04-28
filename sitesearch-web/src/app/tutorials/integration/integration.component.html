@@ -1,0 +1,69 @@
+
+<h4> Integration </h4>
+<p> Sitesearch exposes the API https://api.sitesearch.svolve.com/search for all your search queries. </p>
+<p> As we want to keep the integration to very simple and intuitive, a simple GET as shown below would suffice.
+  Please note that since you are charged based on the number of search requests, ensure that you dont share the website token with anyone.</p>
+  <pre>
+    <code class="html"><![CDATA[
+      Example : GET https://api.sitesearch.svolve.com/search?q=<Your query string here>&siteId=<website token here>
+        ]]>
+        </code>
+  </pre>
+  <table class="table table-bordered">
+    <tr>
+      <th> Query Param Name </th>
+      <th> Mandatory </th>
+      <th> Description </th>
+    </tr>
+    <tr>
+      <td> q </td>
+      <td> Yes </td>
+      <td> Search string with properly URL encoded. </td>
+    </tr>
+    <tr>
+      <td> siteId </td>
+      <td> Yes </td>
+      <td> Token of the website. </td>
+    </tr>
+    <tr>
+      <td> lang </td>
+      <td> No </td>
+      <td> Language filter to apply on the results. </td>
+    </tr>
+    <tr>
+      <td> from </td>
+      <td> No </td>
+      <td> Start Index which is used for pagination. </td>
+    </tr>
+    <tr>
+      <td> size </td>
+      <td> No </td>
+      <td> Size which is used for pagination. </td>
+    </tr>
+  </table>
+<p> As the query string can contain special chars, ensure that its properly URL encoded before the request is submitted to the API. You can use the from and size query params for pagination of results. </p>
+
+<p>The sitesearch index is backed by elastic search. So the response structure is completely same as how elastich search would return. Below is an example of it.</p>
+<pre>
+  <code class="html"><![CDATA[
+
+    {
+       "total":60,
+       "results":[
+          {
+                "title":"Best Cruise Ships | All Ship Names & Locations | Royal Caribbean Intl.",
+                "url":"<url of the item>",
+                "meta_description":"meta description of the website",
+                "content":"<your content here>",
+                "lang":"en-US"
+             }
+          },
+          .....
+       ]
+
+
+    }
+
+      ]]>
+      </code>
+</pre>
