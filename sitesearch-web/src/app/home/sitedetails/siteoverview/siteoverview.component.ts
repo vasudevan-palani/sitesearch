@@ -15,46 +15,56 @@ import 'rxjs/add/operator/debounceTime';
 export class SiteOverviewComponent implements OnInit {
 
   constructor(
-    private siteSvc : SiteService,
-    private userSvc : UserService,
-    private pymtSvc : PaymentService,
-    private db : AngularFireDatabase,
-    private route : ActivatedRoute,
-    private router:Router){
+    private siteSvc: SiteService,
+    private userSvc: UserService,
+    private pymtSvc: PaymentService,
+    private db: AngularFireDatabase,
+    private route: ActivatedRoute,
+    private router: Router) {
 
   }
 
-  public site:any;
-  public user:User;
+  public site: any;
+  public user: User;
 
-  public fromItem:number;
-  public size:number;
-  public totalPages:number;
+  public fromItem: number;
+  public size: number;
+  public totalPages: number;
 
-  public pages:any[];
-  public crawlhist:any[];
-  public crawls:any[];
-  public recrawls:any[];
+  public pages: any[];
+  public crawlhist: any[];
+  public crawls: any[];
+  public recrawls: any[];
 
+  public isAddInProgress: boolean;
 
-  public invoices:any[];
+  public showAddUrlsForm: boolean;
+
+  public showAddUrlSuccessMessage: boolean;
+  public showAddUrlsErrorMessage : boolean;
+
+  public invoices: any[];
 
   ngOnInit() {
     var siteid = "";
-    this.fromItem=0;
-    this.size=10;
+    this.showAddUrlSuccessMessage = false;
+    this.showAddUrlsErrorMessage = false;
+    this.showAddUrlsForm = false;
+    this.fromItem = 0;
+    this.size = 10;
     this.crawlhist = [];
     this.crawls = [];
     this.recrawls = [];
     this.route.queryParams.subscribe(params => {
-      if(params['siteid']){
+      if (params['siteid']) {
         siteid = params['siteid'];
-        this.db.object("/websites/"+siteid).subscribe(site => {
+        this.db.object("/websites/" + siteid).subscribe(site => {
 
           this.site = site;
           this.getPages();
           this.getCrawls();
-          this.site.pageCount = this.siteSvc.getPageCount(this.site);
+          this.site.pageCount = 0;
+          this.siteSvc.getPageCount(this.site).subscribe(count => { this.site.pageCount = count });
           this.site.created = new Date(this.site.created * 1000);
           console.log(this.site);
         });
@@ -64,11 +74,11 @@ export class SiteOverviewComponent implements OnInit {
     this.userSvc.user.debounceTime(100).first().subscribe((user: User) => {
       this.user = user;
       this.userSvc.getToken().then(token => {
-        this.userSvc.getPreferences(this.user).then((user:any) => {
+        this.userSvc.getPreferences(this.user).then((user: any) => {
           this.user = user;
           console.log(this.user);
-          if(this.user.customerid){
-            this.pymtSvc.invoices(token,this.user.customerid).first().subscribe(invoices => {
+          if (this.user.customerid) {
+            this.pymtSvc.invoices(token, this.user.customerid).first().subscribe(invoices => {
               this.invoices = invoices.map(invoice => {
                 invoice.date = new Date(invoice.date * 1000);
                 return invoice;
@@ -79,25 +89,25 @@ export class SiteOverviewComponent implements OnInit {
       });
     });
   }
-  crawl(site){
-      this.siteSvc.recrawl(site.$key);
+  crawl(site) {
+    this.siteSvc.recrawl(site.$key);
   }
 
-  getNextPages(){
+  getNextPages() {
     console.log(this.fromItem);
 
     this.fromItem = this.fromItem + this.size > this.totalPages ? this.fromItem : this.fromItem + this.size;
     console.log(this.fromItem);
     this.getPages();
   }
-  getPrevPages(){
+  getPrevPages() {
     this.fromItem = this.fromItem - this.size < 0 ? 0 : this.fromItem - this.size;
     this.getPages();
   }
-  getPages(){
-    this.siteSvc.getPages(this.site.$key,this.fromItem,this.size).then((pages:any) => {
+  getPages() {
+    this.siteSvc.getPages(this.site.$key, this.fromItem, this.size).then((pages: any) => {
       console.log(pages);
-      if(pages.results != undefined){
+      if (pages.results != undefined) {
         this.pages = pages.results.hits.hits;
         this.totalPages = pages.results.hits.total;
       }
@@ -108,16 +118,16 @@ export class SiteOverviewComponent implements OnInit {
     });
   }
 
-  getCrawls(){
-    console.log("in getCrawls",this.site);
-    this.db.list("/crawls/"+this.site.$key).subscribe(crawls => {
+  getCrawls() {
+    console.log("in getCrawls", this.site);
+    this.db.list("/crawls/" + this.site.$key).subscribe(crawls => {
       this.crawlhist = crawls;
     });
 
     this.db.list("/crawlq", {
-      query : {
-        orderByChild:"siteKey",
-        equalTo:this.site.$key
+      query: {
+        orderByChild: "siteKey",
+        equalTo: this.site.$key
       }
 
     }).subscribe(recrawls => {
@@ -125,9 +135,9 @@ export class SiteOverviewComponent implements OnInit {
     });
 
     this.db.list("/recrawlq", {
-      query : {
-        orderByChild:"siteKey",
-        equalTo:this.site.$key
+      query: {
+        orderByChild: "siteKey",
+        equalTo: this.site.$key
       }
 
     }).subscribe(recrawls => {
@@ -136,12 +146,61 @@ export class SiteOverviewComponent implements OnInit {
 
   }
 
-  delete(data){
+  addUrls(data) {
+    this.isAddInProgress = true;
+    console.log("Adding urls : ", data);
+
+    let urls = [];
+
+    let validUrls:boolean = true;
+
+    if(data.urls == undefined || data.urls == null || data.urls.length == 0){
+      this.showAddUrlsErrorMessage = true;
+      this.isAddInProgress = false;
+      setTimeout(() => {
+        this.showAddUrlsErrorMessage = false;
+      }, 2000);
+      return;
+    }
+
+    data.urls.split("\n").forEach(url => {
+      if (url != undefined && url != "") {
+        if (url.startsWith("http://") || url.startsWith("https://")){
+          urls.push(url);
+        }
+        else {
+          validUrls = false;
+        }
+
+      }
+    });
+
+    if(!validUrls){
+      this.showAddUrlsErrorMessage = true;
+      this.isAddInProgress = false;
+      setTimeout(() => {
+        this.showAddUrlsErrorMessage = false;
+      }, 2000);
+      return;
+    }
+
+    var siteid = this.siteSvc.addUrls(this.site.id, urls);
+
+    this.showAddUrlSuccessMessage = true;
+    this.isAddInProgress = false;
+    setTimeout(() => {
+      this.showAddUrlSuccessMessage = false;
+      this.showAddUrlsForm = false;
+    }, 2000);
+
+  }
+
+  delete(data) {
     this.siteSvc.remove(data.$key);
     this.router.navigate(['/home/list']);
   }
 
-  select(site){
-    this.router.navigate(['/home/site'],{queryParams:{'siteid':site.$key}});
+  select(site) {
+    this.router.navigate(['/home/site'], { queryParams: { 'siteid': site.$key } });
   }
 }

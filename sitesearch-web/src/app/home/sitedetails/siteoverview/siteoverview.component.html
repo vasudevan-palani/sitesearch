@@ -16,9 +16,33 @@
               </tr>
               <tr>
                 <th> Pages </th>
-                <td>{{site?.pageCount | async}}</td>
+                <td>{{site?.pageCount}}</td>
               </tr>
             </table>
+            <div class="mb-2" >
+              <a href="javascript:void(false);" (click)="showAddUrlsForm = true"> Add Url(s)</a>
+            </div>
+            <form #websiteform="ngForm" (ngSubmit)="addUrls(websiteform.value)" [hidden]="!showAddUrlsForm">
+              <div class="form-group">
+                <div class="alert alert-danger" role="alert" *ngIf="showAddUrlsErrorMessage">
+                  Url(s) should begin with http:// or https:// Eg: https://www.google.com !!
+                </div>
+                <div class="alert alert-success" role="alert" *ngIf="showAddUrlSuccessMessage">
+                  Url(s) added successfully!
+                </div>
+              </div>
+              <div class="form-group">
+                <textarea placeholder="Line seperated urls" class="form-control" name="urls" #sitedomains="ngModel" [(ngModel)]="websiteform.urls" required url></textarea>
+                <div *ngIf="urls?.errors && (urls.dirty || urls.touched)">
+                  <p class="validation-error" [hidden]="!urls.errors.required">URL is required</p>
+                  <p class="validation-error" *ngIf="!urls.errors.required" [hidden]="!urls.errors.url">URL is invalid</p>
+                </div>
+              </div>
+              <div class="form-group">
+                  <a href="javascript:void(false);" (click)="showAddUrlsForm = false" class="btn btn-danger"><i class="fa fa-remove"></i> Cancel </a>
+                  <button type="submit" class="btn btn-primary" [disabled]="!websiteform.form.valid && isAddInProgress"><i *ngIf="isAddInProgress" class="fa fa-spinner fa-spin"></i> Submit </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -30,8 +54,8 @@
           <div class="card-block">
             <div class="row">
               <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12 mt-2">
-                <button (click)="crawl(site)" type="button" class="btn btn-block btn-success btn-round">
-                  <i class="fa fa-angle-double-right"></i> Crawl
+                <button (click)="crawl(site)" [disabled]="!site?.pageCount > 0" type="button" class="btn btn-block btn-success btn-round">
+                  <i class="fa fa-angle-double-right"></i> ReCrawl
                 </button>
               </div>
               <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12 mt-2">

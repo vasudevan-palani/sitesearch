@@ -9,6 +9,8 @@ import { SiteStatus } from 'app/defs/sitestatus';
 import { ServiceResponse } from 'app/defs/serviceresponse';
 import { Subject } from 'rxjs/Subject';
 
+import { Deferred } from '../defs/deferred';
+
 @Injectable()
 export class SiteService {
   constructor (
@@ -40,6 +42,11 @@ export class SiteService {
 
 
     return returnObjservable.asObservable();
+  }
+
+  addUrls(siteId,urls){
+    console.log("SVC Adding Urls : ",urls);
+    this.crawl(siteId,urls);
   }
 
   createCollection(data){
