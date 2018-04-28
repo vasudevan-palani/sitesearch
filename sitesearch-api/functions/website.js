@@ -6,6 +6,51 @@ var AWS = require('aws-sdk');
 var Q = require('q');
 var cloudwatch = new AWS.CloudWatch();
 
+var getHighLight = function(content,meta_description,query){
+  let highlight = "";
+  let l_meta_description = meta_description!=undefined ? meta_description:"";
+  let l_content = content!=undefined ? content:"";
+
+  let queryStrings = query.split(/\s/);
+
+  let h_meta_description = l_meta_description;
+  let h_content = l_content;
+
+  queryStrings.forEach(query => {
+    h_meta_description = h_meta_description.replace(new RegExp("[\\s+]"+query+"[\\s+]","gi"),function(match){
+      return "<em>"+match+"</em>";
+    });
+
+    h_content = h_content.replace(new RegExp("[\\s+]"+query+"[\\s+]","gi"),function(match){
+      return "<em>"+match+"</em>";
+    });
+  })
+
+  let firstQuery = queryStrings[0];
+
+  if(h_meta_description.toLowerCase().indexOf(firstQuery.toLowerCase()) != -1){
+    highlight = highlight + h_meta_description;
+  }else if (h_content.toLowerCase().indexOf(firstQuery.toLowerCase()) != -1){
+    let index = h_content.toLowerCase().indexOf(firstQuery.toLowerCase());
+    let startIndex = 0;
+    if(index > 14){
+      startIndex = index - 14;
+    }
+    if(h_content.length > 300){
+      highlight = highlight + h_content.substr(startIndex, 400);
+    }
+    else {
+      highlight = h_content;
+    }
+
+  }
+
+  if(highlight == ""){
+    highlight = h_content.substr(0,300);
+  }
+  return highlight;
+}
+
 module.exports.search = (event, context, callback) => {
 
   let query = event.params['querystring']['q'];
@@ -90,6 +135,9 @@ module.exports.search = (event, context, callback) => {
     if(response.data.hits != null){
       total = response.data.hits.total;
       response.data.hits.hits.forEach(hit => {
+
+        hit._source.highlight = getHighLight(hit._source.content,hit._source.meta_description,query);
+
         hits.push(hit._source);
       });
     }
