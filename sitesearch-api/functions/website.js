@@ -9,7 +9,10 @@ var cloudwatch = new AWS.CloudWatch();
 var website = require("../lib/website.js");
 
 module.exports.search = (event, context, callback) => {
-
+  if(!event.params || !event.params['querystring']){
+    callback(null,{'status' : { 'code' : "sitesearch/search/error" },'required fields empty'});
+    return;
+  }
   let query = event.params['querystring']['q'];
   let siteId = event.params['querystring']['siteId'];
   let lang = event.params['querystring']['lang'];
@@ -31,6 +34,10 @@ module.exports.search = (event, context, callback) => {
 }
 
 module.exports.count = (event, context, callback) => {
+  if(!event.params || !event.params['querystring']){
+    callback(null,{'status' : { 'code' : "sitesearch/count/error" },'required fields empty'});
+    return;
+  }
 
   let siteId = event.params['querystring']['siteId'];
 
@@ -49,6 +56,11 @@ module.exports.count = (event, context, callback) => {
 }
 
 module.exports.pages = (event, context, callback) => {
+
+  if(!event.params || !event.params['querystring']){
+    callback(null,{'status' : { 'code' : "sitesearch/pages/error" },'required fields empty'});
+    return;
+  }
 
   let from = event.params['querystring']['from'];
   let siteId = event.params['querystring']['siteId'];

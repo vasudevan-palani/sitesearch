@@ -1,6 +1,7 @@
 var firebaseHandler = require("../lib/firebase.js");
 var q = require('q');
 var config = require('../config/config');
+var AWS = require('aws-sdk');
 
 var standardPlanMillSeconds = config.recrawl.standardPlanMillSeconds;
 
@@ -50,7 +51,7 @@ module.exports.recrawl = function(){
   let defer = q.defer();
   //Check for any websites with scheduled in recrawlq
   //
-  getReCrawlQ().then(queueList => {
+  firebaseHandler.getReCrawlQ().then(queueList => {
     let emr = new AWS.EMR();
 
     let s3 = new AWS.S3();

@@ -12,6 +12,11 @@ module.exports.webhook = (event, context, callback) => {
 
 module.exports.invoices = (event, context, callback) => {
 
+  if(!event.params || !event.params['querystring']){
+    callback(null,{'status' : { 'code' : "sitesearch/invoices/error" },'required fields empty'});
+    return;
+  }
+
   let customerid = event.params['querystring']['customerid'];
 
   payments.invoices(customerid).then(function(invoices) {
@@ -25,6 +30,11 @@ module.exports.invoices = (event, context, callback) => {
 }
 
 module.exports.cards = (event, context, callback) => {
+
+  if(!event.params || !event.params['querystring']){
+    callback(null,{'status' : { 'code' : "sitesearch/cards/error" },'required fields empty'});
+    return;
+  }
 
   let customerid = event.params['querystring']['customerid'];
 
@@ -63,6 +73,10 @@ module.exports.charge = (event, context, callback) => {
 }
 
 module.exports.customer = (event, context, callback) => {
+  if(!event.params || !event.params['querystring']){
+    callback(null,{'status' : { 'code' : "sitesearch/customer/error" },'required fields empty'});
+    return;
+  }
 
   let customerid = event.params['querystring']['customerid'];
 
