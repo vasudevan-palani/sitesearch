@@ -14,5 +14,15 @@ module.exports = {
   firebase : {
   	url : 'https://opensearch-2a0db.firebaseio.com'
   },
+  emr : {
+    bucketName : 'sitesearch-emr-archives',
+    crawlConfigFile : 'sitesearch-conf/emr-config-crawl-sdk.json',
+    recrawlConfigFile : 'sitesearch-conf/emr-config-recrawl-sdk.json'
+  },
+  recrawl: {
+    basicPlanInMillSeconds:302400000,
+    standardPlanMillSeconds:604800000,
+    retryInMillSeconds:21600000
+  },
   weborigin : 'http://sitesearch.svolve.com:4200'
 };

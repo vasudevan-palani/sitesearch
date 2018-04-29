@@ -1,10 +1,10 @@
-handler: handler.recrawlEMRScheduler
+handler: handler.recrawlSetup
 package:
    artifact: ./sitesearch-api.zip
 events:
       - schedule:
-            name: ${opt:stage}-cron-emrrecrawl-scheduler-api
-            rate: cron(0 */1 * * ? *)
+            name: ${opt:stage}-recrawlsetup-scheduler
+            rate: cron(0/15 * * * ? *)
             enabled: true
             input:
                 request: {}
