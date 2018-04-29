@@ -43,6 +43,8 @@ export class SiteOverviewComponent implements OnInit {
   public showAddUrlSuccessMessage: boolean;
   public showAddUrlsErrorMessage : boolean;
 
+  public hasCrawlScheduled:boolean;
+
   public invoices: any[];
 
   ngOnInit() {
@@ -50,6 +52,7 @@ export class SiteOverviewComponent implements OnInit {
     this.showAddUrlSuccessMessage = false;
     this.showAddUrlsErrorMessage = false;
     this.showAddUrlsForm = false;
+    this.hasCrawlScheduled = false;
     this.fromItem = 0;
     this.size = 10;
     this.crawlhist = [];
@@ -132,6 +135,11 @@ export class SiteOverviewComponent implements OnInit {
 
     }).subscribe(recrawls => {
       this.crawls = recrawls;
+      this.crawls.forEach(crawl => {
+        if(crawl.status == "SCHEDULED"){
+          this.hasCrawlScheduled = true;
+        }
+      });
     });
 
     this.db.list("/recrawlq", {
@@ -142,6 +150,11 @@ export class SiteOverviewComponent implements OnInit {
 
     }).subscribe(recrawls => {
       this.recrawls = recrawls;
+      this.recrawls.forEach(crawl => {
+        if(crawl.status == "SCHEDULED"){
+          this.hasCrawlScheduled = true;
+        }
+      });
     });
 
   }
