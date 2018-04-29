@@ -29,13 +29,13 @@ functions:
   welcome: ${file(./sls/welcome.yml)}
   search: ${file(./sls/search.yml)}
   analytics: ${file(./sls/analytics.yml)}
-  stripe: ${file(./sls/stripe.yml)}
+  webhook: ${file(./sls/webhook.yml)}
   count: ${file(./sls/count.yml)}
   pages: ${file(./sls/pages.yml)}
   invoices: ${file(./sls/invoices.yml)}
   cards: ${file(./sls/cards.yml)}
   charge: ${file(./sls/charge.yml)}
   customer: ${file(./sls/customer.yml)}
-  crawlScheduler: ${file(./sls/crawlScheduler.yml)}
-  recrawlScheduler: ${file(./sls/recrawlScheduler.yml)}
-  recrawlEMRScheduler: ${file(./sls/recrawlEMRScheduler.yml)}
+  crawl: ${file(./sls/crawl.yml)}
+  recrawlSetup: ${file(./sls/recrawlSetup.yml)}
+  recrawl: ${file(./sls/recrawl.yml)}

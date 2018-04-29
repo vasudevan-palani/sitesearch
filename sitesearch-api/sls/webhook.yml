@@ -1,17 +1,17 @@
-handler: handler.stripe
+handler: handler.webhook
 package:
    artifact: ./sitesearch-api.zip
 environment:
 events:
       - schedule:
-            name: ${opt:stage}-stripe-api-warmer
+            name: ${opt:stage}-webhook-api-warmer
             rate: cron(0/10 5-23 * * ? *)
             enabled: true
             input:
                 request: {}
       - http:
-             name: ${opt:stage}-stripe
-             path: /stripe
+             name: ${opt:stage}-webhook
+             path: /webhook
              method: post
              cors:
                origins:

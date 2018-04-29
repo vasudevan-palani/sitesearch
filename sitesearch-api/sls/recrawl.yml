@@ -1,9 +1,9 @@
-handler: handler.crawlScheduler
+handler: handler.recrawl
 package:
    artifact: ./sitesearch-api.zip
 events:
       - schedule:
-            name: ${opt:stage}-cron-scheduler-api
+            name: ${opt:stage}-recrawl-scheduler
             rate: cron(0 */1 * * ? *)
             enabled: true
             input:
