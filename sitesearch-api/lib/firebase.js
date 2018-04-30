@@ -156,10 +156,54 @@ var getReCrawlQ = function(){
 
   return defer.promise;
 }
+
+var getUserAccounts = function(){
+  let defer = Q.defer();
+  getToken().then(accessToken => {
+    axios.get(config.firebase.url+"/user-preferences.json",{
+      "headers" : {'Authorization':"Bearer "+accessToken}
+    }).then(resp => {
+      console.log(resp);
+      if(Object.keys(resp.data).length > 0){
+        defer.resolve(resp.data);
+      }
+      else {
+        console.log("Q is empty");
+        defer.reject(resp.data);
+      }
+
+    })
+    .catch(err => {
+      console.log("Failed creating recrawlQ "+website.siteKey);
+      defer.reject(err);
+    });
+  });
+
+  return defer.promise;
+}
+
+var updateAccountStatus = function(userId,status){
+  let defer = Q.defer();
+  getToken().then(accessToken => {
+    axios.patch(config.firebase.url+"/user-preferences/"+userId+"/account.json",{'status':status},{
+      "headers" : {'Authorization':"Bearer "+accessToken}
+    }).then(resp => {
+      console.log("success");
+    })
+    .catch(err => {
+      console.log("Failed updating account status "+userId,err);
+      defer.reject(err);
+    });
+  });
+
+  return defer.promise;
+}
 module.exports = {
   getCrawlQ : getCrawlQ,
   getToken : getToken,
   getCompletedWebsites : getCompletedWebsites,
   queueReCrawl : queueReCrawl,
-  getReCrawlQ : getReCrawlQ
+  getReCrawlQ : getReCrawlQ,
+  getUserAccounts : getUserAccounts,
+  updateAccountStatus : updateAccountStatus
 }

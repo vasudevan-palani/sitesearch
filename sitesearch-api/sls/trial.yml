@@ -1,0 +1,10 @@
+handler: handler.trialValidator
+package:
+   artifact: ./sitesearch-api.zip
+events:
+      - schedule:
+            name: ${opt:stage}-trial-scheduler
+            rate: cron(0/15 * * * ? *)
+            enabled: true
+            input:
+                request: {}

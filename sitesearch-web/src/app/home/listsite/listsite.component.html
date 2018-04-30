@@ -28,7 +28,7 @@
             </div>
           </div>
         </div>
-        <div class="row no-gutters" >
+        <div class="row no-gutters" *ngIf="preferences.account.status == 'ACTIVE' || preferences.account.status == 'TRIAL'">
           <div class="col" >
             <div class="card">
               <div class="card-header card-primary">
