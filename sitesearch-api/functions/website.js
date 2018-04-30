@@ -10,7 +10,7 @@ var website = require("../lib/website.js");
 
 module.exports.search = (event, context, callback) => {
   if(!event.params || !event.params['querystring']){
-    callback(null,{'status' : { 'code' : "sitesearch/search/error" },'required fields empty'});
+    callback(null,{'status' : { 'code' : "sitesearch/search/error" },'msg':'required fields empty'});
     return;
   }
   let query = event.params['querystring']['q'];
@@ -35,7 +35,7 @@ module.exports.search = (event, context, callback) => {
 
 module.exports.count = (event, context, callback) => {
   if(!event.params || !event.params['querystring']){
-    callback(null,{'status' : { 'code' : "sitesearch/count/error" },'required fields empty'});
+    callback(null,{'status' : { 'code' : "sitesearch/count/error" },'msg':'required fields empty'});
     return;
   }
 
@@ -58,7 +58,7 @@ module.exports.count = (event, context, callback) => {
 module.exports.pages = (event, context, callback) => {
 
   if(!event.params || !event.params['querystring']){
-    callback(null,{'status' : { 'code' : "sitesearch/pages/error" },'required fields empty'});
+    callback(null,{'status' : { 'code' : "sitesearch/pages/error" },'msg':'required fields empty'});
     return;
   }
 

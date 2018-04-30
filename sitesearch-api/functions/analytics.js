@@ -8,7 +8,7 @@ var q = require('q');
 module.exports.analytics = (event, context, callback) => {
 
   if(!event.params || !event.params['querystring']){
-    callback(null,{'status' : { 'code' : "sitesearch/analytics/error" },'required fields empty'});
+    callback(null,{'status' : { 'code' : "sitesearch/analytics/error" },'msg':'required fields empty'});
     return;
   }
 

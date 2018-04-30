@@ -13,7 +13,7 @@ module.exports.webhook = (event, context, callback) => {
 module.exports.invoices = (event, context, callback) => {
 
   if(!event.params || !event.params['querystring']){
-    callback(null,{'status' : { 'code' : "sitesearch/invoices/error" },'required fields empty'});
+    callback(null,{'status' : { 'code' : "sitesearch/invoices/error" },'msg':'required fields empty'});
     return;
   }
 
@@ -32,7 +32,7 @@ module.exports.invoices = (event, context, callback) => {
 module.exports.cards = (event, context, callback) => {
 
   if(!event.params || !event.params['querystring']){
-    callback(null,{'status' : { 'code' : "sitesearch/cards/error" },'required fields empty'});
+    callback(null,{'status' : { 'code' : "sitesearch/cards/error" },'msg':'required fields empty'});
     return;
   }
 
@@ -74,7 +74,7 @@ module.exports.charge = (event, context, callback) => {
 
 module.exports.customer = (event, context, callback) => {
   if(!event.params || !event.params['querystring']){
-    callback(null,{'status' : { 'code' : "sitesearch/customer/error" },'required fields empty'});
+    callback(null,{'status' : { 'code' : "sitesearch/customer/error" },'msg':'required fields empty'});
     return;
   }
 
