@@ -1,4 +1,4 @@
 export class TrialData {
-  startDate : Date;
-  endDate : Date;
+  startDate : number;
+  endDate : number;
 }

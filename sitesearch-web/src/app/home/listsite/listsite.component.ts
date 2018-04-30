@@ -97,7 +97,7 @@ export class ListSiteComponent implements OnDestroy {
       if(preferences.account &&
         preferences.account.status == 'TRIAL' &&
         preferences.account.trial &&
-        preferences.account.trial.endDate < Date.now()+432000000){
+        preferences.account.trial.endDate < (Date.now() + 432000000)){
         this.trialWarning = true
       }
     });

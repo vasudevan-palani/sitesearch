@@ -4,6 +4,6 @@ import { UserSubscription } from 'app/defs/usersubscription';
 
 export class UserAccount {
   public status : string;
-  public trial : TrialData;
+  public trial : any;
 
 }
