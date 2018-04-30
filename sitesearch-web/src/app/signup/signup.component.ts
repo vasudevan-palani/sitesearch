@@ -20,7 +20,7 @@ constructor(private userSvc : UserService,private router : Router){
     this.isSignUpInProgress = true;
     this.error = undefined;
     console.log(data);
-    this.userSvc.signup(data).subscribe(response => {
+    this.userSvc.signup(data).then(response => {
       this.isSignUpInProgress = false;
       console.log(response);
       window.scrollTo(0, 0);

@@ -1,99 +1,56 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/toPromise';
-import 'rxjs/add/observable/throw';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/first';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ConfigService } from 'app/services/config.service';
-
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
-
-import { User } from 'app/defs/user';
-
-import { ServiceResponse } from 'app/defs/serviceresponse';
-import { ErrorCodes } from 'app/defs/errorcodes';
-
-import { User as FireBaseUser } from 'firebase';
-import { UserAccount } from 'app/defs/useraccount';
-import { UserAccountStatus } from 'app/defs/userstatus';
-
 import * as firebase from 'firebase/app';
-
+import { User } from 'app/defs/User';
+import { UserPreferences } from 'app/defs/UserPreferences'
+import {UserAccountStatus} from 'app/defs/UserAccountStatus'
 @Injectable()
 export class UserService {
 
-  public user : ReplaySubject<User>;
+  public user: BehaviorSubject<User>;
 
-  private userValue : User;
+  public preferences: BehaviorSubject<UserPreferences>;
 
-  private loginstatusSubject : ReplaySubject<boolean> = new ReplaySubject<boolean>(1);;
-  constructor (
-    private http: Http,
-    private config : ConfigService,
+  constructor(
+    private config: ConfigService,
     private afAuth: AngularFireAuth,
-    private db : AngularFireDatabase
+    private db: AngularFireDatabase
   ) {
-    this.userValue = new User();
-    this.userValue.loginstatus=false;
-    this.user = new ReplaySubject<User>(1);
+    this.user = new BehaviorSubject(new User());
+    this.preferences = new BehaviorSubject(new UserPreferences());
+
     this.afAuth.authState.subscribe(firebaseuser => {
-      console.log(firebaseuser);
-      this.userValue = this.mapUser(firebaseuser);
-      this.user.next(this.userValue);
-
-    });
-  }
-
-  isLoggedIn(){
-    return this.userValue.loginstatus;
-  }
-
-  login(data) : Observable<ServiceResponse> {
-    var svcpromise = new Observable<ServiceResponse>((observer:any)=> {
-      var svcResponse = new ServiceResponse();
-      var that:any = this;
-      this.afAuth.auth.signInWithEmailAndPassword(data.email, data.password)
-      .then(firebaseuser => {
-        console.log(firebaseuser);
-        svcResponse.code = ErrorCodes.SUCCESS;
-
-        observer.next(svcResponse);
-      })
-      .catch(error => {
-        console.log("Login Failed",observer);
-        observer.error(error);
-      });
+      console.log("Firebase user changed", firebaseuser);
+      this.user.next(this.mapUser(firebaseuser));
     });
 
-    return svcpromise;
+    let preferencesSubscription = this.user.subscribe(user => {
+      if (user.loginStatus == true) {
+        this.db.object('/user-preferences/' + user.id).subscribe(preferences => {
+          this.preferences.next(preferences);
+        });
+        preferencesSubscription.unsubscribe();
+      }
+    });
 
   }
 
-  loginWithGmail() : Observable<ServiceResponse> {
-    var svcpromise = new Observable<ServiceResponse>((observer:any)=> {
-      var svcResponse = new ServiceResponse();
-      var that:any = this;
+  isLoggedIn() {
+    return this.user.getValue().loginStatus;
+  }
 
-      var auth:any = this.afAuth.auth;
-      console.log(auth);
+  login(data) {
+    return this.afAuth.auth.signInWithEmailAndPassword(data.email, data.password);
+  }
 
-      var provider = new firebase.auth.GoogleAuthProvider();
-
-      this.afAuth.auth.signInWithPopup(provider).then(firebaseuser => {
-        console.log(firebaseuser);
-        svcResponse.code = ErrorCodes.SUCCESS;
-
-        observer.next(svcResponse);
-      })
-      .catch(error => {
-        console.log("Login Failed",observer);
-        observer.error(error);
-      });
-    });
-
-    return svcpromise;
+  loginWithGmail() {
+    var provider = new firebase.auth.GoogleAuthProvider();
+    return this.afAuth.auth.signInWithPopup(provider);
   }
 
   logout() {
@@ -101,129 +58,70 @@ export class UserService {
   }
 
   signup(data) {
-
-    var svcpromise = new Observable<ServiceResponse>((observer:any)=> {
-      var svcResponse = new ServiceResponse();
-      var that:any = this;
-      this.afAuth.auth.createUserWithEmailAndPassword(data.email, data.password)
-      .then(firebaseuser => {
-        console.log(firebaseuser);
-        svcResponse.code = ErrorCodes.SUCCESS;
-
-        var preferences = {};
-        preferences[firebaseuser.uid]={
-          status : UserAccountStatus.NEW,
-          userId : firebaseuser.uid
-        }
-
-        this.db.object("/user-preferences").update(preferences);
-
-        observer.next(svcResponse);
-      })
-      .catch(error => {
-        console.log("SignUp Failed",observer);
-        observer.error(error);
-      });
-    });
-
-    return svcpromise;
+    return this.afAuth.auth.createUserWithEmailAndPassword(data.email, data.password);
   }
 
-  getToken(){
+  getToken() {
     return this.afAuth.auth.currentUser.getToken(true);
   }
 
-  updatePlanId(planId){
-    let websites = this.db.list('/websites',{
-        query : {
-          orderByChild : 'userId',
-          equalTo : this.userValue.id
-        }
+  updatePlanId(planId) {
+    let websites = this.db.list('/websites', {
+      query: {
+        orderByChild: 'userId',
+        equalTo: this.user.getValue().id
+      }
     });
 
-    websites.subscribe((siteList)=>{
+    websites.first().subscribe((siteList) => {
       siteList.map(site => {
-        this.db.object("/websites/"+site.$key).update({'planId':planId});
-      })
-    });
-  }
-
-  getPreferences(user){
-    return new Promise((resolve,reject)=>{
-      this.db.list('/user-preferences',{
-          query : {
-            orderByChild : 'userId',
-            equalTo : user.id
-          }
-      }).first().subscribe(list => {
-        var userPreferences = list[0];
-        console.log(userPreferences);
-        if(userPreferences){
-          user.customerid = userPreferences.customerId;
-          user.account = new UserAccount();
-          //user.account.activationTime = userPreferences.activationTime ? new Date(userPreferences.activationTime * 1000) : undefined;
-          //user.account.currentPlan = userPreferences.currentPlan;
-          /**
-          NEW,TRIAL,ACTIVATED,SUSPENDED,CLOSED
-          */
-          user.account.status = userPreferences.status;
-          if(userPreferences.trial){
-            user.account.trial ={
-              startDate : userPreferences.trial.startDate ? new Date(userPreferences.trial.startDate * 1000) : undefined,
-              endDate : userPreferences.trial.endDate ? new Date(userPreferences.trial.endDate * 1000) : undefined
-            }
-          }
-          resolve(user);
-
-        }
-        else {
-
-          // the user is new, could have logged in using GMAIL
-          //
-          var preferences = {};
-          preferences[this.userValue.id]={
-            status : UserAccountStatus.NEW,
-            userId : this.userValue.id
-          }
-
-          this.db.object("/user-preferences").update(preferences);
-
-          this.getPreferences(this.userValue).then(user=>{
-            resolve(user);
-          })
-          .catch(error => {
-            reject(error);
-          });
-        }
-      },error => {
-        reject(error);
+        this.db.object("/websites/" + site.$key).update({ 'planId': planId });
       });
     });
-
   }
 
-
-  subscribeForTrial(userId,customerId){
-    var preferences = this.db.object("/user-preferences/"+userId);
-    var now = new Date();
-    preferences.update({'status':UserAccountStatus.TRIAL,'trial':{
-      startDate : now.getTime()/1000,
-      endDate : (new Date()).setTime(now.getTime()+24*7*60*60*1000)/1000
-    }});
+  updateCard(card){
+    let preferences = {
+      card : card
+    }
+    this.db.object("/user-preferences/" + this.user.getValue().id).update(preferences);
   }
 
-    mapUser(firebaseuser:any) : User{
+  activateAccount(customerId){
+    let preferences = {
+      account : {
+        status: 'ACTIVE'
+      },
+      customerId: customerId
+    }
+    this.db.object("/user-preferences/" + this.user.getValue().id).update(preferences);
+  }
+
+  subscribeForTrial() {
+    let preferences = this.db.object("/user-preferences/" + this.user.getValue().id);
+    preferences.update({
+      'account':{
+        'status': 'TRIAL',
+        'trial': {
+          startDate: Date.now(),
+          endDate: (new Date()).setTime((new Date()).getTime() + 24 * 7 * 60 * 60 * 1000)
+        }
+      }
+    });
+  }
+
+  mapUser(firebaseuser: any): User {
     var user = new User();
-    if(firebaseuser){
+    if (firebaseuser) {
       user.email = firebaseuser.email;
       user.id = firebaseuser.uid;
       user.lastLogin = null;
-      user.loginstatus = true;
-      if(firebaseuser.customerId)
-        user.customerid = firebaseuser.customerId;
+      user.loginStatus = true;
+      if (firebaseuser.customerId)
+        user.customerId = firebaseuser.customerId;
     }
     else {
-      user.loginstatus = false;
+      user.loginStatus = false;
     }
     return user;
   }

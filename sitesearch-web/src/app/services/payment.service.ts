@@ -8,7 +8,6 @@ import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/databa
 import 'rxjs/add/operator/first';
 import { SiteStatus } from 'app/defs/sitestatus';
 import { ServiceResponse } from 'app/defs/serviceresponse';
-import { UserAccountStatus } from 'app/defs/userstatus';
 import { Subject } from 'rxjs/Subject';
 @Injectable()
 export class PaymentService {
@@ -39,8 +38,8 @@ export class PaymentService {
       stripetoken  : cardid,
       plan : plan
     };
-    if(user.customerid){
-      data["customerid"] = user.customerid;
+    if(user.customerId){
+      data["customerid"] = user.customerId;
     }
     else {
       data["email"] = user.email;
@@ -52,13 +51,9 @@ export class PaymentService {
   /**
   Need customerid,token
   */
-  details(token,user) {
-    var data = {
-      token : token
-    };
-    if(user.customerid){
-      data["customerid"] = user.customerid;
-      return this.http.get(this.config.get("API_ENDPOINT")+'/customer?customerid='+user.customerid,{withCredentials:false})
+  details(customerId) {
+    if(customerId){
+      return this.http.get(this.config.get("API_ENDPOINT")+'/customer?customerid='+customerId,{withCredentials:false})
       .map((res:Response) => res.json());
     }
     return null;

@@ -1,6 +1,6 @@
 import { Component, OnInit,Input } from '@angular/core';
-import { User } from 'app/defs/user';
-
+import { User } from 'app/defs/User';
+import { UserPreferences } from 'app/defs/UserPreferences';
 @Component({
   selector: 'home-accountstatus',
   templateUrl: './accountstatus.component.html',
@@ -9,7 +9,7 @@ import { User } from 'app/defs/user';
 export class AccountstatusComponent implements OnInit {
 
   @Input()
-  public user:User;
+  public preferences:UserPreferences;
 
   constructor() { }
 

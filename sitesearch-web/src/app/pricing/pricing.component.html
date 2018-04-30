@@ -3,15 +3,19 @@
     <h4><i class="fa fa-bar-chart"></i>  Pricing</h4>
   </div>
   <div class="card-block">
-    <div class="row no-gutters">
-      <div class="col"></div>
-      <div class="col-lg-4 p-md-2 col-sm-6 col-12">
-        <basicplan [showTrial]="showTrial" [currentPlan]="currentPlan == 'basic-monthly'"></basicplan>
+    <div class="row">
+      <div class="col-1"></div>
+      <div class="col-8 p-3">
+        <pricing-details></pricing-details>
       </div>
-      <div class="col-lg-4 p-md-2 col-sm-6 col-12">
-        <standardplan [showTrial]="showTrial" [currentPlan]="currentPlan == 'standard-monthly'"></standardplan>
+      <div class="col-1"></div>
+    </div>
+    <div class="row">
+      <div class="col-1"></div>
+      <div class="col-8  p-3">
+        <a routerLink="/checkout" type="button" class="btn btn-success btn-round"><i class="fa fa-check"></i> Subscribe</a>
       </div>
-      <div class="col"></div>
+      <div class="col-1"></div>
     </div>
   </div>
 </div>

@@ -20,9 +20,10 @@ import { RecaptchaModule } from 'ng-recaptcha';
 
 import {HomeModule} from 'app/home/home.module';
 import {TutorialsModule} from 'app/tutorials/tutorials.module';
-
+import { MarkdownModule } from 'ngx-md';
 import {ConfigService} from 'app/services/config.service';
 import {PaymentService} from 'app/services/payment.service';
+import {LogService} from 'app/services/log.service';
 
 import {Ng2Webstorage} from 'ngx-webstorage';
 
@@ -47,6 +48,7 @@ import { PaymentsModule } from './payments/payments.module';
 import { AuthGuard } from 'app/services/authguard.service';
 
 import { environment } from 'environments/environment';
+import { PricingDetailsComponent } from './pricing/pricing-details/pricing-details.component';
 
 const appRoutes: Routes = [
   { path: '', component : AppMainComponent },
@@ -103,10 +105,12 @@ let loginproviders = {
     TrialComponent,
     CheckoutSummaryComponent,
     BasicplanComponent,
-    StandardplanComponent
+    StandardplanComponent,
+    PricingDetailsComponent
   ],
   imports: [
     NgbModule.forRoot(),
+    MarkdownModule.forRoot(),
     RouterModule.forRoot(appRoutes),
     BrowserModule,
     BrowserAnimationsModule,
@@ -121,7 +125,7 @@ let loginproviders = {
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule
   ],
-  providers: [UserService,ConfigService,AngularFireDatabase,PaymentService,AuthGuard],
+  providers: [UserService,ConfigService,AngularFireDatabase,PaymentService,AuthGuard,LogService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -14,6 +14,8 @@ export class NewSiteComponent {
   private user : User;
   public isAddInProgress:boolean;
 
+  public error : any;
+
   constructor(private siteSvc : SiteService, private userSvc : UserService,private router:Router){
     this.isAddInProgress=false;
   }
@@ -25,7 +27,14 @@ export class NewSiteComponent {
   }
 
   addsite(data){
-    this.isAddInProgress = true;
+    if(data.sitedomains == undefined || data.sitedomains == null || data.sitedomains.length == 0){
+      this.error = "Urls are required in valid format Eg: http(s)://www.wikipedia.org";
+      setTimeout(() => {
+        this.error = undefined;
+      }, 5000);
+      return;
+    }
+
     console.log("Adding site : ",data);
     let newsite :any;
     newsite = {
@@ -36,12 +45,26 @@ export class NewSiteComponent {
       'urls':[]
 
     }
-
+    let validUrls = true;
     data.sitedomains.split("\n").forEach(url => {
       if(url != undefined && url != ""){
-        newsite.urls.push(url);
+        if (url.startsWith("http://") || url.startsWith("https://")){
+          newsite.urls.push(url);
+        }
+        else {
+          validUrls = false;
+        }
       }
-    })
+    });
+
+    if(!validUrls){
+      this.error = "Urls are required in valid format Eg: http(s)://www.wikipedia.org";
+      setTimeout(() => {
+        this.error = undefined;
+      }, 5000);
+      return;
+    }
+    this.isAddInProgress = true;
 
     var siteid = this.siteSvc.add(newsite,newsite.userId).subscribe(site => {
       console.log("Site added to firebase : ",site);

@@ -39,3 +39,4 @@ functions:
   crawl: ${file(./sls/crawl.yml)}
   recrawlSetup: ${file(./sls/recrawlSetup.yml)}
   recrawl: ${file(./sls/recrawl.yml)}
+  trial: ${file(./sls/trial.yml)}

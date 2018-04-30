@@ -54,7 +54,7 @@
           <div class="card-block">
             <div class="row">
               <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12 mt-2">
-                <button (click)="crawl(site)" [disabled]="!site?.pageCount || hasCrawlScheduled || user?.account?.isTrial()" type="button" class="btn btn-block btn-success btn-round">
+                <button (click)="crawl(site)" [disabled]="!site?.pageCount || hasCrawlScheduled || preferences?.account?.status == 'TRIAL'" type="button" class="btn btn-block btn-success btn-round">
                   <i class="fa fa-angle-double-right"></i> ReCrawl
                 </button>
               </div>

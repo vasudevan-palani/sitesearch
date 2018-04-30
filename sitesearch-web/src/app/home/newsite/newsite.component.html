@@ -3,6 +3,11 @@
     <h4>Add Website</h4>
   </div>
   <div class="card-block">
+    <div class="row" *ngIf="error">
+      <div class="col-12">
+        <div class="alert alert-danger"><i class="fa fa-warning"></i> {{error}}</div>
+      </div>
+    </div>
     <div class="row">
       <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
       </div>

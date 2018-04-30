@@ -4,8 +4,7 @@ import { UserService } from 'app/services/user.service';
 import { PaymentService } from 'app/services/payment.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { User } from 'app/defs/user';
-import { UserAccountStatus } from 'app/defs/userstatus';
-
+import { UserPreferences } from 'app/defs/UserPreferences';
 @Component({
   selector: 'app-pricing',
   templateUrl: './pricing.component.html',
@@ -13,48 +12,31 @@ import { UserAccountStatus } from 'app/defs/userstatus';
 })
 export class PricingComponent implements OnInit {
 
-  constructor(private siteSvc : SiteService,private pymtSvc : PaymentService, private userSvc : UserService,private route:ActivatedRoute){}
-  private user : User;
-  private customer : any;
+  constructor(
+    private siteSvc: SiteService,
+    private pymtSvc: PaymentService,
+    private userSvc: UserService,
+    private route: ActivatedRoute) {
+  }
 
 
-  public currentPlan : string;
-  public showTrial : boolean;
+  private user: User;
+  private customer: any;
+  private preferences : UserPreferences;
+
+  public currentPlan: string;
 
 
-  ngOnInit(){
+  ngOnInit() {
     var queryParams = this.route.snapshot.queryParams;
 
-    this.showTrial = queryParams["showTrial"] != undefined &&  queryParams["showTrial"] == "false"? false : true;
-
     this.userSvc.user.subscribe((user: User) => {
-    	this.user = user;
-      if(this.user && this.user.account){
-        this.showTrial = this.user.account.trial == undefined;
-        console.log("existinguser value",this.user);
-        if(this.user.account.subscription) {
-          this.currentPlan = this.user.account.subscription.planId;
-        }
-      }
+      this.user = user;
+    });
 
-
-      this.userSvc.getToken().then(token => {
-        this.userSvc.getPreferences(this.user).then((user:any) => {
-          this.user = user;
-          
-          this.pymtSvc.details(token,this.user).first().subscribe(response => {
-            this.customer = response.customer;
-            this.showTrial = this.user.account.trial == undefined;
-
-            if(this.customer && this.customer.subscription) {
-              this.currentPlan = this.customer.subscription.plan_id;
-
-              this.customer.subscription.end_date = new Date(this.customer.subscription.end_date*1000);
-            }
-
-          });
-        });
-      });
+    this.userSvc.preferences.subscribe((preferences:UserPreferences)=>{
+      this.preferences = preferences;
+      this.currentPlan = preferences.planId;
     });
 
   }
