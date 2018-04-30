@@ -12,6 +12,11 @@
             <div class="alert alert-danger"><i class="fa fa-warning"></i> {{error}}</div>
           </div>
         </div>
+        <div class="row" *ngIf="trialWarning">
+          <div class="col-12">
+            <div class="alert alert-warning"><i class="fa fa-warning"></i> Your trial will expire soon. Kindly activate to avoid suspending your account. </div>
+          </div>
+        </div>
         <div class="row no-gutters" >
           <div class="col-md-6 col-12 p-md-2" >
             <home-accountstatus [preferences]="preferences"></home-accountstatus>

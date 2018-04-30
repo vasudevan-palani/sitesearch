@@ -40,6 +40,8 @@ export class ListSiteComponent implements OnDestroy {
 
   public error : any;
 
+  public trialWarning : boolean;
+
   constructor(
     private userSvc : UserService,
     private siteSvc : SiteService,
@@ -59,6 +61,8 @@ export class ListSiteComponent implements OnDestroy {
     today.setMonth((new Date()).getMonth()+1);
     today.setDate(1);
     this.firstOfNextMonth = today;
+
+    this.trialWarning = false;
 
     this._userSubscription = this.userSvc.user.subscribe((user: User) => {
       this.user = user;
@@ -88,6 +92,13 @@ export class ListSiteComponent implements OnDestroy {
       if(preferences.customerId != undefined){
         this.log.debug("ngOnInit/preferences/customerId",preferences);
         this.getPaymentDetails();
+      }
+
+      if(preferences.account &&
+        preferences.account.status == 'TRIAL' &&
+        preferences.account.trial &&
+        preferences.account.trial.endDate < Date.now()+432000000){
+        this.trialWarning = true
       }
     });
 
