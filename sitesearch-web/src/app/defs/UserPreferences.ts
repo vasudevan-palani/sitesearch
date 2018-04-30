@@ -12,5 +12,5 @@ export class UserPreferences {
   //
   account : UserAccount;
 
-  subscription : UserSubscription;
+  card : any;
 }

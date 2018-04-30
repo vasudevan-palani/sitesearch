@@ -6,7 +6,12 @@ import { UserService } from 'app/services/user.service';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { User } from 'app/defs/user';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/debounceTime';
+
+import { UserPreferences } from 'app/defs/UserPreferences';
+import { LogService } from 'app/services/log.service';
+
 @Component({
   selector: 'app-siteoverview',
   templateUrl: './siteoverview.component.html',
@@ -19,6 +24,7 @@ export class SiteOverviewComponent implements OnInit {
     private userSvc: UserService,
     private pymtSvc: PaymentService,
     private db: AngularFireDatabase,
+    private log: LogService,
     private route: ActivatedRoute,
     private router: Router) {
 
@@ -47,6 +53,10 @@ export class SiteOverviewComponent implements OnInit {
 
   public invoices: any[];
 
+  private _preferencesSubscription : Subscription;
+
+  public preferences : UserPreferences;
+
   ngOnInit() {
     var siteid = "";
     this.showAddUrlSuccessMessage = false;
@@ -72,6 +82,11 @@ export class SiteOverviewComponent implements OnInit {
           console.log(this.site);
         });
       }
+    });
+
+    this._preferencesSubscription = this.userSvc.preferences.subscribe((preferences:UserPreferences)=>{
+      this.log.debug("ngOnInit/preferences",preferences);
+      this.preferences = preferences;
     });
 
     // this.userSvc.user.debounceTime(100).first().subscribe((user: User) => {
