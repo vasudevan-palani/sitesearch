@@ -1,3 +1,6 @@
+import { UserAccount } from 'app/defs/UserAccount';
+import { UserSubscription } from 'app/defs/UserSubscription';
+
 export class UserPreferences {
   planId : string;
   planName : string;
@@ -5,4 +8,9 @@ export class UserPreferences {
   // Stripe customerid
   //
   customerId : string;
+
+  //
+  account : UserAccount;
+
+  subscription : UserSubscription;
 }

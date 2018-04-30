@@ -19,7 +19,7 @@ export class TrialComponent implements OnInit {
       console.log("Enrolling in Trial");
       var userid = this.route.snapshot.queryParams["userid"];
       var customerid = this.route.snapshot.queryParams["customerid"];
-      this.userSvc.subscribeForTrial(userid,customerid);
+      this.userSvc.subscribeForTrial();
       this.router.navigate(['/home/list']);
     }
 }

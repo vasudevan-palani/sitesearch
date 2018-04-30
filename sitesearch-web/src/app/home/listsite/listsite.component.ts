@@ -7,15 +7,18 @@ import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/databa
 import { User } from 'app/defs/user';
 import {Router} from '@angular/router';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/debounceTime';
 import { UserPreferences } from 'app/defs/UserPreferences';
+import { OnDestroy } from '@angular/core';
+
 
 @Component({
   selector: 'home',
   templateUrl: 'listsite.component.html',
   styleUrls: ['listsite.component.scss']
 })
-export class ListSiteComponent {
+export class ListSiteComponent implements OnDestroy {
 
   public sites : any;
 
@@ -26,6 +29,10 @@ export class ListSiteComponent {
   public account : any;
 
   public customer : any;
+
+  private _userSubscription :  Subscription;
+
+  private _preferencesSubscription :  Subscription;
 
   constructor(
     private userSvc : UserService,
@@ -43,7 +50,7 @@ export class ListSiteComponent {
 
     let initialized = false;
 
-    this.userSvc.user.subscribe((user: User) => {
+    this._userSubscription = this.userSvc.user.subscribe((user: User) => {
       this.user = user;
 
       this.log.debug("ngOnInit/user",user);
@@ -58,9 +65,15 @@ export class ListSiteComponent {
 
     });
 
-    this.userSvc.preferences.subscribe((preferences:UserPreferences)=>{
+    this._preferencesSubscription = this.userSvc.preferences.subscribe((preferences:UserPreferences)=>{
       this.log.debug("ngOnInit/preferences",preferences);
       this.preferences = preferences;
+
+      // Its a new user when preferences are null, enroll into trial
+      //
+      if(preferences.account == undefined){
+        this.subscribeForTrial();
+      }
 
       if(preferences.customerId != undefined){
         this.log.debug("ngOnInit/preferences/customerId",preferences);
@@ -86,6 +99,10 @@ export class ListSiteComponent {
 
       this.sites = sites;
     });
+  }
+
+  subscribeForTrial(){
+    this.userSvc.subscribeForTrial();
   }
 
   getSubscription(){
@@ -116,5 +133,10 @@ export class ListSiteComponent {
   select(site){
     console.log(site);
     this.router.navigate(['/home/site'],{queryParams:{'siteid':site.$key}});
+  }
+
+  ngOnDestroy(){
+    this._userSubscription.unsubscribe();
+    this._preferencesSubscription.unsubscribe();
   }
 }

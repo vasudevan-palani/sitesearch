@@ -38,7 +38,6 @@ export class UserService {
       }
     });
 
-
   }
 
   isLoggedIn() {
@@ -89,13 +88,15 @@ export class UserService {
     this.db.object("/user-preferences/" + this.user.getValue().id).update(preferences);
   }
 
-  subscribeForTrial(userId, customerId) {
-    var preferences = this.db.object("/user-preferences/" + userId);
-    var now = new Date();
+  subscribeForTrial() {
+    let preferences = this.db.object("/user-preferences/" + this.user.getValue().id);
     preferences.update({
-      'status': UserAccountStatus.TRIAL, 'trial': {
-        startDate: now.getTime() / 1000,
-        endDate: (new Date()).setTime(now.getTime() + 24 * 7 * 60 * 60 * 1000) / 1000
+      'account':{
+        'status': 'TRIAL',
+        'trial': {
+          startDate: Date.now(),
+          endDate: (new Date()).setTime((new Date()).getTime() + 24 * 7 * 60 * 60 * 1000)
+        }
       }
     });
   }
