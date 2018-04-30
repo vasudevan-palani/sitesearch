@@ -42,7 +42,7 @@ export class LoginComponent {
   }
 
   signIn(provider){
-    this.user = this.userSvc.loginWithGmail().subscribe( data => {
+    this.user = this.userSvc.loginWithGmail().then( data => {
 
     });
   }
@@ -62,7 +62,7 @@ export class LoginComponent {
     this.error = undefined;
     this.isLogInProgress = true;
     console.log(data);
-    this.userSvc.login(data).first().subscribe(response => {
+    this.userSvc.login(data).then(response => {
       this.isLogInProgress = false;
       console.log(this.route);
       this.handleRedirect();

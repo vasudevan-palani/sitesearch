@@ -74,23 +74,23 @@ export class SiteOverviewComponent implements OnInit {
       }
     });
 
-    this.userSvc.user.debounceTime(100).first().subscribe((user: User) => {
-      this.user = user;
-      this.userSvc.getToken().then(token => {
-        this.userSvc.getPreferences(this.user).then((user: any) => {
-          this.user = user;
-          console.log(this.user);
-          if (this.user.customerid) {
-            this.pymtSvc.invoices(token, this.user.customerid).first().subscribe(invoices => {
-              this.invoices = invoices.map(invoice => {
-                invoice.date = new Date(invoice.date * 1000);
-                return invoice;
-              });
-            });
-          }
-        });
-      });
-    });
+    // this.userSvc.user.debounceTime(100).first().subscribe((user: User) => {
+    //   this.user = user;
+    //   this.userSvc.getToken().then(token => {
+    //     this.userSvc.getPreferences(this.user).then((user: any) => {
+    //       this.user = user;
+    //       console.log(this.user);
+    //       if (this.user.customerId) {
+    //         this.pymtSvc.invoices(token, this.user.customerId).first().subscribe(invoices => {
+    //           this.invoices = invoices.map(invoice => {
+    //             invoice.date = new Date(invoice.date * 1000);
+    //             return invoice;
+    //           });
+    //         });
+    //       }
+    //     });
+    //   });
+    // });
   }
   crawl(site) {
     this.siteSvc.recrawl(site.$key);

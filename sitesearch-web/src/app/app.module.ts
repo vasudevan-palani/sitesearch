@@ -23,6 +23,7 @@ import {TutorialsModule} from 'app/tutorials/tutorials.module';
 
 import {ConfigService} from 'app/services/config.service';
 import {PaymentService} from 'app/services/payment.service';
+import {LogService} from 'app/services/log.service';
 
 import {Ng2Webstorage} from 'ngx-webstorage';
 
@@ -121,7 +122,7 @@ let loginproviders = {
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule
   ],
-  providers: [UserService,ConfigService,AngularFireDatabase,PaymentService,AuthGuard],
+  providers: [UserService,ConfigService,AngularFireDatabase,PaymentService,AuthGuard,LogService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

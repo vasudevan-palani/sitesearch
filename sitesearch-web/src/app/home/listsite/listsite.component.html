@@ -9,16 +9,16 @@
       <div class="col-md-10 col-12">
         <div class="row no-gutters" >
           <div class="col-md-6 col-12 p-md-2" >
-            <home-accountstatus [user]="user"></home-accountstatus>
+            <home-accountstatus [preferences]="preferences"></home-accountstatus>
           </div>
-          <div class="col-md-6 col-12 p-md-2" *ngIf="customer && customer?.subscription">
+          <div class="col-md-6 col-12 p-md-2" *ngIf="preferences && preferences?.subscription">
             <div class="card card-document card-document-peace">
               <div class="card-header">
-                <h5>Your Plan - {{customer.subscription.plan_name}}</h5>
+                <h5>Your Plan - {{preferences.subscription.planName}}</h5>
               </div>
               <div class="card-block">
-                <p><strong>Next Charge Date : </strong>{{customer.subscription.end_date | date:'mediumDate'}}</p>
-                <p><strong>Number :</strong> ***{{customer.card.last4}}, <strong>Expires :</strong> {{customer.card.exp_month}}/{{customer.card.exp_year}}</p>
+                <p><strong>Next Charge Date : </strong>{{preferences.subscription.endDate | date:'mediumDate'}}</p>
+                <p><strong>Number :</strong> ***{{preferences.subscription.card.last4}}, <strong>Expires :</strong> {{preferences.subscription.card.expiryMonth}}/{{preferences.subscription.card.expiryYear}}</p>
               </div>
             </div>
           </div>
@@ -38,7 +38,7 @@
               </div>
               <div class="card-block p-1 p-md-2 p-lg-4">
                 <div class="row">
-                  <ng-container *ngFor="let site of sites| async;let i = index">
+                  <ng-container *ngFor="let site of sites;let i = index">
                   <div class="col-lg-1 col-md-12 col-sm-12 col-xs-12"></div>
                   <div class="col-lg-4 col-md-6 col-sm-12 col-12 mt-2 mt-md-0 mb-4" >
                       <div class="card card-document card-document-primary site-summary" (click)="select(site)">

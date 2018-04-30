@@ -1,23 +1,23 @@
 <div class="card card-document card-document-third">
   <div class="card-header">
     <h5>Account Status -
-      <span *ngIf="user?.account?.isNew()">NEW</span>
-      <span *ngIf="user?.account?.isActivated()">ACTIVATED</span>
-      <span *ngIf="user?.account?.isSuspended()">SUSPENDED</span>
-      <span *ngIf="user?.account?.isTrial()">FREE TRIAL</span>
+      <span *ngIf="preferences?.account?.status == 0">NEW</span>
+      <span *ngIf="preferences?.account?.status == 2">ACTIVATED</span>
+      <span *ngIf="preferences?.account?.status == 3">SUSPENDED</span>
+      <span *ngIf="preferences?.account?.status == 1">FREE TRIAL</span>
     </h5>
   </div>
   <div class="card-block">
-    <div *ngIf="user?.account?.isNew()">
+    <div *ngIf="preferences?.account?.status == 0">
       <p>Please <a routerLink="/pricing">Activate</a> your account now. </p>
       <p>For your account to be active you need to choose a plan OR can opt for a FREE TRIAL for 7 days.</p>
       <p>During Free Trial you can access all services/features of the site search.</p>
     </div>
-    <div *ngIf="user?.account?.isTrial()">
+    <div *ngIf="preferences?.account?.status == 1">
       <p>You are currently on FREE TRIAL From <strong>{{user?.account?.trial.startDate | date:'mediumDate'}}</strong> To <strong>{{user?.account?.trial.endDate | date:'mediumDate'}}</strong>.</p>
       <p>Click <a [routerLink]="['/pricing']" [queryParams]="{'showTrial':false}">Here</a> to subscribe.</p>
     </div>
-    <div *ngIf="user?.account?.isActivated()">
+    <div *ngIf="preferences?.account?.status == 2">
       <p>Thank you for choosing us. Please email <a href="mailTo:support@svolve.com">support@svolve.com</a> for any concerns/issues. </p>
     </div>
   </div>

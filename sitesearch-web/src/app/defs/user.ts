@@ -3,7 +3,6 @@ export class User {
   email : string;
   id : string;
   lastLogin : Date;
-  loginstatus : boolean;
-  customerid : string;
-  account : UserAccount;
+  loginStatus : boolean;
+  customerId : string;
 }

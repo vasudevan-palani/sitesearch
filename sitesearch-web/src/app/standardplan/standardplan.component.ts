@@ -14,9 +14,6 @@ export class StandardplanComponent implements OnInit {
   private user : User;
 
   @Input()
-  public showTrial:boolean;
-
-  @Input()
   public currentPlan:boolean;
 
   @Input()
@@ -27,7 +24,7 @@ export class StandardplanComponent implements OnInit {
     if(this.showActions == undefined) {
       this.showActions = true;
     }
-    
+
     this.userSvc.user.subscribe((user: User) => {
     	this.user = user;
     });
@@ -35,7 +32,7 @@ export class StandardplanComponent implements OnInit {
 
   select(plan){
     console.log("You chose plan ",plan);
-    if(!this.user.loginstatus){
+    if(!this.user.loginStatus){
       this.router.navigate(['/login'],{ queryParams: { redirect: '/checkout',plan:plan.id } });
     }
     else {
@@ -43,13 +40,4 @@ export class StandardplanComponent implements OnInit {
     }
   }
 
-  trial(plan){
-    console.log("You chose trial plan ",plan);
-    if(!this.user.loginstatus){
-      this.router.navigate(['/login'],{ queryParams: { redirect: '/trial',plan:plan.id,userid:this.user.id } });
-    }
-    else {
-      this.router.navigate(['/trial'],{ queryParams: { plan:plan.id,userid:this.user.id } });
-    }
-  }
 }

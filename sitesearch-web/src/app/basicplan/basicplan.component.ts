@@ -14,14 +14,11 @@ export class BasicplanComponent implements OnInit {
   private user : User;
 
   @Input()
-  public showTrial:boolean;
-
-  @Input()
   public showActions : boolean;
 
   @Input()
   public currentPlan : boolean;
-  
+
   ngOnInit(){
   	if(this.showActions == undefined) {
   		this.showActions = true;
@@ -30,28 +27,18 @@ export class BasicplanComponent implements OnInit {
     	this.user = user;
     });
 
-    console.log(this.showTrial);
   }
 
   select(plan){
     console.log("You chose plan ",plan);
-    if(!this.user.loginstatus){
+    if(!this.user.loginStatus){
       this.router.navigate(['/login'],{ queryParams: { redirect: '/checkout',plan:plan.id } });
     }
     else {
       console.log(this.user);
-      this.router.navigate(['/checkout'],{ queryParams: { plan:plan.id,customerid:this.user.customerid } });
+      this.router.navigate(['/checkout'],{ queryParams: { plan:plan.id,customerid:this.user.customerId } });
     }
   }
 
-  trial(plan){
-    console.log("You chose trial plan ",plan);
-    if(!this.user.loginstatus){
-      this.router.navigate(['/login'],{ queryParams: { redirect: '/trial',plan:plan.id,userid:this.user.id } });
-    }
-    else {
-      this.router.navigate(['/trial'],{ queryParams: { plan:plan.id,userid:this.user.id } });
-    }
-  }
 
 }

@@ -15,7 +15,7 @@ export class HomeComponent {
     ngOnInit(){
       this.userSvc.user.subscribe((user: User) => {
       	this.user = user;
-        if(this.user.loginstatus == false){
+        if(this.user.loginStatus == false){
           this.router.navigate(['/login']);
         }
       });
