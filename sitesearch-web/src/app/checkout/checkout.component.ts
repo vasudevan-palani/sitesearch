@@ -78,8 +78,8 @@ export class CheckoutComponent implements OnInit {
     this.error = "Credit card validation Failed. Please verify again.";
   }
 
-  updateStatus(subscription) {
-    this.userSvc.activateAccount(subscription.results.customer);
+  updateStatus(customerId) {
+    this.userSvc.activateAccount(customerId);
   }
 
   chargeBySavedCard() {
@@ -115,7 +115,7 @@ export class CheckoutComponent implements OnInit {
           if (response.status.code == 0) {
             //Tx is succcess
             //
-            this.updateStatus(response);
+            this.updateStatus(response.results.customerid);
             this.isPaymentProgress = false;
             this.router.navigate(["/home/list"]);
           }

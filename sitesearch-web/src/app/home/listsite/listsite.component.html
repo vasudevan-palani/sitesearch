@@ -7,18 +7,23 @@
       <div class="col-md-1 col-12">
       </div>
       <div class="col-md-10 col-12">
+        <div class="row" *ngIf="error">
+          <div class="col-12">
+            <div class="alert alert-danger"><i class="fa fa-warning"></i> {{error}}</div>
+          </div>
+        </div>
         <div class="row no-gutters" >
           <div class="col-md-6 col-12 p-md-2" >
             <home-accountstatus [preferences]="preferences"></home-accountstatus>
           </div>
-          <div class="col-md-6 col-12 p-md-2" *ngIf="preferences && preferences?.subscription">
+          <div class="col-md-6 col-12 p-md-2" *ngIf="preferences && preferences?.card">
             <div class="card card-document card-document-peace">
               <div class="card-header">
-                <h5>Your Plan - {{preferences.subscription.planName}}</h5>
+                <h5>Your subscription is ACTIVE</h5>
               </div>
               <div class="card-block">
-                <p><strong>Next Charge Date : </strong>{{preferences.subscription.endDate | date:'mediumDate'}}</p>
-                <p><strong>Number :</strong> ***{{preferences.subscription.card.last4}}, <strong>Expires :</strong> {{preferences.subscription.card.expiryMonth}}/{{preferences.subscription.card.expiryYear}}</p>
+                <p><strong>Next Charge Date : </strong>{{ firstOfNextMonth | date:'mediumDate'}}</p>
+                <p><strong>Number :</strong> ***{{preferences.card.last4}}, <strong>Expires :</strong> {{preferences.card.exp_month}}/{{preferences.card.exp_year}}</p>
               </div>
             </div>
           </div>
@@ -26,13 +31,13 @@
         <div class="row no-gutters" >
           <div class="col" >
             <div class="card">
-              <div class="card-header card-success">
+              <div class="card-header card-primary">
                 <div class="row">
                   <div class="col">
                     <h5>WEBSITES</h5>
                   </div>
                   <div class="col text-right">
-                    <a routerLink="/home/new"><i class="fa fa-plus"></i>  Add</a>
+                    <a href="javascript:void(0);" (click)="addWebsite()"><i class="fa fa-plus"></i>  Add</a>
                   </div>
                 </div>
               </div>

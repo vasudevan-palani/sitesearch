@@ -80,9 +80,18 @@ export class UserService {
     });
   }
 
+  updateCard(card){
+    let preferences = {
+      card : card
+    }
+    this.db.object("/user-preferences/" + this.user.getValue().id).update(preferences);
+  }
+
   activateAccount(customerId){
     let preferences = {
-      status: UserAccountStatus.ACTIVATED,
+      account : {
+        status: 'ACTIVE'
+      },
       customerId: customerId
     }
     this.db.object("/user-preferences/" + this.user.getValue().id).update(preferences);

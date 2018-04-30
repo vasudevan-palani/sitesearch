@@ -34,6 +34,12 @@ export class ListSiteComponent implements OnDestroy {
 
   private _preferencesSubscription :  Subscription;
 
+  private _websiteSubscription : Subscription;
+
+  private firstOfNextMonth : Date;
+
+  public error : any;
+
   constructor(
     private userSvc : UserService,
     private siteSvc : SiteService,
@@ -49,6 +55,10 @@ export class ListSiteComponent implements OnDestroy {
     window.scrollTo(0, 0);
 
     let initialized = false;
+    let today = new Date();
+    today.setMonth((new Date()).getMonth()+1);
+    today.setDate(1);
+    this.firstOfNextMonth = today;
 
     this._userSubscription = this.userSvc.user.subscribe((user: User) => {
       this.user = user;
@@ -77,15 +87,32 @@ export class ListSiteComponent implements OnDestroy {
 
       if(preferences.customerId != undefined){
         this.log.debug("ngOnInit/preferences/customerId",preferences);
-        this.getSubscription();
+        this.getPaymentDetails();
       }
     });
 
   }
 
+  addWebsite(){
+    if(this.preferences.account.status == "TRIAL")
+    {
+      if(this.sites.length >0 ){
+        this.error = "Kindy ACTIVATE your account to add more websites.";
+        setTimeout(()=>{
+          this.error = undefined
+        },5000);
+      }
+      else {
+        this.router.navigate(['/home/new']);
+      }
+    } else {
+      this.router.navigate(['/home/new']);
+    }
+  }
+
   getWebsites(){
     this.log.debug("getWebsites/",this.user);
-    this.db.list("websites/",{
+    this._websiteSubscription = this.db.list("websites/",{
       query : {
         orderByChild : 'userId',
         equalTo : this.user.id
@@ -105,18 +132,12 @@ export class ListSiteComponent implements OnDestroy {
     this.userSvc.subscribeForTrial();
   }
 
-  getSubscription(){
-    // this.pymtSvc.details(token,this.preferences.customerId).subscribe(response => {
-    //   this.customer = response.customer;
-    //
-    //   if(this.customer && this.customer.subscription){
-    //     console.log(this.customer.subscription);
-    //     this.user.account.subscription = this.customer.subscription;
-    //     this.userSvc.updatePlanId(this.customer.subscription.plan_id);
-    //     this.customer.subscription.end_date = new Date(this.customer.subscription.end_date*1000);
-    //   }
-    //
-    // });
+  getPaymentDetails(){
+    this.pymtSvc.details(this.preferences.customerId).subscribe(response => {
+      if(response.customer && response.customer.card){
+        this.userSvc.updateCard(response.customer.card);
+      }
+    });
   }
 
   delete(data){
@@ -138,5 +159,6 @@ export class ListSiteComponent implements OnDestroy {
   ngOnDestroy(){
     this._userSubscription.unsubscribe();
     this._preferencesSubscription.unsubscribe();
+    this._websiteSubscription.unsubscribe();
   }
 }

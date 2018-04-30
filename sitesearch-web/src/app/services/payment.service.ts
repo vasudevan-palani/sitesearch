@@ -51,13 +51,9 @@ export class PaymentService {
   /**
   Need customerid,token
   */
-  details(token,user) {
-    var data = {
-      token : token
-    };
-    if(user.customerid){
-      data["customerid"] = user.customerid;
-      return this.http.get(this.config.get("API_ENDPOINT")+'/customer?customerid='+user.customerid,{withCredentials:false})
+  details(customerId) {
+    if(customerId){
+      return this.http.get(this.config.get("API_ENDPOINT")+'/customer?customerid='+customerId,{withCredentials:false})
       .map((res:Response) => res.json());
     }
     return null;

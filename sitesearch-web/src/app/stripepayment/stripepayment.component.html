@@ -41,6 +41,6 @@
       <p><i class="fa fa-exclamation"></i> By Clicking <strong>{{actionLabel}}</strong>, you agree to the <a routerLink="/terms"> Terms and Conditions</a>. Kindly note that, we save only one card for subscription. If you had a previous saved card, it will be overwritten.</p>
 		</div>
 	      <div class="form-group text-right">
-            <button type="submit" class="btn btn-primary" [disabled]="!paymentform.form.valid"><i *ngIf="isPaymentProgress" class="fa fa-spinner fa-spin"></i>  {{actionLabel}} </button>
+            <button type="submit" class="btn btn-primary" [disabled]="!paymentform.form.valid"><i *ngIf="isPaymentProgress" class="fa fa-spinner fa-spin"></i><i *ngIf="!isPaymentProgress" class="fa fa-check"></i>  {{actionLabel}} </button>
           </div>
 	</form>

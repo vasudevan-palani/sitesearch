@@ -1,4 +1,4 @@
 config = {};
 config.app = {
-  API_ENDPOINT : "https://api.sitesearch.svolve.com"
+  API_ENDPOINT : "https://devapi.sitesearch.svolve.com"
 }
