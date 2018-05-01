@@ -16,6 +16,10 @@ export class SiteConfigComponent implements OnInit {
 
   public siteId: string;
 
+  public isUpdateInProgress : boolean;
+
+  public error : string;
+
   @ViewChild('configForm') configForm : any;
 
   constructor(
@@ -42,16 +46,16 @@ export class SiteConfigComponent implements OnInit {
     let includes = [];
     let excludes = [];
 
-    if(data.urlFiltersExcludes != "" data.urlFiltersExcludes.split("\n").length > 0){
-      urlFiltersExcludes.split("\n").forEach(url => {
+    if(data.urlFiltersExcludes != "" && data.urlFiltersExcludes.split("\n").length > 0){
+      data.urlFiltersExcludes.split("\n").forEach(url => {
         if(url != ""){
-          exlcudes.push(url);
+          excludes.push(url);
         }
       });
     }
 
-    if(data.urlFiltersIncludes != "" data.urlFiltersIncludes.split("\n").length > 0){
-      urlFiltersIncludes.split("\n").forEach(url => {
+    if(data.urlFiltersIncludes != "" && data.urlFiltersIncludes.split("\n").length > 0){
+      data.urlFiltersIncludes.split("\n").forEach(url => {
         if(url != ""){
           includes.push(url);
         }
