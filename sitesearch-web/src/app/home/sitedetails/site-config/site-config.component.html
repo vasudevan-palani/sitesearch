@@ -1,0 +1,42 @@
+<div class="card m-lg-3 m-md-1 ml-lg-5 mr-lg-5 ml-md-5 mr-md-5 ">
+  <div class="card-header card-primary">
+    <h4>Configuration</h4>
+  </div>
+  <div class="card-block">
+    <div class="row" *ngIf="error">
+      <div class="col-12">
+        <div class="alert alert-danger"><i class="fa fa-warning"></i> {{error}}</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <form #configForm="ngForm" (ngSubmit)="submit(configForm.value)">
+          <div class="form-group">
+            <p> Below configurations can be used to restrict and control what URL's and domains will be crawled.<a routerLink="/"> Learn more <i class="fa fa-arrow-right"></i></a></p>
+          </div>
+          <div class="form-group">
+            <label>URL Filter(s) - Inclusion</label>
+            <textarea rows="10" placeholder="URLs that will be allowed to crawl." class="form-control" name="urlFiltersExcludes" #urlFiltersExcludes="ngModel" [(ngModel)]="configForm.urlFiltersExcludes" url></textarea>
+            <div *ngIf="urlFiltersExcludes?.errors && (urlFiltersExcludes.dirty || urlFiltersExcludes.touched)">
+              <p class="validation-error" *ngIf="!urlFiltersExcludes.errors.required" [hidden]="!urlFiltersExcludes.errors.url">URL is invalid</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>URL Filter(s) - Exclusion</label>
+            <textarea rows="10" placeholder="URLs that will removed from crawl" class="form-control" name="urlFiltersIncludes" #urlFiltersIncludes="ngModel" [(ngModel)]="configForm.urlFiltersIncludes" url></textarea>
+            <div *ngIf="urlFiltersIncludes?.errors && (urlFiltersIncludes.dirty || urlFiltersIncludes.touched)">
+              <p class="validation-error" *ngIf="!urlFiltersIncludes.errors.required" [hidden]="!urlFiltersIncludes.errors.url">URL is invalid</p>
+            </div>
+          </div>
+
+          <div class="form-group">
+              <button type="submit" class="btn btn-success" [disabled]="!configForm.form.valid"><i *ngIf="isAddInProgress" class="fa fa-spinner fa-spin"></i> Submit </button>
+          </div>
+
+        </form>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+      </div>
+    </div>
