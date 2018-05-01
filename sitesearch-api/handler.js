@@ -31,3 +31,5 @@ module.exports.search = website.search;
 module.exports.count = website.count;
 module.exports.analytics = analytics.analytics;
 module.exports.trialValidator = account.validateTrialAccounts;
+
+module.exports.config = website.config;

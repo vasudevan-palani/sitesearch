@@ -40,3 +40,4 @@ functions:
   recrawlSetup: ${file(./sls/recrawlSetup.yml)}
   recrawl: ${file(./sls/recrawl.yml)}
   trial: ${file(./sls/trial.yml)}
+  config: ${file(./sls/config.yml)}

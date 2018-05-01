@@ -1,5 +1,6 @@
 var config = require('../config/config');
 var metricHandler = require('../lib/metric.js');
+var firebaseHandler = require('../lib/firebase.js');
 var axios = require('axios');
 var aws4 = require('aws4');
 var AWS = require('aws-sdk');
@@ -74,5 +75,29 @@ module.exports.pages = (event, context, callback) => {
   .catch((response)=>{
     console.log(response);
     callback(null,{'status' : { 'code' : "site/search/error" },'context':response.data});
+  });
+}
+
+module.exports.config = (event, context, callback) => {
+
+  let requestBody = event.request;
+
+  if(requestBody.siteId == undefined){
+    callback(null,{'status' : { 'code' : "site/config/error" },'msg':'invalid site'});
+    return;
+  }
+
+  firebaseHandler.getWebsite(requestBody.siteId).then( websiteResp => {
+    console.log(websiteResp);
+    website.updateConfigInS3(websiteResp).then(updateResp => {
+      console.log(updateResp);
+      callback(null,{'status' : { 'code' : 0 },'results':updateResp});
+    }).catch(updateErr => {
+      console.log(updateErr);
+      callback(null,{'status' : { 'code' : "site/config/error" },'err':updateErr});
+    });
+  }).catch(err => {
+    console.log("In first catch",err);
+    callback(null,{'status' : { 'code' : "site/config/error" },'err':err});
   });
 }

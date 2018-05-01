@@ -24,6 +24,7 @@ export class SiteConfigComponent implements OnInit {
 
   constructor(
     private userSvc : UserService,
+    private siteSvc : SiteService,
     private log : LogService,
     private router:Router,
     private db: AngularFireDatabase,
@@ -34,11 +35,19 @@ export class SiteConfigComponent implements OnInit {
     this.siteId = this.route.snapshot.queryParams['siteid'];
     this.db.object("/websites/"+this.siteId+"/preferences").subscribe((preferences:any)=>{
       this.log.debug("ngOnInit/preferences",preferences);
-      this.configForm.urlFiltersExcludes = preferences.excludes.join("\n");
-      this.configForm.urlFiltersIncludes = preferences.includes.join("\n");
+      this.configForm.urlFiltersExcludes = preferences.excludes != undefined ? preferences.excludes.join("\n") : "";
+      this.configForm.urlFiltersIncludes = preferences.includes != undefined ? preferences.includes.join("\n") : "";
     });
 
 
+  }
+
+  setError(err){
+    this.error = err;
+
+    setTimeout(()=>{
+      this.error = undefined
+    },5000);
   }
 
   submit(data){
@@ -65,7 +74,11 @@ export class SiteConfigComponent implements OnInit {
     this.db.object("/websites/"+this.siteId+"/preferences").update({
       includes : includes,
       excludes : excludes,
-    })
+    });
+
+    this.siteSvc.updateConfig(this.siteId).subscribe(success =>{},err => {
+      this.setError(err);
+    });
   }
 
 }
