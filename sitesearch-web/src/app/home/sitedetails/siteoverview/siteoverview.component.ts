@@ -149,6 +149,7 @@ export class SiteOverviewComponent implements OnInit {
       }
 
     }).subscribe(recrawls => {
+      this.hasCrawlScheduled = false;
       this.crawls = recrawls;
       this.crawls.forEach(crawl => {
         if(crawl.status == "SCHEDULED"){

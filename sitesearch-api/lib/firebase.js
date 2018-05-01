@@ -188,6 +188,7 @@ var updateAccountStatus = function(userId,status){
     axios.patch(config.firebase.url+"/user-preferences/"+userId+"/account.json",{'status':status},{
       "headers" : {'Authorization':"Bearer "+accessToken}
     }).then(resp => {
+      defer.resolve(resp);
       console.log("success");
     })
     .catch(err => {
@@ -198,6 +199,25 @@ var updateAccountStatus = function(userId,status){
 
   return defer.promise;
 }
+
+var getWebsite = function(siteId){
+  let defer = Q.defer();
+  getToken().then(accessToken => {
+    axios.get(config.firebase.url+"/websites/"+siteId+".json",{
+      "headers" : {'Authorization':"Bearer "+accessToken}
+    }).then(resp => {
+      console.log("success",resp);
+      defer.resolve(resp.data);
+    })
+    .catch(err => {
+      console.log("Failed updating account status "+userId,err);
+      defer.reject(err);
+    });
+  });
+
+  return defer.promise;
+}
+
 module.exports = {
   getCrawlQ : getCrawlQ,
   getToken : getToken,
@@ -205,5 +225,6 @@ module.exports = {
   queueReCrawl : queueReCrawl,
   getReCrawlQ : getReCrawlQ,
   getUserAccounts : getUserAccounts,
-  updateAccountStatus : updateAccountStatus
+  updateAccountStatus : updateAccountStatus,
+  getWebsite : getWebsite
 }

@@ -129,4 +129,12 @@ export class SiteService {
         }
       });
   }
+
+  updateConfig(siteId){
+    return this.http.post(this.config.get("API_ENDPOINT")+'/config',{'siteId':siteId},{withCredentials:false})
+    .map((res:Response) => {
+      var jsonResponse = res.json();
+      return jsonResponse;
+    });
+  }
 }

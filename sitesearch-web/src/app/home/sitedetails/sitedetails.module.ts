@@ -14,6 +14,7 @@ import {SelectModule} from 'ng2-select';
 import { SitedetailsComponent } from 'app/home/sitedetails/sitedetails.component';
 import { SiteOverviewComponent } from './siteoverview/siteoverview.component';
 import { SitePreviewComponent } from './sitepreview/sitepreview.component';
+import { SiteConfigComponent } from './site-config/site-config.component';
 
 const siteRoutes: Routes = [
   {
@@ -24,6 +25,10 @@ const siteRoutes: Routes = [
         path : '',
         redirectTo : 'overview',
         pathMatch : 'full'
+      },
+      {
+        path : 'config',
+        component : SiteConfigComponent
       },
       {
         path : 'overview',
@@ -41,7 +46,8 @@ const siteRoutes: Routes = [
   declarations : [
     SitePreviewComponent,
     SiteOverviewComponent,
-    SitedetailsComponent
+    SitedetailsComponent,
+    SiteConfigComponent
   ],
   exports : [
     RouterModule
