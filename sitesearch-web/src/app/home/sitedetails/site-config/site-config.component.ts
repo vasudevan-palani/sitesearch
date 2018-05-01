@@ -75,8 +75,11 @@ export class SiteConfigComponent implements OnInit {
       includes : includes,
       excludes : excludes,
     });
-
-    this.siteSvc.updateConfig(this.siteId).subscribe(success =>{},err => {
+    this.isUpdateInProgress = true;
+    this.siteSvc.updateConfig(this.siteId).subscribe(success =>{
+      this.isUpdateInProgress = false;
+    },err => {
+      this.isUpdateInProgress = false;
       this.setError(err);
     });
   }
