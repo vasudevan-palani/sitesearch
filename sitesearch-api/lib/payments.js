@@ -180,5 +180,25 @@ Payments.prototype.retrieveCustomer = function(customerid){
   return subscribe_defer.promise;
 }
 
+Payments.prototype.createCharge = function(customerId,charge){
+
+  let defer = Q.defer();
+  console.log("Creating charge ",customerId,charge);
+  stripe.charges.create({
+    amount: charge * 100,
+    currency: 'usd',
+    customer: customerId,
+  },(err,data)=>{
+    if(err){
+      console.log("Payment failed for customer",customerId,charge,err);
+      defer.reject(err);
+    }
+    else {
+      console.log("Payment success for customer",customerId,data);
+      defer.resolve(data);
+    }
+  });
+  return defer.promise;
+}
 
 module.exports = new Payments();

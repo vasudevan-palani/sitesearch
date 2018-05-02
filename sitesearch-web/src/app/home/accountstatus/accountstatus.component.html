@@ -1,23 +1,23 @@
 <div class="card card-document card-document-third">
   <div class="card-header">
     <h5>Account Status -
-      <span>{{preferences?.account?.status}}</span>
+      <span>{{preferences?.status}}</span>
     </h5>
   </div>
   <div class="card-block">
-    <div *ngIf="preferences?.account?.status == 'NEW'">
+    <div *ngIf="preferences?.status == 'NEW'">
       <p>Please <a routerLink="/pricing">Activate</a> your account now. </p>
       <p>For your account to be active you need to choose a plan OR can opt for a FREE TRIAL for 7 days.</p>
       <p>During Free Trial you can access all services/features of the site search.</p>
     </div>
-    <div *ngIf="preferences?.account?.status == 'TRIAL'">
-      <p>You are currently on FREE TRIAL From <strong>{{preferences?.account?.trial.startDate | date:'mediumDate'}}</strong> To <strong>{{preferences?.account?.trial.endDate | date:'mediumDate'}}</strong>.</p>
+    <div *ngIf="preferences?.status == 'TRIAL'">
+      <p>You are currently on FREE TRIAL From <strong>{{preferences?.trial.startDate | date:'mediumDate'}}</strong> To <strong>{{preferences?.trial.endDate | date:'mediumDate'}}</strong>.</p>
       <a [routerLink]="['/checkout']" class="btn btn-success btn-round"> <i class="fa fa-check"></i>Activate Now</a>
     </div>
-    <div *ngIf="preferences?.account?.status == 'ACTIVE'">
+    <div *ngIf="preferences?.status == 'ACTIVE'">
       <p>Thank you for choosing us. Please email <a href="mailTo:support@svolve.com">support@svolve.com</a> for any concerns/issues. </p>
     </div>
-    <div *ngIf="preferences?.account?.status == 'SUSPENDED'">
+    <div *ngIf="preferences?.status == 'SUSPENDED'">
       <p>Your account has been suspended either because your payment got rejected or trial expired. Please email <a href="mailTo:support@svolve.com">support@svolve.com</a> for any concerns/issues. </p>
     </div>
   </div>

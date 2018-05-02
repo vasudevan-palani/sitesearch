@@ -180,7 +180,6 @@ module.exports.count = function(siteId) {
     'Content-Type': "application/json"
   };
   let signedRequest = aws4.sign(request);
-  console.log(request, params);
   axios(request)
     .then((response) => {
       let hits = [];
@@ -189,7 +188,7 @@ module.exports.count = function(siteId) {
       if (response.data.count != null) {
         total = response.data.count;
       }
-
+      console.log("page count",siteId,total);
       defer.resolve(total);
     })
     .catch((response) => {

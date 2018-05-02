@@ -9,8 +9,9 @@ export class UserPreferences {
   //
   customerId : string;
 
-  //
-  account : UserAccount;
+  status : string;
+
+  trial : any;
 
   card : any;
 }

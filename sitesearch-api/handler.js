@@ -33,3 +33,5 @@ module.exports.analytics = analytics.analytics;
 module.exports.trialValidator = account.validateTrialAccounts;
 
 module.exports.config = website.config;
+module.exports.quote = account.quote;
+module.exports.billing = stripe.billing;

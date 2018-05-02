@@ -182,10 +182,53 @@ var getUserAccounts = function(){
   return defer.promise;
 }
 
+var getActiveCustomers = function(){
+  let defer = Q.defer();
+  getToken().then(accessToken => {
+    axios.get(config.firebase.url+"/user-preferences.json?orderBy=\"status\"&equalTo=\"ACTIVE\"",{
+      "headers" : {'Authorization':"Bearer "+accessToken}
+    }).then(resp => {
+      console.log(resp);
+      if(Object.keys(resp.data).length > 0){
+        defer.resolve(resp.data);
+      }
+      else {
+        console.log("Q is empty");
+        defer.reject(resp.data);
+      }
+
+    })
+    .catch(err => {
+      console.log("Failed getting active customers",err);
+      defer.reject(err);
+    });
+  });
+
+  return defer.promise;
+}
+
 var updateAccountStatus = function(userId,status){
   let defer = Q.defer();
   getToken().then(accessToken => {
-    axios.patch(config.firebase.url+"/user-preferences/"+userId+"/account.json",{'status':status},{
+    axios.patch(config.firebase.url+"/user-preferences/"+userId+".json",{'status':status},{
+      "headers" : {'Authorization':"Bearer "+accessToken}
+    }).then(resp => {
+      defer.resolve(resp);
+      console.log("success");
+    })
+    .catch(err => {
+      console.log("Failed updating account status "+userId,err);
+      defer.reject(err);
+    });
+  });
+
+  return defer.promise;
+}
+
+var updateAccountNextChargeDate = function(userId){
+  let defer = Q.defer();
+  getToken().then(accessToken => {
+    axios.patch(config.firebase.url+"/user-preferences/"+userId+".json",{'nextChargeDate':Date.now()+2628000000},{
       "headers" : {'Authorization':"Bearer "+accessToken}
     }).then(resp => {
       defer.resolve(resp);
@@ -218,6 +261,24 @@ var getWebsite = function(siteId){
   return defer.promise;
 }
 
+var getWebsitesByUserId = function(userId){
+  let defer = Q.defer();
+  getToken().then(accessToken => {
+    axios.get(config.firebase.url+"/websites.json?orderBy=\"userId\"&equalTo=\""+userId+"\"",{
+      "headers" : {'Authorization':"Bearer "+accessToken}
+    }).then(resp => {
+      console.log("success",resp);
+      defer.resolve(resp.data);
+    })
+    .catch(err => {
+      console.log("Failed getting websites for "+userId,err);
+      defer.reject(err);
+    });
+  });
+
+  return defer.promise;
+}
+
 module.exports = {
   getCrawlQ : getCrawlQ,
   getToken : getToken,
@@ -226,5 +287,8 @@ module.exports = {
   getReCrawlQ : getReCrawlQ,
   getUserAccounts : getUserAccounts,
   updateAccountStatus : updateAccountStatus,
-  getWebsite : getWebsite
+  getWebsite : getWebsite,
+  getWebsitesByUserId : getWebsitesByUserId,
+  getActiveCustomers : getActiveCustomers,
+  updateAccountNextChargeDate : updateAccountNextChargeDate
 }

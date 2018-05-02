@@ -24,16 +24,17 @@
           <div class="col-md-6 col-12 p-md-2" *ngIf="preferences && preferences?.card">
             <div class="card card-document card-document-peace">
               <div class="card-header">
-                <h5>Your subscription is ACTIVE</h5>
+                <h5>Activated on {{ preferences.activationDate |  date:'mediumDate' }}</h5>
               </div>
               <div class="card-block">
-                <p><strong>Next Charge Date : </strong>{{ firstOfNextMonth | date:'mediumDate'}}</p>
+                <p><strong>Charges till date : </strong>${{quote?.charge}} ( Documents : {{quote?.count}}, Requests : {{quote?.requests}} )</p>
+                <p><strong>Next Charge Date : </strong>{{ preferences.nextChargeDate | date:'mediumDate'}}</p>
                 <p><strong>Number :</strong> ***{{preferences.card.last4}}, <strong>Expires :</strong> {{preferences.card.exp_month}}/{{preferences.card.exp_year}}</p>
               </div>
             </div>
           </div>
         </div>
-        <div class="row no-gutters" *ngIf="preferences.account.status == 'ACTIVE' || preferences.account.status == 'TRIAL'">
+        <div class="row no-gutters" *ngIf="preferences.status == 'ACTIVE' || preferences.status == 'TRIAL'">
           <div class="col" >
             <div class="card">
               <div class="card-header card-primary">
