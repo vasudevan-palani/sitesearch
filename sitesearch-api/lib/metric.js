@@ -53,13 +53,11 @@ module.exports.getMetricData = function(siteId){
     },
     TableName: process.env.MetricsTable
   };
-  console.log(params);
     dynamodb.scan(params, function(err, data) {
       let items = {};
       let total = 0;
       if (err)
       {
-        console.log(err, err.stack); // an error occurred
         defer.reject(err);
       }
       else {
@@ -68,9 +66,12 @@ module.exports.getMetricData = function(siteId){
               items[item.timestamp['S']]=item.count['N'];
               total = total + parseInt(item.count['N']);
           });
+          console.log("search metric ",siteId,{'total':total,'items':items});
           defer.resolve({'total':total,'items':items});
         }
-        console.log(data);           // successful response
+        else {
+          defer.reject(err);
+        }
       }
     });
 

@@ -35,7 +35,7 @@ module.exports.recrawlSetup = function(){
           allUpdates.push(firebaseHandler.queueReCrawl(website));
         }
       });
-      allUpdates.allSettled(allUpdates).then(responses => {
+      q.allSettled(allUpdates).then(responses => {
         defer.resolve(responses);
       })
       .catch(err => {

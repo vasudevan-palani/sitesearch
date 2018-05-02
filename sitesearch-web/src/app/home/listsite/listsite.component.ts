@@ -30,6 +30,8 @@ export class ListSiteComponent implements OnDestroy {
 
   public customer : any;
 
+  public quote : any;
+
   private _userSubscription :  Subscription;
 
   private _preferencesSubscription :  Subscription;
@@ -50,7 +52,6 @@ export class ListSiteComponent implements OnDestroy {
     private pymtSvc : PaymentService,
     private db: AngularFireDatabase){
 
-      this.account = {next_charge_date : '2015-11-23 12:23:34'};
   }
 
   ngOnInit(){
@@ -75,6 +76,7 @@ export class ListSiteComponent implements OnDestroy {
         this.log.debug("ngOnInit/user/initialized",user);
         initialized =true;
         this.getWebsites();
+        this.getQuote();
       }
 
     });
@@ -85,7 +87,7 @@ export class ListSiteComponent implements OnDestroy {
 
       // Its a new user when preferences are null, enroll into trial
       //
-      if(preferences.account == undefined){
+      if(preferences == undefined){
         this.subscribeForTrial();
       }
 
@@ -94,18 +96,24 @@ export class ListSiteComponent implements OnDestroy {
         this.getPaymentDetails();
       }
 
-      if(preferences.account &&
-        preferences.account.status == 'TRIAL' &&
-        preferences.account.trial &&
-        preferences.account.trial.endDate < (Date.now() + 432000000)){
+      if(preferences &&
+        preferences.status == 'TRIAL' &&
+        preferences.trial &&
+        preferences.trial.endDate < (Date.now() + 432000000)){
         this.trialWarning = true
       }
     });
 
   }
 
+  getQuote(){
+    this.userSvc.getQuote().subscribe(resp => {
+      this.quote = resp;
+    });
+  }
+
   addWebsite(){
-    if(this.preferences.account.status == "TRIAL")
+    if(this.preferences.status == "TRIAL")
     {
       if(this.sites.length >0 ){
         this.error = "Kindy ACTIVATE your account to add more websites.";

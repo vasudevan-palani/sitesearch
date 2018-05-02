@@ -1,0 +1,10 @@
+handler: handler.billing
+package:
+   artifact: ./sitesearch-api.zip
+events:
+      - schedule:
+            name: ${opt:stage}-billing-scheduler
+            rate: cron(0 */1 * * ? *)
+            enabled: true
+            input:
+                request: {}

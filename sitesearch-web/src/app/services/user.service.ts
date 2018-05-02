@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Http, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/first';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -18,6 +19,7 @@ export class UserService {
 
   constructor(
     private config: ConfigService,
+    private http: Http,
     private afAuth: AngularFireAuth,
     private db: AngularFireDatabase
   ) {
@@ -87,12 +89,17 @@ export class UserService {
     this.db.object("/user-preferences/" + this.user.getValue().id).update(preferences);
   }
 
+  getQuote(){
+    return this.http.get(this.config.get("API_ENDPOINT")+'/quote?userId='+this.user.getValue().id,{withCredentials:false})
+    .map((res:Response) => res.json());
+  }
+
   activateAccount(customerId){
     let preferences = {
-      account : {
-        status: 'ACTIVE'
-      },
-      customerId: customerId
+        status: 'ACTIVE',
+        activationDate : Date.now(),
+        nextChargeDate : Date.now()+2628000000,
+        customerId: customerId
     }
     this.db.object("/user-preferences/" + this.user.getValue().id).update(preferences);
   }
@@ -100,13 +107,11 @@ export class UserService {
   subscribeForTrial() {
     let preferences = this.db.object("/user-preferences/" + this.user.getValue().id);
     preferences.update({
-      'account':{
         'status': 'TRIAL',
         'trial': {
           startDate: Date.now(),
           endDate: (new Date()).setTime((new Date()).getTime() + 24 * 7 * 60 * 60 * 1000)
         }
-      }
     });
   }
 
