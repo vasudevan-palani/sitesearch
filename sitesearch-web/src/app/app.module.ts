@@ -50,12 +50,14 @@ import { AuthGuard } from 'app/services/authguard.service';
 import { environment } from 'environments/environment';
 import { PricingDetailsComponent } from './pricing/pricing-details/pricing-details.component';
 import { TermsComponent } from './terms/terms.component';
+import { PrivacyComponent } from './privacy/privacy.component';
 
 const appRoutes: Routes = [
   { path: '', component : AppMainComponent },
   { path: 'signup', component: SignUpComponent },
   { path: 'login', component: LoginComponent },
   { path: 'terms', component: TermsComponent },
+  { path: 'privacy', component: PrivacyComponent },
   { path: 'documentation', component: DocumentationComponent },
   { path: 'developerapi', component: DeveloperapiComponent },
   { path: 'features', component: FeaturesComponent },
@@ -109,7 +111,8 @@ let loginproviders = {
     BasicplanComponent,
     StandardplanComponent,
     PricingDetailsComponent,
-    TermsComponent
+    TermsComponent,
+    PrivacyComponent
   ],
   imports: [
     NgbModule.forRoot(),
