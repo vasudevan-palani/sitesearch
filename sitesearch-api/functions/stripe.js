@@ -26,13 +26,13 @@ var invoices = (event, context, callback) => {
 
   let customerid = event.params['querystring']['customerid'];
 
-  payments.invoices(customerid).then(function(invoices) {
+  payments.charges(customerid).then(function(charges) {
 
       callback(null, {
         'status': {
           'code': 0
         },
-        'results': invoices
+        'results': charges
       });
     })
     .catch(function(error) {

@@ -14,6 +14,7 @@ import {SelectModule} from 'ng2-select';
 import { SiteDetailsModule } from 'app/home/sitedetails/sitedetails.module';
 import { AuthGuard } from 'app/services/authguard.service';
 import { AccountstatusComponent } from './accountstatus/accountstatus.component';
+import { PaymentListComponent } from './payment-list/payment-list.component';
 
 const homeRoutes: Routes = [
   {
@@ -35,6 +36,10 @@ const homeRoutes: Routes = [
         component : NewSiteComponent
       },
       {
+        path : 'payments',
+        component : PaymentListComponent
+      },
+      {
         path : 'test',
         component : TestSiteComponent
       }
@@ -48,7 +53,8 @@ const homeRoutes: Routes = [
     HomeComponent,
     ListSiteComponent,
     TestSiteComponent,
-    AccountstatusComponent
+    AccountstatusComponent,
+    PaymentListComponent
   ],
   exports : [
     RouterModule
