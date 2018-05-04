@@ -20,5 +20,8 @@
     <div *ngIf="preferences?.status == 'SUSPENDED'">
       <p>Your account has been suspended either because your payment got rejected or trial expired. Please email <a href="mailTo:support@svolve.com">support@svolve.com</a> for any concerns/issues. </p>
     </div>
+    <div *ngIf="preferences?.status == 'DEACTIVATED'">
+      <p>Your account has been deactivated. Please email <a href="mailTo:support@svolve.com">support@svolve.com</a> for any concerns/issues. </p>
+    </div>
   </div>
 </div>

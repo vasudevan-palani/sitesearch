@@ -5,6 +5,37 @@ var AWS = require('aws-sdk');
 var website = require("../lib/website.js");
 var metric = require("../lib/metric.js")
 
+var threeDaysInSeconds = 259200000;
+
+module.exports.validateSuspendedAccounts = function(){
+  let defer = q.defer();
+
+  firebaseHandler.getUserAccounts().then(userAccounts => {
+    console.log(userAccounts);
+    let allUpdates = [];
+
+    Object.keys(userAccounts).forEach(userAccountKey =>  {
+
+      let userAccount = userAccounts[userAccountKey];
+      console.log(userAccountKey);
+      if(userAccount != undefined &&
+        userAccount.trial != undefined &&
+        userAccount.status == "SUSPENDED" &&
+        userAccount.suspendedDate + threeDaysInSeconds < Date.now()){
+        allUpdates.push(firebaseHandler.updateAccountStatus(userAccountKey,'DEACTIVATED'));
+      }
+    });
+
+    q.allSettled(allUpdates).then(responses => {
+      defer.resolve(responses);
+    })
+    .catch(err => {
+      defer.reject(err);
+    });
+  });
+
+  return defer.promise;
+}
 module.exports.validateTrialAccounts = function(){
   let defer = q.defer();
 

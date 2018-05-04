@@ -114,7 +114,8 @@ export class UserService {
 
   subscribeForTrial() {
     let preferences = this.db.object("/user-preferences/" + this.user.getValue().id);
-    preferences.update({
+    preferences.set({
+        'email' : this.user.getValue().email,
         'status': 'TRIAL',
         'trial': {
           startDate: Date.now(),

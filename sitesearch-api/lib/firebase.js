@@ -209,8 +209,19 @@ var getActiveCustomers = function(){
 
 var updateAccountStatus = function(userId,status){
   let defer = Q.defer();
+  let updates = {'status' : status};
+
+  if(status == "ACTIVE"){
+    updates.activationDate = Date.now();
+  }
+  else if(status == "SUSPENDED"){
+    updates.suspendedDate = Date.now();
+  }
+  else if(status == "DEACTIVATED"){
+    updates.deactivationDate = Date.now();
+  }
   getToken().then(accessToken => {
-    axios.patch(config.firebase.url+"/user-preferences/"+userId+".json",{'status':status},{
+    axios.patch(config.firebase.url+"/user-preferences/"+userId+".json",updates,{
       "headers" : {'Authorization':"Bearer "+accessToken}
     }).then(resp => {
       defer.resolve(resp);
