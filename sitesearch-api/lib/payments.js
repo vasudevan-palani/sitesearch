@@ -180,7 +180,7 @@ Payments.prototype.retrieveCustomer = function(customerid){
   return subscribe_defer.promise;
 }
 
-Payments.prototype.createCharge = function(customerId,charge){
+Payments.prototype.createCharge = function(customerId,charge,email){
 
   let defer = Q.defer();
   console.log("Creating charge ",customerId,charge);
@@ -188,6 +188,7 @@ Payments.prototype.createCharge = function(customerId,charge){
     amount: charge * 100,
     currency: 'usd',
     customer: customerId,
+    receipt_email:email
   },(err,data)=>{
     if(err){
       console.log("Payment failed for customer",customerId,charge,err);

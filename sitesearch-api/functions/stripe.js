@@ -145,7 +145,7 @@ var billing = (event, context, callback) => {
       if (customers[customerKey].nextChargeDate < Date.now()) {
         account.quote(customerKey).then(quote => {
           console.log(" quote for customer ", customerKey, quote);
-          payments.createCharge(customers[customerKey].customerId, quote.charge).then(resp => {
+          payments.createCharge(customers[customerKey].customerId, quote.charge,customers[customerKey].email).then(resp => {
             firebase.updateAccountNextChargeDate(customerKey).catch(err => {
               console.log("Customer payment success, but updating nextChargeDate failed", err);
             });

@@ -11,7 +11,7 @@ admin.initializeApp({
 
 let db = admin.database();
 
-db.ref('/recrawlq').orderByChild("status").equalTo("SCHEDULED").once('value').then(
+db.ref('/pcrawlq').orderByChild("status").equalTo("SCHEDULED").once('value').then(
   (value) => {
     let crawlJobs = value.val();
     let jobIds = crawlJobs != null ? Object.keys(crawlJobs) : [];
@@ -56,11 +56,11 @@ db.ref('/recrawlq').orderByChild("status").equalTo("SCHEDULED").once('value').th
             </property> \
             <property> \
               <name>oozie.wf.workflow.notification.url</name> \
-              <value>" + config.oozie.notificationUrl + "&amp;queueName=recrawlq</value> \
+              <value>" + config.oozie.notificationUrl + "&amp;queueName=pcrawlq</value> \
             </property> \
             <property>  \
               <name>oozie.wf.application.path</name> \
-              <value>" + config.oozie.apps.recrawl + "</value> \
+              <value>" + config.oozie.apps.pcrawl + "</value> \
             </property> \
             </configuration>", {
               headers: {
@@ -69,7 +69,7 @@ db.ref('/recrawlq').orderByChild("status").equalTo("SCHEDULED").once('value').th
             })
             .then((oozieresponse) => {
               console.log("Oozie job created : ", oozieresponse.data.id);
-              db.ref('/recrawlq/' + jobId).update({
+              db.ref('/pcrawlq/' + jobId).update({
                 'oozieJobId': oozieresponse.data.id,
                 'status': 'PREP',
                 'startTime': Date.now()
