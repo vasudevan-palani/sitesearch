@@ -24,8 +24,8 @@ export class PaymentService {
   }
 
 
-  invoices(token,customerid) {
-    return this.http.get(this.config.get("API_ENDPOINT")+'/invoices?token='+token+'&customerid='+customerid,{withCredentials:false})
+  getCharges(customerid) {
+    return this.http.get(this.config.get("API_ENDPOINT")+'/invoices?customerid='+customerid,{withCredentials:false})
     .map((res:Response) => res.json().results);
   }
 

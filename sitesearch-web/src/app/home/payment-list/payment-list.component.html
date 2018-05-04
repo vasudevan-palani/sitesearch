@@ -1,0 +1,30 @@
+<div class="card m-lg-3 m-md-1 ml-lg-5 mr-lg-5 ml-md-5 mr-md-5 ">
+  <div class="card-header card-primary">
+    <h4>Payments</h4>
+  </div>
+  <div class="card-block">
+    <div class="row" *ngIf="error">
+      <div class="col-12">
+        <div class="alert alert-danger"><i class="fa fa-warning"></i> {{error}}</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <table class="table">
+          <tr>
+            <th> Date </th>
+            <th> Amount </th>
+            <th> Source </th>
+          </tr>
+          <tr *ngFor="let pymt of charges">
+            <td> {{pymt?.date * 1000 | date:'mediumDate'}} </td>
+            <td> ${{pymt?.amount_due /100}} </td>
+            <td> ****{{pymt?.last4}} </td>
+          </tr>
+        </table>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+      </div>
+    </div>

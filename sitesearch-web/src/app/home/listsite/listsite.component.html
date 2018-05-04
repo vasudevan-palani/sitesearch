@@ -28,7 +28,7 @@
               </div>
               <div class="card-block">
                 <p><strong>Charges till date : </strong>${{quote?.charge}} ( Documents : {{quote?.count}}, Requests : {{quote?.requests}} )</p>
-                <p><strong>Next Charge Date : </strong>{{ preferences.nextChargeDate | date:'mediumDate'}}</p>
+                <p><strong>Next Charge Date : </strong>{{ preferences.nextChargeDate | date:'mediumDate'}}   ( <a routerLink="/home/payments">History</a> )</p>
                 <p><strong>Number :</strong> ***{{preferences.card.last4}}, <strong>Expires :</strong> {{preferences.card.exp_month}}/{{preferences.card.exp_year}}</p>
               </div>
             </div>

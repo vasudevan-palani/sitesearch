@@ -9,28 +9,25 @@ function Payments(){
 
 }
 
-Payments.prototype.invoices = function(customerid){
+Payments.prototype.charges = function(customerid){
 
   var list_defer = Q.defer();
   var invoices = {};
-  stripe.invoices.list({'customer':customerid}, function(err, invoicesResponse) {
-    console.log(invoicesResponse);
-      if(invoicesResponse && invoicesResponse.data.length > 0){
-        invoices = invoicesResponse.data.map(function(invoice){
+  stripe.charges.list({'customer':customerid}, function(err, chargesResponse) {
+    console.log(chargesResponse);
+      if(chargesResponse && chargesResponse.data.length > 0){
+        charges = chargesResponse.data.map(function(charge){
           return {
-            id : invoice.id,
-            date : invoice.date,
-            amount_due : invoice.amount_due,
-            tax : invoice.tax,
-            total : invoice.total,
-            period_end : invoice.period_end,
-            period_start : invoice.period_start
+            id : charge.id,
+            date : charge.created,
+            amount_due : charge.amount,
+            last4 : charge.source.last4
           }
         });
-        list_defer.resolve(invoices);
+        list_defer.resolve(charges);
       }
       else {
-        list_defer.reject({code:err.statusCode,message:err.message});
+        list_defer.reject(err);
       }
   });
 
