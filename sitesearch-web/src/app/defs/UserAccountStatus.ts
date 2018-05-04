@@ -3,5 +3,6 @@ export enum UserAccountStatus {
   TRIAL,
   ACTIVATED,
   SUSPENDED,
-  CLOSED
+  CLOSED,
+  DEACTIVATED
 };

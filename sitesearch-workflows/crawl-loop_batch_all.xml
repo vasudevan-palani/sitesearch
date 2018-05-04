@@ -8,8 +8,6 @@
            <main-class>org.apache.nutch.crawl.GeneratorJob</main-class>
            <arg>-crawlId</arg>
            <arg>${crawlId}</arg>
-	   <arg>-batchId</arg>
-	   <arg>${batchId}</arg>
            <capture-output />
        </java>
 
@@ -22,7 +20,7 @@
            <job-tracker>${jobTracker}</job-tracker>
            <name-node>${nameNode}</name-node>
            <main-class>org.apache.nutch.fetcher.FetcherJob</main-class>
-	   <arg>${batchId}</arg>
+           <arg>-all</arg>
            <arg>-crawlId</arg>
            <arg>${crawlId}</arg>
            <capture-output />
@@ -37,7 +35,7 @@
            <job-tracker>${jobTracker}</job-tracker>
            <name-node>${nameNode}</name-node>
            <main-class>org.apache.nutch.parse.ParserJob</main-class>
-	   <arg>${batchId}</arg>
+           <arg>-all</arg>
            <arg>-crawlId</arg>
            <arg>${crawlId}</arg>
            <capture-output />
@@ -51,7 +49,7 @@
            <job-tracker>${jobTracker}</job-tracker>
            <name-node>${nameNode}</name-node>
            <main-class>org.apache.nutch.crawl.DbUpdaterJob</main-class>
-	   <arg>${batchId}</arg>
+           <arg>-all</arg>
            <arg>-crawlId</arg>
            <arg>${crawlId}</arg>
            <capture-output />
@@ -65,7 +63,7 @@
            <job-tracker>${jobTracker}</job-tracker>
            <name-node>${nameNode}</name-node>
            <main-class>org.apache.nutch.indexer.IndexingJob</main-class>
-	   <arg>${batchId}</arg>
+           <arg>-all</arg>
            <arg>-crawlId</arg>
            <arg>${crawlId}</arg>
            <capture-output />
@@ -92,10 +90,6 @@
                <property>
                    <name>counter</name>
                    <value>${counter + 1}</value>
-               </property>
-               <property>
-                   <name>batchId</name>
-                   <value>${crawlId}-${timestamp()}</value>
                </property>
            </configuration>
        </sub-workflow>

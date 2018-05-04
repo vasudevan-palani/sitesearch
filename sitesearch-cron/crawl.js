@@ -13,7 +13,6 @@ let db = admin.database();
 
 let MAX_CRAWL = 2;
 
-
 db.ref('/crawlq').orderByChild("status").equalTo("SCHEDULED").once('value').then(
   (value) => {
     let crawlJobs = value.val();
@@ -33,7 +32,6 @@ db.ref('/crawlq').orderByChild("status").equalTo("SCHEDULED").once('value').then
         websiteRef => {
 
           let website = websiteRef.val();
-
           let timestamp = Date.now();
 
           let crawlId = job.siteKey;
@@ -70,7 +68,7 @@ db.ref('/crawlq').orderByChild("status").equalTo("SCHEDULED").once('value').then
                 </property> \
                 <property> \
                   <name>oozie.wf.workflow.notification.url</name> \
-                  <value>" + config.oozie.notificationUrl + "</value> \
+                  <value>" + config.oozie.notificationUrl + "&amp;queueName=crawlq</value> \
                 </property> \
                 <property>  \
                   <name>oozie.wf.application.path</name> \
@@ -98,7 +96,7 @@ db.ref('/crawlq').orderByChild("status").equalTo("SCHEDULED").once('value').then
                     });
                 })
                 .catch((ooziecreateerr) => {
-                  console.log("Oozie job creation failed : ", ooziecreateerr.data);
+                  console.log("Oozie job creation failed : ", ooziecreateerr);
                   admin.app().delete();
                 });
 

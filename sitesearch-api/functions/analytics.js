@@ -14,8 +14,27 @@ module.exports.analytics = (event, context, callback) => {
 
   let siteId = event.params['querystring']['siteId'];
 
-  metric.getMetricData(siteId).then(results => {
-        callback(null,{'status' : { 'code' : "0" },'searchRequests':results});
+  let responseBody = {};
+
+  let analyticsRequests = [];
+  analyticsRequests.push(metric.getRequestCount(siteId).then(results => {
+      responseBody.searchRequests = results;
+  }));
+
+  analyticsRequests.push(metric.getRequestZeroResultsCount(siteId).then(zeroResults => {
+      responseBody.zeroResults = zeroResults;
+  }));
+
+  analyticsRequests.push(metric.getPageCountByLanguage(siteId).then(zeroResults => {
+      responseBody.pagesByLang = zeroResults;
+  }));
+
+  analyticsRequests.push(metric.getPageCountByHost(siteId).then(zeroResults => {
+      responseBody.pagesByHost = zeroResults;
+  }));
+
+  q.allSettled(analyticsRequests).then(response => {
+    callback(null,{'status' : { 'code' : "0" },'results':responseBody});
   })
   .catch(err => {
       callback(null,{'status' : { 'code' : "sitesearch/analytics/error" },'err':err});

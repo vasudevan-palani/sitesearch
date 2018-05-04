@@ -77,6 +77,7 @@ export class ListSiteComponent implements OnDestroy {
         initialized =true;
         this.getWebsites();
         this.getQuote();
+        this.userSvc.updateEmail();
       }
 
     });
@@ -87,7 +88,7 @@ export class ListSiteComponent implements OnDestroy {
 
       // Its a new user when preferences are null, enroll into trial
       //
-      if(preferences == undefined){
+      if(preferences.status == undefined){
         this.subscribeForTrial();
       }
 
@@ -95,7 +96,7 @@ export class ListSiteComponent implements OnDestroy {
         this.log.debug("ngOnInit/preferences/customerId",preferences);
         this.getPaymentDetails();
       }
-
+      this.trialWarning = false;
       if(preferences &&
         preferences.status == 'TRIAL' &&
         preferences.trial &&
@@ -111,7 +112,6 @@ export class ListSiteComponent implements OnDestroy {
       this.quote = resp;
     });
   }
-
   addWebsite(){
     if(this.preferences.status == "TRIAL")
     {

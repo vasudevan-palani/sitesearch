@@ -36,12 +36,6 @@
        <sub-workflow>
            <app-path>${wf:appPath()}/crawl-loop.xml</app-path>
            <propagate-configuration/>
-           <configuration>
-               <property>
-                   <name>batchId</name>
-                   <value>${crawlId}-${timestamp()}</value>
-               </property>
-           </configuration>
        </sub-workflow>
        <ok to="end"/>
        <error to="kill_job" />

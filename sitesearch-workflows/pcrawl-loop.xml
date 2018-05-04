@@ -1,4 +1,4 @@
-<workflow-app xmlns = "uri:oozie:workflow:0.4" name = "cs-${crawlId}-${counter}">
+<workflow-app xmlns = "uri:oozie:workflow:0.4" name = "ps-${crawlId}-${counter}">
    <start to = "generate-job" />
 
    <action name = "generate-job">
@@ -9,7 +9,7 @@
            <arg>-crawlId</arg>
            <arg>${crawlId}</arg>
 	   <arg>-batchId</arg>
-	   <arg>${batchId}</arg>
+           <arg>${batchId}</arg>
            <capture-output />
        </java>
 
@@ -22,7 +22,7 @@
            <job-tracker>${jobTracker}</job-tracker>
            <name-node>${nameNode}</name-node>
            <main-class>org.apache.nutch.fetcher.FetcherJob</main-class>
-	   <arg>${batchId}</arg>
+           <arg>${batchId}</arg>
            <arg>-crawlId</arg>
            <arg>${crawlId}</arg>
            <capture-output />
@@ -37,7 +37,7 @@
            <job-tracker>${jobTracker}</job-tracker>
            <name-node>${nameNode}</name-node>
            <main-class>org.apache.nutch.parse.ParserJob</main-class>
-	   <arg>${batchId}</arg>
+           <arg>${batchId}</arg>
            <arg>-crawlId</arg>
            <arg>${crawlId}</arg>
            <capture-output />
@@ -51,7 +51,7 @@
            <job-tracker>${jobTracker}</job-tracker>
            <name-node>${nameNode}</name-node>
            <main-class>org.apache.nutch.crawl.DbUpdaterJob</main-class>
-	   <arg>${batchId}</arg>
+           <arg>${batchId}</arg>
            <arg>-crawlId</arg>
            <arg>${crawlId}</arg>
            <capture-output />
@@ -65,7 +65,7 @@
            <job-tracker>${jobTracker}</job-tracker>
            <name-node>${nameNode}</name-node>
            <main-class>org.apache.nutch.indexer.IndexingJob</main-class>
-	   <arg>${batchId}</arg>
+           <arg>${batchId}</arg>
            <arg>-crawlId</arg>
            <arg>${crawlId}</arg>
            <capture-output />
@@ -76,24 +76,24 @@
    </action>
 
    <decision name="loop-check">
-	<switch>
-	    <case to ="loop">
-		${counter lt 9}
-	    </case>
-	    <default to="end"/>
-	</switch>
+        <switch>
+            <case to ="loop">
+                ${counter lt 9}
+            </case>
+            <default to="end"/>
+        </switch>
    </decision>
 
    <action name="loop">
        <sub-workflow>
-           <app-path>${wf:appPath()}/../crawl-loop.xml</app-path>
+           <app-path>${wf:appPath()}/../pcrawl-loop.xml</app-path>
            <propagate-configuration/>
            <configuration>
                <property>
                    <name>counter</name>
                    <value>${counter + 1}</value>
                </property>
-               <property>
+	       <property>
                    <name>batchId</name>
                    <value>${crawlId}-${timestamp()}</value>
                </property>

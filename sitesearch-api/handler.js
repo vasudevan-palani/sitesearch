@@ -31,6 +31,7 @@ module.exports.search = website.search;
 module.exports.count = website.count;
 module.exports.analytics = analytics.analytics;
 module.exports.trialValidator = account.validateTrialAccounts;
+module.exports.suspendValidator = account.validateSuspendedAccounts;
 
 module.exports.config = website.config;
 module.exports.quote = account.quote;

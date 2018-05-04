@@ -122,7 +122,7 @@ module.exports.search = function(query, siteId, lang, fromIndex, size) {
   let signedRequest = aws4.sign(request);
   axios(request)
     .then((response) => {
-      metricHandler.sendMetricData(siteId);
+      metricHandler.updateRequestCount(siteId);
       let hits = [];
 
       let total = 0;
@@ -131,6 +131,10 @@ module.exports.search = function(query, siteId, lang, fromIndex, size) {
       }
       if (response.data.hits != null) {
         total = response.data.hits.total;
+
+        if(total == 0){
+          metricHandler.updateRequestZeroCount(siteId,query);
+        }
         response.data.hits.hits.forEach(hit => {
 
           hit._source.highlight = getHighLight(hit._source.content, hit._source.meta_description, query);

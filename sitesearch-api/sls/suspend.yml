@@ -1,0 +1,10 @@
+handler: handler.suspendValidator
+package:
+   artifact: ./sitesearch-api.zip
+events:
+      - schedule:
+            name: ${opt:stage}-suspend-scheduler
+            rate: cron(0/15 * * * ? *)
+            enabled: true
+            input:
+                request: {}

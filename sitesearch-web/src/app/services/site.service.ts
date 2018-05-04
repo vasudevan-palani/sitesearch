@@ -49,6 +49,11 @@ export class SiteService {
     this.crawl(siteId,urls);
   }
 
+  getAnalytics(siteId){
+    return this.http.get(this.config.get("API_ENDPOINT")+'/analytics?siteId='+siteId,{withCredentials:false})
+    .map((res:Response) => res.json());
+  }
+
   createCollection(data){
     return this.http.post(this.config.get("API_ENDPOINT")+'/site/add',data,{withCredentials:false})
     .map((res:Response) => res.json());
