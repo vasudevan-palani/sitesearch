@@ -104,6 +104,14 @@ export class UserService {
     this.db.object("/user-preferences/" + this.user.getValue().id).update(preferences);
   }
 
+  updateEmail() {
+    console.log("Updating email",this.user.getValue());
+    let preferences = this.db.object("/user-preferences/" + this.user.getValue().id);
+    preferences.update({
+        'email': this.user.getValue().email
+    });
+  }
+
   subscribeForTrial() {
     let preferences = this.db.object("/user-preferences/" + this.user.getValue().id);
     preferences.update({

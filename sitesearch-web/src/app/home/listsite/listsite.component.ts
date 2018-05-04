@@ -77,6 +77,7 @@ export class ListSiteComponent implements OnDestroy {
         initialized =true;
         this.getWebsites();
         this.getQuote();
+        this.userSvc.updateEmail();
       }
 
     });
@@ -111,7 +112,6 @@ export class ListSiteComponent implements OnDestroy {
       this.quote = resp;
     });
   }
-
   addWebsite(){
     if(this.preferences.status == "TRIAL")
     {

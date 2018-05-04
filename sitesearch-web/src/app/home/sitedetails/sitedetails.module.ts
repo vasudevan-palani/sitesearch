@@ -15,6 +15,7 @@ import { SitedetailsComponent } from 'app/home/sitedetails/sitedetails.component
 import { SiteOverviewComponent } from './siteoverview/siteoverview.component';
 import { SitePreviewComponent } from './sitepreview/sitepreview.component';
 import { SiteConfigComponent } from './site-config/site-config.component';
+import { AnalyticsComponent } from './analytics/analytics.component';
 
 const siteRoutes: Routes = [
   {
@@ -37,6 +38,10 @@ const siteRoutes: Routes = [
       {
         path : 'preview',
         component : SitePreviewComponent
+      },
+      {
+        path : 'analytics',
+        component : AnalyticsComponent
       }
     ]
   }
@@ -47,7 +52,8 @@ const siteRoutes: Routes = [
     SitePreviewComponent,
     SiteOverviewComponent,
     SitedetailsComponent,
-    SiteConfigComponent
+    SiteConfigComponent,
+    AnalyticsComponent
   ],
   exports : [
     RouterModule

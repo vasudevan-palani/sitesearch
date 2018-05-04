@@ -52,7 +52,7 @@ module.exports.quote = function(userId){
         //Get the page count
         //
         counts.push(website.count(websiteKey));
-        searchRequests.push(metric.getMetricData(websiteKey));
+        searchRequests.push(metric.getRequestCount(websiteKey));
       }
 
     });

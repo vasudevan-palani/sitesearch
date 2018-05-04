@@ -2,7 +2,8 @@ handler: handler.quote
 package:
    artifact: ./sitesearch-api.zip
 environment:
-   MetricsTable: ${opt:stage}-sitesearch-metrics
+    RequestCountTable: ${opt:stage}-sitesearch-request-count
+    RequestZeroResultsTable: ${opt:stage}-sitesearch-request-zero
 events:
       - schedule:
             name: ${opt:stage}-quote-api-warmer
