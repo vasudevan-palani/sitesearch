@@ -16,6 +16,8 @@ export class PaymentListComponent implements OnInit {
 
   public charges : any;
 
+  public error : any;
+
   constructor(
     private userSvc: UserService,
     private pymtSvc: PaymentService
