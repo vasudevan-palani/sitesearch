@@ -37,6 +37,7 @@ functions:
   charge: ${file(./sls/charge.yml)}
   customer: ${file(./sls/customer.yml)}
   crawl: ${file(./sls/crawl.yml)}
+  pcrawl: ${file(./sls/pcrawl.yml)}
   recrawlSetup: ${file(./sls/recrawlSetup.yml)}
   recrawl: ${file(./sls/recrawl.yml)}
   trial: ${file(./sls/trial.yml)}

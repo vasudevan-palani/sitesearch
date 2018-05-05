@@ -85,6 +85,6 @@
       }
   ],
   "ServiceRole": "EMR_DefaultRole",
-  "Name" : "Sitesearch-RECRAWL"
+  "Name" : "Sitesearch-PCRAWL"
 
 }

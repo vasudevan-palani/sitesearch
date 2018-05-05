@@ -23,6 +23,7 @@ module.exports.customer = stripe.customer;
 module.exports.webhook = stripe.webhook;
 
 module.exports.crawl = crawl.crawl;
+module.exports.pcrawl = crawl.pcrawl;
 module.exports.recrawlSetup = recrawl.recrawlSetup;
 module.exports.recrawl = recrawl.recrawl;
 

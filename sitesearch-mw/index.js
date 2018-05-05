@@ -17,6 +17,8 @@ winston.level = "debug";
 
 var WebHDFS = require('webhdfs');
 
+var crawldb = require('./mongo');
+
 
 var payments = require("./payments/payments.js");
 
@@ -103,6 +105,23 @@ var updateJobStatus = function(id, status, queueName) {
                 'status': websitestatus,
                 'lastCrawlTime': Date.now()
               });
+
+
+              // Add pcrawls if required
+              //
+              if(queueName == "pcrawlq"){
+                crawldb.getPendingCount(siteKey).then(count => {
+                  if(count > 0){
+                    db.ref("/pcrawlq").push({
+                      'status': "SCHEDULED",
+                      'siteKey': siteKey,
+                      'crawlTime' : Date.now(),
+                      'crearted' : Date.now()
+                    });
+                  }
+                });                
+              }
+
 
               // Move the crawls to hist
               //

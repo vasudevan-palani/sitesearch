@@ -26,10 +26,14 @@
         "mapreduce.framework.name": "yarn",
         "mapreduce.job.user.classpath.first": "true",
         "mapreduce.map.cpu.vcores" : "1",
-        "mapreduce.map.memory.mb" : "1024",
+        "mapreduce.map.memory.mb" : "2048",
         "mapreduce.reduce.cpu.vcores" : "1",
-        "mapreduce.reduce.memory.mb" : "1024",
-        "mapreduce.task.io.sort.mb" : "512"
+        "mapreduce.reduce.memory.mb" : "2048",
+        "mapreduce.task.io.sort.mb" : "512",
+	"mapreduce.map.java.opts" : "-Xmx2048m",
+	"mapreduce.reduce.java.opts":"-Xmx2458m",
+	"gora.buffer.write.limit":"10",
+	"gora.buffer.read.limit":"10"
       }
     },
     {
@@ -81,7 +85,6 @@
       }
   ],
   "ServiceRole": "EMR_DefaultRole",
-  "ScaleDownBehavior": "TERMINATE_AT_TASK_COMPLETION",
   "Name" : "Sitesearch-CRAWL"
 
 }

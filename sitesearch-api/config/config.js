@@ -17,12 +17,11 @@ module.exports = {
   emr : {
     bucketName : 'sitesearch-emr-archives',
     crawlConfigFile : 'sitesearch-conf/emr-config-crawl-sdk.json',
+    pcrawlConfigFile : 'sitesearch-conf/emr-config-pcrawl-sdk.json',
     recrawlConfigFile : 'sitesearch-conf/emr-config-recrawl-sdk.json'
   },
   recrawl: {
-    basicPlanInMillSeconds:302400000,
-    standardPlanMillSeconds:604800000,
-    retryInMillSeconds:21600000
+    interval : 10870000
   },
   weborigin : 'http://sitesearch.svolve.com:4200'
 };

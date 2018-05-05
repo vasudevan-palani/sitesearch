@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+
+<property>
+  <name>generate.max.count</name>
+  <value>2000</value>
+  <description>The maximum number of urls in a single
+  fetchlist.  -1 if unlimited. The urls are counted according
+  to the value of the parameter generator.count.mode.
+  </description>
+</property>
+
+<property>
+  <name>db.max.outlinks.per.page</name>
+  <value>1000</value>
+  <description>The maximum number of outlinks that we'll process for a page.
+  If this value is nonnegative (>=0), at most db.max.outlinks.per.page outlinks
+  will be processed for a page; otherwise, all outlinks will be processed.
+  </description>
+</property>
+
+<property>
+  <name>db.fetch.interval.default</name>
+  <value>14400</value>
+  <description>The default number of seconds between re-fetches of a page (30 days).
+  </description>
+</property>
+
+<property>
+  <name>db.fetch.interval.max</name>
+  <value>14400</value>
+  <description>The maximum number of seconds between re-fetches of a page
+  (90 days). After this period every page in the db will be re-tried, no
+  matter what is its status.
+  </description>
+</property>
+
+</configuration>

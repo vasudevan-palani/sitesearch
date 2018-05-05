@@ -3,11 +3,7 @@ var q = require('q');
 var config = require('../config/config');
 var AWS = require('aws-sdk');
 
-var standardPlanMillSeconds = config.recrawl.standardPlanMillSeconds;
-
-var basicPlanInMillSeconds = config.recrawl.basicPlanInMillSeconds;
-
-var retryInMillSeconds = config.recrawl.retryInMillSeconds;
+var recrawlInterval = config.recrawl.interval;
 
 
 module.exports.recrawlSetup = function(){
@@ -22,16 +18,7 @@ module.exports.recrawlSetup = function(){
         if(website.lastCrawlTime == "None"){
           allUpdates.push(firebaseHandler.queueReCrawl(website));
         }
-        else if (website.planId == "basic-monthly" && website.status=="COMPLETED" && website.lastCrawlTime + basicPlanInMillSeconds < Date.now()){
-          allUpdates.push(firebaseHandler.queueReCrawl(website));
-        }
-        else if (website.planId == "standard-monthly" && website.status=="COMPLETED" && website.lastCrawlTime + standardPlanMillSeconds < Date.now()){
-          allUpdates.push(firebaseHandler.queueReCrawl(website));
-        }
-        else if (website.planId == "basic-monthly" && website.status=="FAILED" && website.lastCrawlTime + retryInMillSeconds < Date.now()){
-          allUpdates.push(firebaseHandler.queueReCrawl(website));
-        }
-        else if (website.planId == "standard-monthly" && website.status=="FAILED" && website.lastCrawlTime + retryInMillSeconds < Date.now()){
+        else if (website.lastCrawlTime + recrawlInterval < Date.now()){
           allUpdates.push(firebaseHandler.queueReCrawl(website));
         }
       });

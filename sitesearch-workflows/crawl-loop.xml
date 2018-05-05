@@ -78,7 +78,7 @@
    <decision name="loop-check">
 	<switch>
 	    <case to ="loop">
-		${counter lt 9}
+		${counter lt 49}
 	    </case>
 	    <default to="end"/>
 	</switch>
@@ -86,7 +86,7 @@
 
    <action name="loop">
        <sub-workflow>
-           <app-path>${wf:appPath()}/../crawl-loop.xml</app-path>
+           <app-path>${wf:appPath()}</app-path>
            <propagate-configuration/>
            <configuration>
                <property>

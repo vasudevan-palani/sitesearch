@@ -15,3 +15,19 @@ module.exports.crawl = (event, context, callback) => {
     }
   );
 }
+
+
+module.exports.pcrawl = (event, context, callback) => {
+  console.log("in pcrawl");
+  crawl.pcrawl().then(
+    data => {
+      console.log(data);
+      callback(null,data);
+    }
+  ).catch(
+    err => {
+      console.log(err);
+      callback(err,null);
+    }
+  );
+}

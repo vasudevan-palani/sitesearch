@@ -2,5 +2,9 @@
 <allocations>
   <queue name="oozielauncher">
     <maxRunningApps>2</maxRunningApps>
+    <weight>25</weight>
+  </queue>
+  <queue name="hadoop">
+    <weight>75</weight>
   </queue>
 </allocations>

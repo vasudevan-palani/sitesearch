@@ -70,6 +70,34 @@ var getCrawlQ = function(){
   return defer.promise;
 }
 
+var getPCrawlQ = function(){
+  console.log("in getPCrawlQ");
+  let defer = Q.defer();
+  getToken().then(accessToken => {
+    console.log("AccessToken", accessToken);
+    axios.get(config.firebase.url+"/pcrawlq.json?orderBy=\"status\"&equalTo=\"SCHEDULED\"",{
+      "headers" : {'Authorization':"Bearer "+accessToken}
+    }).then(resp => {
+      console.log(resp);
+      if(Object.keys(resp.data).length > 0){
+        console.log("Queue is of length",resp.data.length);
+        defer.resolve(resp.data);
+      }
+      else {
+        console.log("Q is empty");
+        defer.reject(resp.data);
+      }
+
+    })
+    .catch(err => {
+      console.log("Failed getting pcrawlQ "+website.siteKey);
+      defer.reject(err);
+    });
+  });
+
+  return defer.promise;
+}
+
 var getCompletedWebsites = function(){
   let defer = Q.defer();
   getToken().then(accessToken => {
@@ -292,6 +320,7 @@ var getWebsitesByUserId = function(userId){
 
 module.exports = {
   getCrawlQ : getCrawlQ,
+  getPCrawlQ : getPCrawlQ,
   getToken : getToken,
   getCompletedWebsites : getCompletedWebsites,
   queueReCrawl : queueReCrawl,
