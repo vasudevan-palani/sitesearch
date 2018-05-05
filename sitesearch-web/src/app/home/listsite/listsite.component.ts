@@ -88,7 +88,7 @@ export class ListSiteComponent implements OnDestroy {
 
       // Its a new user when preferences are null, enroll into trial
       //
-      if(preferences.status == undefined){
+      if(preferences.status == undefined && this.user && this.user.loginStatus == true){
         this.subscribeForTrial();
       }
 
