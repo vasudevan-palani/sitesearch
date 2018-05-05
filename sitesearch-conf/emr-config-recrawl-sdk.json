@@ -78,7 +78,7 @@
     {
          "ActionOnFailure": "CONTINUE",
          "HadoopJarStep": {
-            "Args": [ "/home/hadoop/onlyinmaster.sh","pcrawl" ],
+            "Args": [ "/home/hadoop/onlyinmaster.sh","recrawl" ],
             "Jar": "command-runner.jar"
          },
          "Name": "Command Runner"

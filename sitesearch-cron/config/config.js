@@ -12,7 +12,7 @@ module.exports = {
     apps : {
       clean : 'hdfs://hadoop-master:8020/user/hadoop/oozieapps/crawl/clean.xml',
       crawl : 'hdfs://hadoop-master:8020/user/hadoop/oozieapps/crawl',
-      recrawl : 'hdfs://hadoop-master:8020/user/hadoop/oozieapps/crawl/recrawl.xml'
+      recrawl : 'hdfs://hadoop-master:8020/user/hadoop/oozieapps/crawl/recrawl.xml',
       pcrawl : 'hdfs://hadoop-master:8020/user/hadoop/oozieapps/crawl/pcrawl.xml'
     }
   },

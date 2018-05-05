@@ -60,7 +60,7 @@ db.ref('/recrawlq').orderByChild("status").equalTo("SCHEDULED").once('value').th
             </property> \
             <property>  \
               <name>oozie.wf.application.path</name> \
-              <value>" + config.oozie.apps.recrawl + "</value> \
+              <value>" + config.oozie.apps.pcrawl + "</value> \
             </property> \
             </configuration>", {
               headers: {
