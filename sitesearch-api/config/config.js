@@ -21,7 +21,7 @@ module.exports = {
     recrawlConfigFile : 'sitesearch-conf/emr-config-recrawl-sdk.json'
   },
   recrawl: {
-    interval : 10870000
+    interval : 18000000
   },
   weborigin : 'http://sitesearch.svolve.com:4200'
 };
