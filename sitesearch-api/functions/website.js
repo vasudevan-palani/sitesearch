@@ -25,7 +25,8 @@ module.exports.search = (event, context, callback) => {
       callback(null,{
         'status' : { 'code' : 0 },
         'total' : res.total,
-        'results':res.hits
+        'results':res.hits,
+        'suggestions' :res.suggestions
       });
     }
   ).catch(err => {
