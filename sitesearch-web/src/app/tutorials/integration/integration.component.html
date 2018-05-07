@@ -28,17 +28,27 @@
     <tr>
       <td> lang </td>
       <td> No </td>
-      <td> Language filter to apply on the results. </td>
+      <td> Language filter to apply on the results. Defaults to search documents across all language </td>
     </tr>
     <tr>
       <td> from </td>
       <td> No </td>
-      <td> Start Index which is used for pagination. </td>
+      <td> Start Index in the search results. To be used with pagination of results. </td>
     </tr>
     <tr>
       <td> size </td>
       <td> No </td>
-      <td> Size which is used for pagination. </td>
+      <td> Number of search results returned. To be used with pagination of results along with from</td>
+    </tr>
+    <tr>
+      <td> highlight </td>
+      <td> No </td>
+      <td> Provides highlight for the matching text. Defaults to true. </td>
+    </tr>
+    <tr>
+      <td> suggest </td>
+      <td> No </td>
+      <td> Provides suggestions for spell check corrections. Defaults to true. </td>
     </tr>
   </table>
 <p> As the query string can contain special chars, ensure that its properly URL encoded before the request is submitted to the API. You can use the from and size query params for pagination of results. </p>
@@ -55,10 +65,27 @@
                 "url":"<url of the item>",
                 "meta_description":"meta description of the website",
                 "content":"<your content here>",
-                "lang":"en-US"
+                "lang":"en-US",
+                "highlight":{
+                  "content" : [
+                    "matching string with <em>highlight</em>",
+                    "another matching string with <em>highlight</em>"
+                  ],
+                  "title" : [
+                    "matching string with <em>highlight</em>"
+                  ],
+                  "meta_description" : [
+                    "matching string with <em>highlight</em>"
+                  ]
+                }
              }
           },
           .....
+       ],
+       suggestions : [
+        "test",
+        "taste",
+        ...
        ]
 
 

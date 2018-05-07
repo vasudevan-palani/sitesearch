@@ -49,7 +49,7 @@ var getHighLight = function(content, meta_description, query) {
   return highlight;
 }
 
-module.exports.search = function(query, siteId, lang, fromIndex, size) {
+module.exports.search = function(query, siteId, lang, fromIndex, size,highlight,suggest) {
   let defer = q.defer();
   if (query == null || query == undefined) {
     query = "*";
@@ -89,25 +89,31 @@ module.exports.search = function(query, siteId, lang, fromIndex, size) {
 
   params.query = queryObject;
 
-  params.highlight = {
-                        "fields": {
-                            "*": {}
+  if(highlight == true){
+    params.highlight = {
+                          "fields": {
+                              "*": {}
+                          }
+                      };
+  }
+
+  if(suggest == true){
+    params.suggest = {
+                        "content-suggest" : {
+                            "text" : query,
+                            "term" : {
+                                "field" : "content"
+                            }
+                        },
+                        "title-suggest" : {
+                            "text" : query,
+                            "term" : {
+                                "field" : "title"
+                            }
                         }
                     };
-  params.suggest = {
-                      "content-suggest" : {
-                          "text" : query,
-                          "term" : {
-                              "field" : "content"
-                          }
-                      },
-                      "title-suggest" : {
-                          "text" : query,
-                          "term" : {
-                              "field" : "title"
-                          }
-                      }
-                  };
+  }
+
 
   if (size != null) {
     params.size = size;

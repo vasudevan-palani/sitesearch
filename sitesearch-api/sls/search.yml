@@ -36,6 +36,8 @@ events:
                      from : false
                      lang : false
                      size : false
+                     highlight : false
+                     suggest : false
                  passThrough: WHEN_NO_TEMPLATES
                  template:
                    application/json: '

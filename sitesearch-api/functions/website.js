@@ -19,8 +19,17 @@ module.exports.search = (event, context, callback) => {
   let lang = event.params['querystring']['lang'];
   let fromIndex = event.params['querystring']['from'];
   let size = event.params['querystring']['size'];
+  let highlight = event.params['querystring']['highlight'];
+  let suggest = event.params['querystring']['suggest'];
 
-  website.search(query,siteId,lang,fromIndex,size).then(
+  if(highlight == undefined){
+    highlight = true;
+  }
+  if(suggest == undefined){
+    suggest = true;
+  }
+
+  website.search(query,siteId,lang,fromIndex,size,highlight,suggest).then(
     res => {
       callback(null,{
         'status' : { 'code' : 0 },
