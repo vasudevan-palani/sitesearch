@@ -9,9 +9,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import {SelectModule} from 'ng2-select';
-
+import { MarkdownModule } from 'ngx-md';
 import { TutorialsComponent } from 'app/tutorials/tutorials.component';
 import { GettingstartedComponent } from './gettingstarted/gettingstarted.component';
 import { JquerytutorialsComponent } from './jquerytutorials/jquerytutorials.component';
@@ -22,7 +22,7 @@ import { IntegrationComponent } from './integration/integration.component';
 
 const tutorialRoutes: Routes = [
   {
-    path: 'tutorials',
+    path: '',
     component: TutorialsComponent,
     children : [
       {
@@ -77,16 +77,18 @@ const tutorialRoutes: Routes = [
     Angular1tutorialsComponent,
     Angular24tutorialsComponent,
     ReacttutorialsComponent,
-    IntegrationComponent
+    IntegrationComponent,
+    TutorialsComponent
   ],
   exports : [
     RouterModule
   ],
   imports : [
-    BrowserModule,
+    CommonModule,
     FormsModule,
     NgbModule,
     SelectModule,
+    MarkdownModule.forRoot(),
     RouterModule.forChild(tutorialRoutes)
   ],
   providers: [UserService,SiteService]

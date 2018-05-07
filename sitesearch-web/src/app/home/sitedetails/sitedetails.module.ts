@@ -9,7 +9,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import {SelectModule} from 'ng2-select';
 import { SitedetailsComponent } from 'app/home/sitedetails/sitedetails.component';
 import { SiteOverviewComponent } from './siteoverview/siteoverview.component';
@@ -20,7 +20,7 @@ import { ChartModule } from 'angular-highcharts';
 
 const siteRoutes: Routes = [
   {
-    path: 'home/site',
+    path: '',
     component: SitedetailsComponent,
     children : [
       {
@@ -60,7 +60,7 @@ const siteRoutes: Routes = [
     RouterModule
   ],
   imports : [
-    BrowserModule,
+    CommonModule,
     ChartModule,
     FormsModule,
     NgbModule,

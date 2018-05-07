@@ -18,8 +18,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule, Routes } from '@angular/router';
 import { RecaptchaModule } from 'ng-recaptcha';
 
-import {HomeModule} from 'app/home/home.module';
-import {TutorialsModule} from 'app/tutorials/tutorials.module';
 import { MarkdownModule } from 'ngx-md';
 import {ConfigService} from 'app/services/config.service';
 import {PaymentService} from 'app/services/payment.service';
@@ -33,7 +31,6 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { DocumentationComponent } from 'app/documentation/documentation.component';
 import { DeveloperapiComponent } from './developerapi/developerapi.component';
 import { FeaturesComponent } from './features/features.component';
-import { TutorialsComponent } from './tutorials/tutorials.component';
 
 import { PricingComponent } from './pricing/pricing.component';
 import { CheckoutComponent } from './checkout/checkout.component';
@@ -134,13 +131,11 @@ const appRoutes: Routes = [
   },
   {
     path: 'tutorials',
-    component: TutorialsComponent ,
-    data :{
-      meta: {
-        title: 'Documentation',
-        description: 'Learn how to use sitesearch from svolve.com.'
-      }
-    }
+    loadChildren: 'app/tutorials/tutorials.module#TutorialsModule'
+  },
+  {
+    path: 'home',
+    loadChildren: 'app/home/home.module#HomeModule'
   },
   {
     path: 'pricing',
@@ -202,7 +197,6 @@ let loginproviders = {
     SignUpComponent,
     DeveloperapiComponent,
     FeaturesComponent,
-    TutorialsComponent,
     PricingComponent,
     CheckoutComponent,
     TrialComponent,
@@ -222,8 +216,6 @@ let loginproviders = {
     BrowserAnimationsModule,
     FormsModule,
     HttpModule,
-    HomeModule,
-    TutorialsModule,
     PaymentsModule,
     SidebarModule.forRoot(),
     Ng2Webstorage.forRoot(),
