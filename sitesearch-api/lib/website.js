@@ -89,6 +89,26 @@ module.exports.search = function(query, siteId, lang, fromIndex, size) {
 
   params.query = queryObject;
 
+  params.highlight = {
+                        "fields": {
+                            "*": {}
+                        }
+                    };
+  params.suggest = {
+                      "content-suggest" : {
+                          "text" : query,
+                          "term" : {
+                              "field" : "content"
+                          }
+                      },
+                      "title-suggest" : {
+                          "text" : query,
+                          "term" : {
+                              "field" : "title"
+                          }
+                      }
+                  };
+
   if (size != null) {
     params.size = size;
   }
@@ -136,16 +156,43 @@ module.exports.search = function(query, siteId, lang, fromIndex, size) {
           metricHandler.updateRequestZeroCount(siteId,query);
         }
         response.data.hits.hits.forEach(hit => {
-
-          hit._source.highlight = getHighLight(hit._source.content, hit._source.meta_description, query);
-
+          hit._source.highlight = hit.highlight;
           hits.push(hit._source);
         });
+
+
       }
+
+      let suggestions = [];
+
+      let responseData = response.data;
+
+      if(responseData && responseData.suggest && responseData.suggest["content-suggest"] &&  responseData.suggest["content-suggest"].length >0 &&
+          responseData.suggest["content-suggest"][0].options && responseData.suggest["content-suggest"][0].options.length > 0
+        )
+        {
+          responseData.suggest["content-suggest"][0].options.forEach(contentSuggestion => {
+            suggestions.push(contentSuggestion.text);
+          });
+        }
+
+        if(responseData.suggest && responseData.suggest["title-suggest"] &&  responseData.suggest["title-suggest"].length >0 &&
+            responseData.suggest["title-suggest"][0].options && responseData.suggest["title-suggest"][0].options.length > 0
+          )
+          {
+            responseData.suggest["title-suggest"][0].options.forEach(titleSuggestion => {
+              suggestions.push(titleSuggestion.text);
+            });
+          }
+
+
 
       defer.resolve({
         total: total,
-        hits: hits
+        hits: hits,
+        suggestions : suggestions.filter( (value, index, self) => {
+                          return self.indexOf(value) === index;
+                      })
       });
     })
     .catch((response) => {

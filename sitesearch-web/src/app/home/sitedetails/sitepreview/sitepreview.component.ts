@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SiteService } from 'app/services/site.service';
 import { ActivatedRoute } from '@angular/router';
 @Component({
@@ -13,6 +13,8 @@ export class SitePreviewComponent implements OnInit {
   public response: any;
   private siteid : string;
 
+  @ViewChild("searchform") searchform;
+
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       if(params['siteid']){
@@ -22,6 +24,7 @@ export class SitePreviewComponent implements OnInit {
   }
 
   search(data){
+    this.searchform.tag = data.tag;
     data.siteid = this.siteid;
     console.log(data);
     window["dataLayer"].push({'event':'test-event','data':data})
