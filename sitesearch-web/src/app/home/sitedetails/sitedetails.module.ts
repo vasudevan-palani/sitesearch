@@ -16,6 +16,7 @@ import { SiteOverviewComponent } from './siteoverview/siteoverview.component';
 import { SitePreviewComponent } from './sitepreview/sitepreview.component';
 import { SiteConfigComponent } from './site-config/site-config.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
+import { ChartModule } from 'angular-highcharts';
 
 const siteRoutes: Routes = [
   {
@@ -60,6 +61,7 @@ const siteRoutes: Routes = [
   ],
   imports : [
     BrowserModule,
+    ChartModule,
     FormsModule,
     NgbModule,
     SelectModule,
