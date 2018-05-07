@@ -4,6 +4,7 @@ import { MetaModule } from 'ng2-meta';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { RecaptchaFormsModule } from 'ng-recaptcha/forms';
 
 import { AppComponent } from './app.component';
 
@@ -214,6 +215,7 @@ let loginproviders = {
     MetaModule.forRoot(),
     BrowserModule,
     BrowserAnimationsModule,
+    RecaptchaFormsModule,
     FormsModule,
     HttpModule,
     PaymentsModule,
