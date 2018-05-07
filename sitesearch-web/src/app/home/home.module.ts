@@ -29,19 +29,43 @@ const homeRoutes: Routes = [
       },
       {
         path : 'list',
-        component : ListSiteComponent
+        component : ListSiteComponent,
+        data : {
+          meta: {
+            title: 'Sitesearch',
+            description: 'Sitesearch from svolve.com'
+          }
+        }
       },
       {
         path : 'new',
-        component : NewSiteComponent
+        component : NewSiteComponent,
+        data : {
+          meta: {
+            title: 'Sitesearch',
+            description: 'Sitesearch from svolve.com'
+          }
+        }
       },
       {
         path : 'payments',
-        component : PaymentListComponent
+        component : PaymentListComponent,
+        data : {
+          meta: {
+            title: 'Sitesearch',
+            description: 'Sitesearch from svolve.com'
+          }
+        }
       },
       {
         path : 'test',
-        component : TestSiteComponent
+        component : TestSiteComponent,
+        data : {
+          meta: {
+            title: 'Sitesearch',
+            description: 'Sitesearch from svolve.com'
+          }
+        }
       }
     ]
   }

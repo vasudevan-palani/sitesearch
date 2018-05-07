@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { MetaModule } from 'ng2-meta';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -53,19 +53,118 @@ import { TermsComponent } from './terms/terms.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 
 const appRoutes: Routes = [
-  { path: '', component : AppMainComponent },
-  { path: 'signup', component: SignUpComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'terms', component: TermsComponent },
-  { path: 'privacy', component: PrivacyComponent },
-  { path: 'documentation', component: DocumentationComponent },
-  { path: 'developerapi', component: DeveloperapiComponent },
-  { path: 'features', component: FeaturesComponent },
-  { path: 'tutorials', component: TutorialsComponent },
-  { path: 'pricing', component: PricingComponent },
-  { path: 'checkout', component: CheckoutComponent, canActivate : [ AuthGuard ] },
-  { path: 'trial', component: TrialComponent },
-  { path: 'summary', component: CheckoutSummaryComponent }
+  {
+    path: '',
+    component : AppMainComponent,
+    data :{
+      meta: {
+        title: 'Sitesearch',
+        description: 'Sitesearch from svolve.com'
+      }
+    }
+  },
+  { path: 'signup',
+    component: SignUpComponent,
+    data :{
+      meta: {
+        title: 'SignUp',
+        description: 'Signup to svolve.com'
+      }
+    }
+   },
+  {
+    path: 'login',
+    component: LoginComponent ,
+    data :{
+      meta: {
+        title: 'Login',
+        description: 'Login to svolve.com'
+      }
+    }
+  },
+  {
+    path: 'terms',
+    component: TermsComponent ,
+    data :{
+      meta: {
+        title: 'Terms and Conditions',
+        description: 'Sitesearch terms and conditions.'
+      }
+    }
+  },
+  {
+    path: 'privacy',
+    component: PrivacyComponent,
+    data :{
+      meta: {
+        title: 'Privacy policy',
+        description: 'Sitesearch privacy policy.'
+      }
+    }
+  },
+  {
+    path: 'documentation',
+    component: DocumentationComponent ,
+    data :{
+      meta: {
+        title: 'Documentation',
+        description: 'Learn how to use sitesearch from svolve.com.'
+      }
+    }
+  },
+  {
+    path: 'developerapi',
+    component: DeveloperapiComponent,
+    data :{
+      meta: {
+        title: 'Developer API',
+        description: 'Learn how to use sitesearch from svolve.com.'
+      }
+    }
+  },
+  {
+    path: 'features',
+    component: FeaturesComponent ,
+    data :{
+      meta: {
+        title: 'Documentation',
+        description: 'Learn how to use sitesearch from svolve.com.'
+      }
+    }
+  },
+  {
+    path: 'tutorials',
+    component: TutorialsComponent ,
+    data :{
+      meta: {
+        title: 'Documentation',
+        description: 'Learn how to use sitesearch from svolve.com.'
+      }
+    }
+  },
+  {
+    path: 'pricing',
+    component: PricingComponent ,
+    data :{
+      meta: {
+        title: 'Pricing',
+        description: 'Pricing for sitesearch from svolve.com.'
+      }
+    }
+  },
+  {
+    path: 'checkout',
+    component: CheckoutComponent,
+    canActivate : [ AuthGuard ]
+  },
+  {
+    path: 'trial',
+    component: TrialComponent
+  },
+  {
+    path: 'summary',
+    component: CheckoutSummaryComponent
+  }
 
 ];
 
@@ -118,6 +217,7 @@ let loginproviders = {
     NgbModule.forRoot(),
     MarkdownModule.forRoot(),
     RouterModule.forRoot(appRoutes),
+    MetaModule.forRoot(),
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,

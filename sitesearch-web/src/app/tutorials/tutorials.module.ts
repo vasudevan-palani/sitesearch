@@ -32,11 +32,23 @@ const tutorialRoutes: Routes = [
       },
       {
         path : 'gettingstarted',
-        component : GettingstartedComponent
+        component : GettingstartedComponent,
+        data : {
+          meta: {
+            title: 'Getting Started',
+            description: 'Learn how to use Sitesearch from svolve.com'
+          }
+        }
       },
       {
         path : 'integration',
-        component : IntegrationComponent
+        component : IntegrationComponent,
+        data : {
+          meta: {
+            title: 'Documentation - Integration',
+            description: 'Learn how to use Sitesearch from svolve.com'
+          }
+        }
       },
       {
         path : 'jquerytutorials',
