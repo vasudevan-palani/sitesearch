@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContactUsComponent implements OnInit {
 
+  public isSubmitInProgress: boolean;
+
   constructor() { }
 
   ngOnInit() {
