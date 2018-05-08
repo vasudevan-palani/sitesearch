@@ -5,7 +5,7 @@ var analytics = require("./functions/analytics.js");
 var stripe = require("./functions/stripe.js");
 var crawl = require("./functions/crawl.js");
 var recrawl = require("./functions/recrawl.js");
-
+var message = require("./functions/message.js");
 var account = require("./functions/account.js");
 
 module.exports.welcome = (event, context, callback) => {
@@ -37,3 +37,4 @@ module.exports.suspendValidator = account.validateSuspendedAccounts;
 module.exports.config = website.config;
 module.exports.quote = account.quote;
 module.exports.billing = stripe.billing;
+module.exports.message = message.sendMessage;

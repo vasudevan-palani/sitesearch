@@ -2,7 +2,46 @@ var email = require("../lib/email.js");
 var AWS = require('aws-sdk');
 var q = require('q');
 
-var sendMail=function(toEmail,templateName,subject){
+var sendMail=function(toEmail,body,subject){
+
+  let defer =  q.defer();
+
+  var params = {
+    Destination: {
+     ToAddresses: [
+        toEmail
+     ]
+    },
+    Message: {
+     Body: {
+      Text: {
+       Charset: "UTF-8",
+       Data: body
+      }
+     },
+     Subject: {
+      Charset: "UTF-8",
+      Data: subject
+     }
+   },
+    Source: "Support - svolve <support@svolve.com>",
+ };
+ let ses = new AWS.SES();
+ ses.sendEmail(params, function(err, data) {
+   if (err){
+     defer.reject(err);
+     console.log(err, err.stack);
+   }
+   else {
+     defer.resolve(data);
+     console.log(data);
+   }
+ });
+
+ return defer.promise;
+}
+
+var sendMailByTemplate=function(toEmail,templateName,subject){
 
   let defer =  q.defer();
 
@@ -41,10 +80,10 @@ var sendMail=function(toEmail,templateName,subject){
       Charset: "UTF-8",
       Data: subject
      }
-    }
-    Source: "support@svolve.com",
-    SourceArn: ""
+   },
+   Source: "Support - svolve <support@svolve.com>",
  };
+ let ses = new AWS.SES();
  ses.sendEmail(params, function(err, data) {
    if (err){
      defer.reject(err);
@@ -57,4 +96,9 @@ var sendMail=function(toEmail,templateName,subject){
  });
 
  return defer.promise;
+}
+
+module.exports ={
+  sendMail : sendMail,
+  sendMailByTemplate : sendMailByTemplate
 }

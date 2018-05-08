@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { UserService } from 'app/services/user.service';
 @Component({
   selector: 'app-contact-us',
   templateUrl: './contact-us.component.html',
@@ -8,14 +8,26 @@ import { Component, OnInit } from '@angular/core';
 export class ContactUsComponent implements OnInit {
 
   public isSubmitInProgress: boolean;
+  public showSentMessage: boolean;
 
-  constructor() { }
+  constructor(
+    private userSvc : UserService
+  ) { }
 
   ngOnInit() {
   }
 
   submit(data){
-    console.log(data);
+    this.isSubmitInProgress = true;
+    this.userSvc.sendMessage(data).subscribe(resp => {
+      this.isSubmitInProgress = false;
+      this.showSentMessage = true;
+      setTimeout(()=>{
+        this.showSentMessage = false;
+      },5000);
+    },err => {
+      this.isSubmitInProgress = false;
+    });
   }
 
 }

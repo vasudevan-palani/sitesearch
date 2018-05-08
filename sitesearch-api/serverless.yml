@@ -45,3 +45,4 @@ functions:
   config: ${file(./sls/config.yml)}
   quote: ${file(./sls/quote.yml)}
   billing: ${file(./sls/billing.yml)}
+  message: ${file(./sls/message.yml)}

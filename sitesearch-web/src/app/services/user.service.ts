@@ -96,6 +96,11 @@ export class UserService {
     .map((res:Response) => res.json());
   }
 
+  sendMessage(data){
+    return this.http.post(environment.API_ENDPOINT+'/message',data,{withCredentials:false})
+    .map((res:Response) => res.json());
+  }
+
   activateAccount(customerId){
     let preferences = {
         status: 'ACTIVE',
