@@ -15,7 +15,7 @@
     {
       "Name": "Custom Action",
        "ScriptBootstrapAction" : {
-          "Path":"s3://sitesearch-emr-archives/emr-bootstrap.sh"
+          "Path":"s3://sitesearch-svolve-prod/emr-bootstrap.sh"
        }
     }
   ],

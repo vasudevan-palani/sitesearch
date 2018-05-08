@@ -1,90 +1,152 @@
 {
-  "Applications" : [
-    {
-      "Name":"Hadoop"
+  "Applications": [{
+      "Name": "Hadoop"
     },
     {
-      "Name":"Hue"
+      "Name": "Hue"
     },
     {
-      "Name":"Oozie"
+      "Name": "Oozie"
     }
   ],
   "AutoScalingRole": "EMR_AutoScaling_DefaultRole",
-  "BootstrapActions": [
-    {
-      "Name": "Custom Action",
-       "ScriptBootstrapAction" : {
-          "Path":"s3://sitesearch-emr-archives/emr-bootstrap.sh"
-       }
+  "BootstrapActions": [{
+    "Name": "Custom Action",
+    "ScriptBootstrapAction": {
+      "Path": "s3://sitesearch-svolve-prod/emr-bootstrap.sh"
     }
-  ],
-  "Configurations" : [
-    {
+  }],
+  "Configurations": [{
       "Classification": "mapred-site",
       "Properties": {
         "mapreduce.framework.name": "yarn",
         "mapreduce.job.user.classpath.first": "true",
-        "mapreduce.map.cpu.vcores" : "1",
-        "mapreduce.map.memory.mb" : "2048",
-        "mapreduce.reduce.cpu.vcores" : "1",
-        "mapreduce.reduce.memory.mb" : "2048",
-        "mapreduce.task.io.sort.mb" : "512",
-	"mapreduce.map.java.opts" : "-Xmx2048m",
-	"mapreduce.reduce.java.opts":"-Xmx2458m",
-	"gora.buffer.write.limit":"10",
-	"gora.buffer.read.limit":"10"
+        "mapreduce.map.cpu.vcores": "1",
+        "mapreduce.map.memory.mb": "2048",
+        "mapreduce.reduce.cpu.vcores": "1",
+        "mapreduce.reduce.memory.mb": "2048",
+        "mapreduce.task.io.sort.mb": "512",
+        "mapreduce.map.java.opts": "-Xmx2048m",
+        "mapreduce.reduce.java.opts": "-Xmx2458m",
+        "gora.buffer.write.limit": "10",
+        "gora.buffer.read.limit": "10"
       }
     },
     {
       "Classification": "yarn-site",
       "Properties": {
-        "yarn.scheduler.fair.allocation.file":"/home/hadoop/sitesearch-conf/yarn-queue.xml",
+        "yarn.scheduler.fair.allocation.file": "/home/hadoop/sitesearch-conf/yarn-queue.xml",
         "yarn.scheduler.fair.sizebasedweight": "true",
-        "yarn.nodemanager.aux-services":"mapreduce_shuffle",
-        "yarn.resourcemanager.scheduler.class":"org.apache.hadoop.yarn.server.resourcemanager.scheduler.fair.FairScheduler",
-        "yarn.app.mapreduce.am.resource.cpu-vcores" : "1",
-        "yarn.app.mapreduce.am.resource.mb" : "1024",
-        "yarn.scheduler.maximum-allocation-mb" : "4096",
-        "yarn.scheduler.increment-allocation-mb" : "512",
-        "yarn.scheduler.increment-allocation-vcores" : "1",
-        "yarn.scheduler.maximum-allocation-vcores" : "4"
+        "yarn.nodemanager.aux-services": "mapreduce_shuffle",
+        "yarn.resourcemanager.scheduler.class": "org.apache.hadoop.yarn.server.resourcemanager.scheduler.fair.FairScheduler",
+        "yarn.app.mapreduce.am.resource.cpu-vcores": "1",
+        "yarn.app.mapreduce.am.resource.mb": "1024",
+        "yarn.scheduler.maximum-allocation-mb": "4096",
+        "yarn.scheduler.increment-allocation-mb": "512",
+        "yarn.scheduler.increment-allocation-vcores": "1",
+        "yarn.scheduler.maximum-allocation-vcores": "4"
       }
     },
     {
       "Classification": "oozie-site",
       "Properties": {
-        "oozie.launcher.mapreduce.map.memory.mb":"1024",
-        "oozie.launcher.yarn.app.mapreduce.am.resource.mb":"1024",
-        "oozie.launcher.mapred.job.queue.name":"launcher"
+        "oozie.launcher.mapreduce.map.memory.mb": "1024",
+        "oozie.launcher.yarn.app.mapreduce.am.resource.mb": "1024",
+        "oozie.launcher.mapred.job.queue.name": "launcher"
       }
     }
   ],
   "EbsRootVolumeSize": 10,
-  "JobFlowRole" : "EMR_EC2_DefaultRole",
-  "Instances" : {
-    "Ec2KeyName":"AmazonKnowInMinutes",
-    "Ec2SubnetId":"subnet-07c10c2d",
-    "EmrManagedSlaveSecurityGroup":"sg-d93eb190",
-    "EmrManagedMasterSecurityGroup":"sg-573bb41e",
-    "AdditionalMasterSecurityGroups":["sg-9cea23d5"],
-    "InstanceCount" :3,
-    "MasterInstanceType":"m4.large",
-    "SlaveInstanceType":"m4.large"
-  },
-  "ReleaseLabel" : "emr-5.13.0",
-  "LogUri" : "s3n://aws-logs-181568341745-us-east-1/elasticmapreduce/",
-  "Steps" : [
-    {
-         "ActionOnFailure": "CONTINUE",
-         "HadoopJarStep": {
-            "Args": [ "/home/hadoop/onlyinmaster.sh","crawl" ],
-            "Jar": "command-runner.jar"
-         },
-         "Name": "Command Runner"
+  "JobFlowRole": "EMR_EC2_DefaultRole",
+  "Instances": {
+    "Ec2KeyName": "AmazonKnowInMinutes",
+    "Ec2SubnetId": "subnet-07c10c2d",
+    "EmrManagedSlaveSecurityGroup": "sg-d93eb190",
+    "EmrManagedMasterSecurityGroup": "sg-573bb41e",
+    "AdditionalMasterSecurityGroups": ["sg-9cea23d5"],
+    "InstanceGroups": [{
+      "InstanceCount": 2,
+      "InstanceRole": "CORE",
+      "InstanceType": "m4.large",
+      "AutoScalingPolicy": {
+        "Constraints": {
+          "MaxCapacity": 10,
+          "MinCapacity": 2
+        },
+        "Rules": [{
+            "Name": "Default-scale-out",
+            "Trigger": {
+              "CloudWatchAlarmDefinition": {
+                "MetricName": "YARNMemoryAvailablePercentage",
+                "Unit": "PERCENT",
+                "Namespace": "AWS/ElasticMapReduce",
+                "Threshold": 30,
+                "Dimensions": [{
+                  "Key": "JobFlowId",
+                  "Value": "${emr.clusterId}"
+                }],
+                "EvaluationPeriods": 1,
+                "Period": 300,
+                "ComparisonOperator": "LESS_THAN",
+                "Statistic": "AVERAGE"
+              }
+            },
+            "Description": "",
+            "Action": {
+              "SimpleScalingPolicyConfiguration": {
+                "CoolDown": 300,
+                "AdjustmentType": "CHANGE_IN_CAPACITY",
+                "ScalingAdjustment": 1
+              }
+            }
+          },
+          {
+            "Name": "Default-scale-in",
+            "Trigger": {
+              "CloudWatchAlarmDefinition": {
+                "MetricName": "YARNMemoryAvailablePercentage",
+                "Unit": "PERCENT",
+                "Namespace": "AWS/ElasticMapReduce",
+                "Threshold": 75,
+                "Dimensions": [{
+                  "Key": "JobFlowId",
+                  "Value": "${emr.clusterId}"
+                }],
+                "EvaluationPeriods": 1,
+                "Period": 300,
+                "ComparisonOperator": "GREATER_THAN",
+                "Statistic": "AVERAGE"
+              }
+            },
+            "Description": "",
+            "Action": {
+              "SimpleScalingPolicyConfiguration": {
+                "CoolDown": 300,
+                "AdjustmentType": "CHANGE_IN_CAPACITY",
+                "ScalingAdjustment": -1
+              }
+            }
+          }
+        ]
       }
-  ],
+    },
+    {
+      "InstanceCount": 1,
+      "InstanceRole": "MASTER",
+      "InstanceType": "m4.large"
+    }]
+  },
+  "ReleaseLabel": "emr-5.13.0",
+  "LogUri": "s3n://aws-logs-181568341745-us-east-1/elasticmapreduce/",
+  "Steps": [{
+    "ActionOnFailure": "CONTINUE",
+    "HadoopJarStep": {
+      "Args": ["/home/hadoop/onlyinmaster.sh", "crawl"],
+      "Jar": "command-runner.jar"
+    },
+    "Name": "Command Runner"
+  }],
   "ServiceRole": "EMR_DefaultRole",
-  "Name" : "Sitesearch-CRAWL"
-
+  "Name": "Sitesearch-CRAWL",
+  "VisibleToAllUsers":true
 }

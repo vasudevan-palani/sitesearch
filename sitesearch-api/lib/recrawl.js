@@ -48,6 +48,23 @@ module.exports.recrawl = function(){
       console.log(err,data.Body.toString());
       if(data != null && data.Body != null){
         let config = JSON.parse(data.Body.toString());
+
+        if(config && config.Instances && config.Instances.InstanceGroups &&
+          config.Instances.InstanceGroups.length > 0 && queueList.length > 3){
+            console.log("queueList > 3");
+            let instanceGroups = config.Instances.InstanceGroups;
+            instanceGroups.forEach(group => {
+              if(group.InstanceRole == "CORE"){
+                group.InstanceCount = queueList.length/2;
+                group.AutoScalingPolicy.Constraints.MaxCapacity = queueList.length + 1;
+                console.log("group config",group);
+              }
+            });
+
+            config.Instances.InstanceGroups = instanceGroups;
+            console.log("instance group config",instanceGroups);
+          }
+
         emr.runJobFlow(config, (err,data)=>{
           if(err != null){
             console.log("JobFlow creation failed ", err)

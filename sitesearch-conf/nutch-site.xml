@@ -13,7 +13,7 @@
 
 <property>
   <name>db.max.outlinks.per.page</name>
-  <value>1000</value>
+  <value>100</value>
   <description>The maximum number of outlinks that we'll process for a page.
   If this value is nonnegative (>=0), at most db.max.outlinks.per.page outlinks
   will be processed for a page; otherwise, all outlinks will be processed.
@@ -29,11 +29,47 @@
 
 <property>
   <name>db.fetch.interval.max</name>
-  <value>14400</value>
+  <value>2628000</value>
   <description>The maximum number of seconds between re-fetches of a page
   (90 days). After this period every page in the db will be re-tried, no
   matter what is its status.
   </description>
+</property>
+
+<property>
+  <name>http.agent.name</name>
+  <value>Mozilla/5.0 (compatible; Googlebot/2.1;+http://www.google.com/bot.html)
+  </value>
+</property>
+
+<property>
+  <name>plugin.includes</name>
+  <value>protocol-http|language-identifier|urlfilter-regex|parse-(html|tika|metatags)|index-(basic|anchor|metadata)|urlnormalizer-(pass|regex|basic)|scoring-opic|indexer-aws</value>
+</property>
+
+<property>
+  <name>storage.data.store.class</name>
+  <value>org.apache.gora.mongodb.store.MongoStore</value>
+</property>
+
+<property>
+  <name>index.metadata</name>
+  <value>description,keywords,og:url,og:image,og:site_name,og:type,og:title,og:description;og:locale</value>
+</property>
+
+<property>
+  <name>plugin.folders</name>
+  <value>/home/hadoop/plugins</value>
+</property>
+
+<property>
+  <name>aws.endpoint</name>
+  <value>search-sitesearch-prod-ef5brjrpuzcqee3jbd3wbzgqbe.us-east-1.es.amazonaws.com</value>
+</property>
+
+<property>
+  <name>aws.profile</name>
+  <value>personal</value>
 </property>
 
 </configuration>
