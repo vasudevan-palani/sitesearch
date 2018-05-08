@@ -1,6 +1,5 @@
 var firebaseHandler = require("../lib/firebase.js");
 var q = require('q');
-var config = require('../config/config');
 var AWS = require('aws-sdk');
 var website = require("../lib/website.js");
 var metric = require("../lib/metric.js")

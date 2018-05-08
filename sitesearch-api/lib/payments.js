@@ -1,4 +1,3 @@
-var config = require('../config/config');
 var Q = require('q');
 
 var stripe = require("stripe")(

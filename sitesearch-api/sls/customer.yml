@@ -1,6 +1,7 @@
 handler: handler.customer
 package:
    artifact: ./sitesearch-api.zip
+environment: ${file(./sls/${opt:stage}.yml)}
 events:
       - schedule:
             name: ${opt:stage}-customer-api-warmer

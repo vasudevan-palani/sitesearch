@@ -1,6 +1,7 @@
 handler: handler.pcrawl
 package:
    artifact: ./sitesearch-api.zip
+environment: ${file(./sls/${opt:stage}.yml)}
 events:
       - schedule:
             name: ${opt:stage}-pcrawl-scheduler

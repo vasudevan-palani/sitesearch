@@ -1,6 +1,7 @@
 handler: handler.charge
 package:
    artifact: ./sitesearch-api.zip
+environment: ${file(./sls/${opt:stage}.yml)}
 events:
       - schedule:
             name: ${opt:stage}-charge-api-warmer

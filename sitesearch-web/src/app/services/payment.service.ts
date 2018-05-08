@@ -9,6 +9,7 @@ import 'rxjs/add/operator/first';
 import { SiteStatus } from 'app/defs/sitestatus';
 import { ServiceResponse } from 'app/defs/serviceresponse';
 import { Subject } from 'rxjs/Subject';
+import { environment } from 'environments/environment';
 @Injectable()
 export class PaymentService {
   constructor (
@@ -19,13 +20,13 @@ export class PaymentService {
 
 
   list(token,customerid) {
-    return this.http.get(this.config.get("API_ENDPOINT")+'/cards?token='+token+'&customerid='+customerid,{withCredentials:false})
+    return this.http.get(environment.API_ENDPOINT+'/cards?token='+token+'&customerid='+customerid,{withCredentials:false})
     .map((res:Response) => res.json());
   }
 
 
   getCharges(customerid) {
-    return this.http.get(this.config.get("API_ENDPOINT")+'/invoices?customerid='+customerid,{withCredentials:false})
+    return this.http.get(environment.API_ENDPOINT+'/invoices?customerid='+customerid,{withCredentials:false})
     .map((res:Response) => res.json().results);
   }
 
@@ -44,7 +45,7 @@ export class PaymentService {
     else {
       data["email"] = user.email;
     }
-    return this.http.post(this.config.get("API_ENDPOINT")+'/charge',data,{withCredentials:false})
+    return this.http.post(environment.API_ENDPOINT+'/charge',data,{withCredentials:false})
     .map((res:Response) => res.json());
   }
 
@@ -53,7 +54,7 @@ export class PaymentService {
   */
   details(customerId) {
     if(customerId){
-      return this.http.get(this.config.get("API_ENDPOINT")+'/customer?customerid='+customerId,{withCredentials:false})
+      return this.http.get(environment.API_ENDPOINT+'/customer?customerid='+customerId,{withCredentials:false})
       .map((res:Response) => res.json());
     }
     return null;

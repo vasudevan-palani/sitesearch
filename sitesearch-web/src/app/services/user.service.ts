@@ -10,6 +10,8 @@ import * as firebase from 'firebase/app';
 import { User } from 'app/defs/User';
 import { UserPreferences } from 'app/defs/UserPreferences'
 import {UserAccountStatus} from 'app/defs/UserAccountStatus'
+import { environment } from 'environments/environment';
+
 @Injectable()
 export class UserService {
 
@@ -90,7 +92,7 @@ export class UserService {
   }
 
   getQuote(){
-    return this.http.get(this.config.get("API_ENDPOINT")+'/quote?userId='+this.user.getValue().id,{withCredentials:false})
+    return this.http.get(environment.API_ENDPOINT+'/quote?userId='+this.user.getValue().id,{withCredentials:false})
     .map((res:Response) => res.json());
   }
 

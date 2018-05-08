@@ -1,4 +1,3 @@
-var config = require('../config/config');
 var metricHandler = require('../lib/metric.js');
 var firebaseHandler = require('../lib/firebase.js');
 var axios = require('axios');

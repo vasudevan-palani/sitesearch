@@ -1,6 +1,5 @@
 
 var firebaseHandler = require('./firebase.js');
-var config = require('../config/config');
 var q = require('q');
 
 var AWS = require('aws-sdk');
@@ -16,8 +15,8 @@ var crawl = function(){
 
     let s3 = new AWS.S3();
     s3.getObject({
-      "Bucket" : config.emr.bucketName,
-      "Key" : config.emr.crawlConfigFile
+      "Bucket" : process.env.s3BucketName,
+      "Key" : process.env.crawlConfigFile
     },(err,data)=>{
       console.log(err,data.Body.toString());
       if(data != null && data.Body != null){
@@ -51,8 +50,8 @@ var pcrawl = function(){
 
     let s3 = new AWS.S3();
     s3.getObject({
-      "Bucket" : config.emr.bucketName,
-      "Key" : config.emr.pcrawlConfigFile
+      "Bucket" : process.env.s3BucketName,
+      "Key" : process.env.pcrawlConfigFile
     },(err,data)=>{
       console.log(err,data.Body.toString());
       if(data != null && data.Body != null){

@@ -1,4 +1,3 @@
-var config = require('../config/config');
 var q = require('q');
 
 var AWS = require('aws-sdk');
@@ -165,6 +164,8 @@ module.exports.getRequestZeroResultsCount = function(siteId){
 module.exports.getPageCountByHost = function(siteId){
   let defer = q.defer();
 
+  let esHost = process.env.esHost;
+
   let params = {
     "size": 0,
     "aggs": {
@@ -176,7 +177,7 @@ module.exports.getPageCountByHost = function(siteId){
     }
   };
 
-  let awsurl = "http://" + config.aws.host;
+  let awsurl = "http://" + esHost;
 
   awsurl = awsurl + "/" + siteId + "/_search"
 
@@ -184,10 +185,10 @@ module.exports.getPageCountByHost = function(siteId){
   awspath = "/" + siteId + "/_search"
 
   let request = {
-    host: config.aws.host,
+    host: esHost,
     path: awspath,
-    service: config.aws.service,
-    region: config.aws.region
+    service: process.env.esService,
+    region: process.env.esRegion
   }
   request.method = 'POST';
   request.url = awsurl;
@@ -220,6 +221,8 @@ module.exports.getPageCountByHost = function(siteId){
 module.exports.getPageCountByLanguage = function(siteId){
   let defer = q.defer();
 
+  let esHost = process.env.esHost;
+
   let params = {
     "size": 0,
     "aggs": {
@@ -231,7 +234,7 @@ module.exports.getPageCountByLanguage = function(siteId){
     }
   };
 
-  let awsurl = "http://" + config.aws.host;
+  let awsurl = "http://" + esHost;
 
   awsurl = awsurl + "/" + siteId + "/_search"
 
@@ -239,10 +242,10 @@ module.exports.getPageCountByLanguage = function(siteId){
   awspath = "/" + siteId + "/_search"
 
   let request = {
-    host: config.aws.host,
+    host: esHost,
     path: awspath,
-    service: config.aws.service,
-    region: config.aws.region
+    service: process.env.esService,
+    region: process.env.esRegion
   }
   request.method = 'POST';
   request.url = awsurl;

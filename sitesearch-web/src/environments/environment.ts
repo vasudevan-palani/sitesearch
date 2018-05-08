@@ -5,6 +5,7 @@
 
 export const environment = {
   production: false,
+  API_ENDPOINT : "https://devapi.sitesearch.svolve.com",
   firebase : {
     apiKey: "AIzaSyALwIRzd8-0tACUGay3xa0gaT6dXoED8yQ",
     authDomain: "opensearch-2a0db.firebaseapp.com",

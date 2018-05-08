@@ -1,5 +1,4 @@
 'use strict';
-var config = require('../config/config');
 var Q = require('q');
 var google = require("googleapis");
 var axios = require('axios');
@@ -8,7 +7,7 @@ var getToken = function(){
   let defer = Q.defer();
 
   // Load the service account key JSON file.
-  var serviceAccount = require("../opensearch-2a0db-firebase-adminsdk-c87oh-80d58a586e.json");
+  var serviceAccount = require("../"+process.env.firebaseServiceAccount);
 
   // Define the required scopes.
   var scopes = [
@@ -47,7 +46,7 @@ var getCrawlQ = function(){
   let defer = Q.defer();
   getToken().then(accessToken => {
     console.log("AccessToken", accessToken);
-    axios.get(config.firebase.url+"/crawlq.json?orderBy=\"status\"&equalTo=\"SCHEDULED\"",{
+    axios.get(process.env.firebaseUrl+"/crawlq.json?orderBy=\"status\"&equalTo=\"SCHEDULED\"",{
       "headers" : {'Authorization':"Bearer "+accessToken}
     }).then(resp => {
       console.log(resp);
@@ -75,7 +74,7 @@ var getPCrawlQ = function(){
   let defer = Q.defer();
   getToken().then(accessToken => {
     console.log("AccessToken", accessToken);
-    axios.get(config.firebase.url+"/pcrawlq.json?orderBy=\"status\"&equalTo=\"SCHEDULED\"",{
+    axios.get(process.env.firebaseUrl+"/pcrawlq.json?orderBy=\"status\"&equalTo=\"SCHEDULED\"",{
       "headers" : {'Authorization':"Bearer "+accessToken}
     }).then(resp => {
       console.log(resp);
@@ -104,7 +103,7 @@ var getCompletedWebsites = function(){
     console.log(accessToken);
       let request = {};
       request.method= 'GET';
-      request.url= config.firebase.url+"/websites.json?orderBy=\"status\"&equalTo=\"COMPLETED\"";
+      request.url= process.env.firebaseUrl+"/websites.json?orderBy=\"status\"&equalTo=\"COMPLETED\"";
       request.headers = {'Authorization':"Bearer "+accessToken};
       axios(request).then(resp => {
         console.log("Succesfully retrived websites",resp.data);
@@ -124,11 +123,11 @@ var queueReCrawl = function(website){
     console.log("queueReCrawl accessToken",accessToken,website);
 
 
-      axios.get(config.firebase.url+"/recrawlq.json?orderBy=\"siteKey\"&equalTo=\""+website.id+"\"",{
+      axios.get(process.env.firebaseUrl+"/recrawlq.json?orderBy=\"siteKey\"&equalTo=\""+website.id+"\"",{
         "headers" : {'Authorization':"Bearer "+accessToken}
       }).then(resp => {
         if(Object.keys(resp.data).length == 0){
-          axios.post(config.firebase.url+"/recrawlq.json",{
+          axios.post(process.env.firebaseUrl+"/recrawlq.json",{
             'siteKey' : website.id,
             'created' : Date.now(),
             'crawlTime' : Date.now(),
@@ -163,7 +162,7 @@ var queueReCrawl = function(website){
 var getReCrawlQ = function(){
   let defer = Q.defer();
   getToken().then(accessToken => {
-    axios.get(config.firebase.url+"/recrawlq.json?&orderBy=\"status\"&equalTo=\"SCHEDULED\"",{
+    axios.get(process.env.firebaseUrl+"/recrawlq.json?&orderBy=\"status\"&equalTo=\"SCHEDULED\"",{
       "headers" : {'Authorization':"Bearer "+accessToken}
     }).then(resp => {
       console.log(resp);
@@ -188,7 +187,7 @@ var getReCrawlQ = function(){
 var getUserAccounts = function(){
   let defer = Q.defer();
   getToken().then(accessToken => {
-    axios.get(config.firebase.url+"/user-preferences.json",{
+    axios.get(process.env.firebaseUrl+"/user-preferences.json",{
       "headers" : {'Authorization':"Bearer "+accessToken}
     }).then(resp => {
       console.log(resp);
@@ -213,7 +212,7 @@ var getUserAccounts = function(){
 var getActiveCustomers = function(){
   let defer = Q.defer();
   getToken().then(accessToken => {
-    axios.get(config.firebase.url+"/user-preferences.json?orderBy=\"status\"&equalTo=\"ACTIVE\"",{
+    axios.get(process.env.firebaseUrl+"/user-preferences.json?orderBy=\"status\"&equalTo=\"ACTIVE\"",{
       "headers" : {'Authorization':"Bearer "+accessToken}
     }).then(resp => {
       console.log(resp);
@@ -249,7 +248,7 @@ var updateAccountStatus = function(userId,status){
     updates.deactivationDate = Date.now();
   }
   getToken().then(accessToken => {
-    axios.patch(config.firebase.url+"/user-preferences/"+userId+".json",updates,{
+    axios.patch(process.env.firebaseUrl+"/user-preferences/"+userId+".json",updates,{
       "headers" : {'Authorization':"Bearer "+accessToken}
     }).then(resp => {
       defer.resolve(resp);
@@ -267,7 +266,7 @@ var updateAccountStatus = function(userId,status){
 var updateAccountNextChargeDate = function(userId){
   let defer = Q.defer();
   getToken().then(accessToken => {
-    axios.patch(config.firebase.url+"/user-preferences/"+userId+".json",{'nextChargeDate':Date.now()+2628000000},{
+    axios.patch(process.env.firebaseUrl+"/user-preferences/"+userId+".json",{'nextChargeDate':Date.now()+2628000000},{
       "headers" : {'Authorization':"Bearer "+accessToken}
     }).then(resp => {
       defer.resolve(resp);
@@ -285,7 +284,7 @@ var updateAccountNextChargeDate = function(userId){
 var getWebsite = function(siteId){
   let defer = Q.defer();
   getToken().then(accessToken => {
-    axios.get(config.firebase.url+"/websites/"+siteId+".json",{
+    axios.get(process.env.firebaseUrl+"/websites/"+siteId+".json",{
       "headers" : {'Authorization':"Bearer "+accessToken}
     }).then(resp => {
       console.log("success",resp);
@@ -303,7 +302,7 @@ var getWebsite = function(siteId){
 var getWebsitesByUserId = function(userId){
   let defer = Q.defer();
   getToken().then(accessToken => {
-    axios.get(config.firebase.url+"/websites.json?orderBy=\"userId\"&equalTo=\""+userId+"\"",{
+    axios.get(process.env.firebaseUrl+"/websites.json?orderBy=\"userId\"&equalTo=\""+userId+"\"",{
       "headers" : {'Authorization':"Bearer "+accessToken}
     }).then(resp => {
       console.log("success",resp);

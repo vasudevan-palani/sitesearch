@@ -1,9 +1,7 @@
 handler: handler.analytics
 package:
    artifact: ./sitesearch-api.zip
-environment:
-   RequestCountTable: ${opt:stage}-sitesearch-request-count
-   RequestZeroResultsTable: ${opt:stage}-sitesearch-request-zero
+environment: ${file(./sls/${opt:stage}.yml)}
 events:
       - schedule:
             name: ${opt:stage}-analytics-api-warmer

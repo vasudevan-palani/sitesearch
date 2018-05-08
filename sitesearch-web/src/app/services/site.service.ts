@@ -8,7 +8,7 @@ import 'rxjs/add/operator/first';
 import { SiteStatus } from 'app/defs/sitestatus';
 import { ServiceResponse } from 'app/defs/serviceresponse';
 import { Subject } from 'rxjs/Subject';
-
+import { environment } from 'environments/environment';
 import { Deferred } from '../defs/deferred';
 
 @Injectable()
@@ -50,17 +50,17 @@ export class SiteService {
   }
 
   getAnalytics(siteId){
-    return this.http.get(this.config.get("API_ENDPOINT")+'/analytics?siteId='+siteId,{withCredentials:false})
+    return this.http.get(environment.API_ENDPOINT+'/analytics?siteId='+siteId,{withCredentials:false})
     .map((res:Response) => res.json());
   }
 
   createCollection(data){
-    return this.http.post(this.config.get("API_ENDPOINT")+'/site/add',data,{withCredentials:false})
+    return this.http.post(environment.API_ENDPOINT+'/site/add',data,{withCredentials:false})
     .map((res:Response) => res.json());
   }
 
   deleteCollection(data){
-    return this.http.post(this.config.get("API_ENDPOINT")+'/site/delete',data,{withCredentials:false})
+    return this.http.post(environment.API_ENDPOINT+'/site/delete',data,{withCredentials:false})
     .map((res:Response) => res.json());
   }
 
@@ -95,14 +95,14 @@ export class SiteService {
   }
 
   getPages(siteKey,from,size) {
-    return this.http.get(this.config.get("API_ENDPOINT")+'/pages?from='+from+'&siteId='+siteKey+"&size="+size,{withCredentials:false})
+    return this.http.get(environment.API_ENDPOINT+'/pages?from='+from+'&siteId='+siteKey+"&size="+size,{withCredentials:false})
     .map((res:Response) => res.json())
     .toPromise();
   }
 
   search(data) {
     console.log(data);
-    return this.http.get(this.config.get("API_ENDPOINT")+'/search?q='+data.tag+'&siteId='+data.siteid,{withCredentials:false})
+    return this.http.get(environment.API_ENDPOINT+'/search?q='+data.tag+'&siteId='+data.siteid,{withCredentials:false})
     .map((res:Response) => res.json());
   }
 
@@ -118,7 +118,7 @@ export class SiteService {
   }
   private _getPageCount(data) {
     console.log(data);
-    return this.http.get(this.config.get("API_ENDPOINT")+'/count?siteId='+data.$key,{withCredentials:false})
+    return this.http.get(environment.API_ENDPOINT+'/count?siteId='+data.$key,{withCredentials:false})
     .map((res:Response) => {
       var jsonResponse = res.json();
       console.log(jsonResponse);
@@ -136,7 +136,7 @@ export class SiteService {
   }
 
   updateConfig(siteId){
-    return this.http.post(this.config.get("API_ENDPOINT")+'/config',{'siteId':siteId},{withCredentials:false})
+    return this.http.post(environment.API_ENDPOINT+'/config',{'siteId':siteId},{withCredentials:false})
     .map((res:Response) => {
       var jsonResponse = res.json();
       return jsonResponse;

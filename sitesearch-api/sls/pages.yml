@@ -1,7 +1,7 @@
 handler: handler.pages
 package:
    artifact: ./sitesearch-api.zip
-environment:
+environment: ${file(./sls/${opt:stage}.yml)}
 
 events:
       - schedule:

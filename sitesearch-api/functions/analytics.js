@@ -1,4 +1,3 @@
-var config = require('../config/config');
 var metric = require('../lib/metric.js');
 var axios = require('axios');
 var aws4 = require('aws4');

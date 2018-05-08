@@ -5,6 +5,7 @@ sitesearch-cron/node_modules/
 sitesearch-nutch/build/
 sitesearch-oozie/build/
 **/opensearch*.json
+**/sitesearch*.json
 .ftpconfig
 */nohup.out
 sitesearch-web/dist

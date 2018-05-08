@@ -1,9 +1,8 @@
 var firebaseHandler = require("../lib/firebase.js");
 var q = require('q');
-var config = require('../config/config');
 var AWS = require('aws-sdk');
 
-var recrawlInterval = config.recrawl.interval;
+var recrawlInterval = parseInt(process.env.recrawlInterval);
 
 
 module.exports.recrawlSetup = function(){
@@ -43,8 +42,8 @@ module.exports.recrawl = function(){
 
     let s3 = new AWS.S3();
     s3.getObject({
-      "Bucket" : config.emr.bucketName,
-      "Key" : config.emr.recrawlConfigFile
+      "Bucket" : process.env.s3BucketName,
+      "Key" : process.env.recrawlConfigFile
     },(err,data)=>{
       console.log(err,data.Body.toString());
       if(data != null && data.Body != null){

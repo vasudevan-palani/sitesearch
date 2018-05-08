@@ -1,6 +1,5 @@
 var q = require('q');
 var metricHandler = require('../lib/metric.js');
-var config = require('../config/config');
 var axios = require('axios');
 var aws4 = require('aws4');
 var AWS = require('aws-sdk');
@@ -50,6 +49,7 @@ var getHighLight = function(content, meta_description, query) {
 }
 
 module.exports.search = function(query, siteId, lang, fromIndex, size,highlight,suggest) {
+  console.log(process.env);
   let defer = q.defer();
   if (query == null || query == undefined) {
     query = "*";
@@ -125,7 +125,7 @@ module.exports.search = function(query, siteId, lang, fromIndex, size,highlight,
 
   params._source = ["title", "url", "content", "lang", "meta_description"];
 
-  let awsurl = "http://" + config.aws.host;
+  let awsurl = "http://" + process.env.esHost;
 
   awsurl = awsurl + "/" + siteId + "/_search"
 
@@ -133,10 +133,10 @@ module.exports.search = function(query, siteId, lang, fromIndex, size,highlight,
   awspath = "/" + siteId + "/_search"
 
   let request = {
-    host: config.aws.host,
+    host: process.env.esHost,
     path: awspath,
-    service: config.aws.service,
-    region: config.aws.region
+    service: process.env.esService,
+    region: process.env.esRegion
   }
   request.method = 'POST';
   request.url = awsurl;
@@ -216,7 +216,7 @@ module.exports.count = function(siteId) {
 
   let params = {};
 
-  let awsurl = "http://" + config.aws.host;
+  let awsurl = "http://" + process.env.esHost;
 
   awsurl = awsurl + "/" + siteId + "/_count"
 
@@ -224,10 +224,10 @@ module.exports.count = function(siteId) {
   awspath = "/" + siteId + "/_count"
 
   let request = {
-    host: config.aws.host,
+    host: process.env.esHost,
     path: awspath,
-    service: config.aws.service,
-    region: config.aws.region
+    service: process.env.esService,
+    region: process.env.esRegion
   }
   request.method = 'POST';
   request.url = awsurl;
@@ -264,7 +264,7 @@ module.exports.pages = function(from, size, siteId) {
     "_source": ["url"]
   };
 
-  let awsurl = "http://" + config.aws.host;
+  let awsurl = "http://" + process.env.esHost;
 
   awsurl = awsurl + "/" + siteId + "/_search";
 
@@ -272,10 +272,10 @@ module.exports.pages = function(from, size, siteId) {
   awspath = "/" + siteId + "/_search";
 
   let request = {
-    host: config.aws.host,
+    host: process.env.esHost,
     path: awspath,
-    service: config.aws.service,
-    region: config.aws.region
+    service: process.env.esService,
+    region: process.env.esRegion
   }
   request.method = 'POST';
   request.url = awsurl;

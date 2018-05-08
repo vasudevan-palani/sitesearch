@@ -1,0 +1,12 @@
+esHost: search-sitesearch-prod-ef5brjrpuzcqee3jbd3wbzgqbe.us-east-1.es.amazonaws.com
+esRegion: us-east-1
+esService: es
+RequestCountTable: ${opt:stage}-sitesearch-request-count
+RequestZeroResultsTable: ${opt:stage}-sitesearch-request-zero
+firebaseUrl: https://sitesearch-prod.firebaseio.com
+s3BucketName: sitesearch-svolve-prod
+recrawlInterval: 18000000
+crawlConfigFile: 'sitesearch-conf/emr-config-crawl-sdk.json'
+pcrawlConfigFile: 'sitesearch-conf/emr-config-pcrawl-sdk.json'
+recrawlConfigFile: 'sitesearch-conf/emr-config-recrawl-sdk.json'
+firebaseServiceAccount: sitesearch-prod-firebase-adminsdk-u5ygp-f6bf1bc9f5.json

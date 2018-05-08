@@ -21,7 +21,7 @@ provider:
   name: aws
   runtime: nodejs6.10
   timeout: 60
-
+custom: ${file(./sls/${opt:stage}.yml)}
 package:
   individually: true
 

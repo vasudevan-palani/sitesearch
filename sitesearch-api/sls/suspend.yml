@@ -1,6 +1,7 @@
 handler: handler.suspendValidator
 package:
    artifact: ./sitesearch-api.zip
+environment: ${file(./sls/${opt:stage}.yml)}
 events:
       - schedule:
             name: ${opt:stage}-suspend-scheduler
