@@ -1,0 +1,45 @@
+<div class="card m-lg-3 m-md-1 ml-lg-5 mr-lg-5 ml-md-5 mr-md-5">
+  <div class="card-header card-primary">
+    <h4>Contact us</h4>
+  </div>
+  <div class="card-block">
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 p-4">
+        <h4> Get in Touch </h4>
+        <p> Please fill out the quick form and we will be in touch with lightning speed.</p>
+        <form #contactform="ngForm" (ngSubmit)="submit(contactform.value)">
+          <div class="form-group">
+            <label>Name</label>
+            <input class="form-control" type="text" name="name" #name="ngModel" [(ngModel)]="contactform.name" required/>
+            <div *ngIf="name?.errors && (name.dirty || name.touched)">
+              <p class="validation-error" [hidden]="!name.errors.required">Name is required</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input class="form-control" type="email" #email="ngModel" name="email" [(ngModel)]="contactform.email" required email/>
+            <div *ngIf="email?.errors && (email.dirty || email.touched)">
+              <p class="validation-error" [hidden]="!email.errors.required">Email is required</p>
+              <p class="validation-error" [hidden]="email.errors.required || !email.errors.email">Email is invalid</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea placeholder="Comments...." class="form-control" name="message" #message="ngModel" [(ngModel)]="contactform.message" required url></textarea>
+            <div *ngIf="message?.errors && (message.dirty || message.touched)">
+              <p class="validation-error" [hidden]="!message.errors.required">Message is required</p>
+            </div>
+          </div>
+          <div class="form-group">
+              <button type="submit" class="btn btn-primary" [disabled]="!contactform.form.valid"><i *ngIf="isSubmitInProgress" class="fa fa-spinner fa-spin"></i> Submit </button>
+          </div>
+        </form>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 p-4">
+        <h4> Connect with us</h4>
+        <p> For any support or any questions:</p>
+        <p> Email us at <a href="mailTo:support@svolve.com">support@svolve.com</a> </p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -49,6 +49,8 @@ import { environment } from 'environments/environment';
 import { PricingDetailsComponent } from './pricing/pricing-details/pricing-details.component';
 import { TermsComponent } from './terms/terms.component';
 import { PrivacyComponent } from './privacy/privacy.component';
+import { AboutUsComponent } from './about-us/about-us.component';
+import { ContactUsComponent } from './contact-us/contact-us.component';
 
 const appRoutes: Routes = [
   {
@@ -61,6 +63,24 @@ const appRoutes: Routes = [
       }
     }
   },
+  { path: 'aboutus',
+    component: AboutUsComponent,
+    data :{
+      meta: {
+        title: 'About Us',
+        description: 'About svolve.com'
+      }
+    }
+   },
+   { path: 'contactus',
+     component: ContactUsComponent,
+     data :{
+       meta: {
+         title: 'Contact Us',
+         description: 'Contact us for support and help.'
+       }
+     }
+    },
   { path: 'signup',
     component: SignUpComponent,
     data :{
@@ -206,7 +226,9 @@ let loginproviders = {
     StandardplanComponent,
     PricingDetailsComponent,
     TermsComponent,
-    PrivacyComponent
+    PrivacyComponent,
+    AboutUsComponent,
+    ContactUsComponent
   ],
   imports: [
     NgbModule.forRoot(),
