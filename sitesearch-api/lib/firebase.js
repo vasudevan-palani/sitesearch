@@ -262,6 +262,45 @@ var updateAccountStatus = function(userId,status){
 
   return defer.promise;
 }
+var subscribeForTrial = function(userId,email){
+  let defer = Q.defer();
+  getToken().then(accessToken => {
+    axios.get(process.env.firebaseUrl+"/user-preferences/"+userId+".json",{
+      "headers" : {'Authorization':"Bearer "+accessToken}
+    }).then(resp => {
+      console.log(resp.data);
+      if(resp.data && resp.data.status && resp.data.status == 'ACTIVE'){
+        defer.reject("user already active");
+      }
+      else {
+        axios.patch(process.env.firebaseUrl+"/user-preferences/"+userId+".json",{
+          'email' : email,
+          'status': 'TRIAL',
+          'trial': {
+            startDate: Date.now(),
+            endDate: (new Date()).setTime((new Date()).getTime() + 24 * 7 * 60 * 60 * 1000)
+          }
+        },{
+          "headers" : {'Authorization':"Bearer "+accessToken}
+        })
+        .then(trialResp => {
+          defer.resolve(trialResp);
+        })
+        .catch(err=> {
+          defer.reject(err);
+        });
+      }
+      defer.resolve(resp);
+      console.log("success");
+    })
+    .catch(err => {
+      console.log("Failed updating account status "+userId,err);
+      defer.reject(err);
+    });
+  });
+
+  return defer.promise;
+}
 
 var activateAccount = function(userId,customerId){
   let defer = Q.defer();
@@ -344,6 +383,7 @@ var getWebsitesByUserId = function(userId){
 module.exports = {
   getCrawlQ : getCrawlQ,
   getPCrawlQ : getPCrawlQ,
+  subscribeForTrial : subscribeForTrial,
   getToken : getToken,
   getCompletedWebsites : getCompletedWebsites,
   queueReCrawl : queueReCrawl,

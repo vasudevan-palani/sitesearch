@@ -148,7 +148,9 @@ export class ListSiteComponent implements OnDestroy {
   }
 
   subscribeForTrial(){
-    this.userSvc.subscribeForTrial();
+    this.userSvc.subscribeForTrial().subscribe(resp => {
+      console.log(resp);
+    });
   }
 
   getPaymentDetails(){
