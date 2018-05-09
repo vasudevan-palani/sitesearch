@@ -29,15 +29,17 @@ export class AppHeaderComponent {
 
   public _opened: boolean = false;
 
-  @LocalStorage()
-  loginstatus: boolean;
+  public loginStatus: boolean;
 
   constructor(public userSvc: UserService, private router: Router) {
     this.user = userSvc.user;
   }
 
   ngOnInit() {
-
+    this.userSvc.user.subscribe(user => {
+      this.loginStatus = user.loginStatus;
+      console.log(this.loginStatus);
+    })
   }
 
   public _toggleSidebar(sidebar:any) {
