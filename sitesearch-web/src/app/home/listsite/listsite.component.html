@@ -48,6 +48,9 @@
                 </div>
               </div>
               <div class="card-block p-1 p-md-2 p-lg-4">
+                <div class="text-center" *ngIf="sites.length == 0">
+                  <a class="btn btn-round btn-success" href="javascript:void(0);" (click)="addWebsite()"><i class="fa fa-plus"></i> Add a website.</a>
+                </div>
                 <div class="row">
                   <ng-container *ngFor="let site of sites;let i = index">
                   <div class="col-lg-1 col-md-12 col-sm-12 col-xs-12"></div>

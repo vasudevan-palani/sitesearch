@@ -46,3 +46,4 @@ functions:
   quote: ${file(./sls/quote.yml)}
   billing: ${file(./sls/billing.yml)}
   message: ${file(./sls/message.yml)}
+  subscribeForTrial: ${file(./sls/subscribeForTrial.yml)}

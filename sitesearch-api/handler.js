@@ -33,6 +33,7 @@ module.exports.count = website.count;
 module.exports.analytics = analytics.analytics;
 module.exports.trialValidator = account.validateTrialAccounts;
 module.exports.suspendValidator = account.validateSuspendedAccounts;
+module.exports.subscribeForTrial = account.subscribeForTrial;
 
 module.exports.config = website.config;
 module.exports.quote = account.quote;

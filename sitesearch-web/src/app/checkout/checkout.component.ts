@@ -89,13 +89,14 @@ export class CheckoutComponent implements OnInit {
     this.userSvc.getToken().then(token => {
         this.pymtSvc.charge(token, {
           email:this.user.email,
+          userId : this.user.id,
           customerId:this.preferences.customerId},
           this.selectedCard.id, this.plan.id).subscribe(response => {
           if (response.status.code == 0) {
             //Tx is succcess
             //
             this.isPaymentProgress = false;
-            this.updateStatus(response);
+            //this.updateStatus(response);
             this.router.navigate(["/home/list"]);
           }
         });
@@ -109,6 +110,7 @@ export class CheckoutComponent implements OnInit {
     this.userSvc.getToken().then(token => {
         this.pymtSvc.charge(token, {
           email:this.user.email,
+          userId : this.user.id,
           customerId:this.preferences.customerId},
           newCardToken,
           this.plan.id).subscribe(response => {

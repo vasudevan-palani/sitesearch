@@ -120,15 +120,25 @@ export class UserService {
   }
 
   subscribeForTrial() {
-    let preferences = this.db.object("/user-preferences/" + this.user.getValue().id);
-    preferences.set({
-        'email' : this.user.getValue().email,
-        'status': 'TRIAL',
-        'trial': {
-          startDate: Date.now(),
-          endDate: (new Date()).setTime((new Date()).getTime() + 24 * 7 * 60 * 60 * 1000)
-        }
-    });
+    // let preferences = this.db.object("/user-preferences/" + this.user.getValue().id);
+    // preferences.set({
+    //     'email' : this.user.getValue().email,
+    //     'status': 'TRIAL',
+    //     'trial': {
+    //       startDate: Date.now(),
+    //       endDate: (new Date()).setTime((new Date()).getTime() + 24 * 7 * 60 * 60 * 1000)
+    //     }
+    // });
+    console.log("subscribeForTrial received", this.user);
+    if(this.user.getValue().id != undefined){
+      console.log("subscribeForTrial received");
+      let data = {
+        userId : this.user.getValue().id,
+        email : this.user.getValue().email
+      }
+      return this.http.post(environment.API_ENDPOINT+'/subscribeForTrial',data,{withCredentials:false})
+      .map((res:Response) => res.json());
+    }
   }
 
   mapUser(firebaseuser: any): User {

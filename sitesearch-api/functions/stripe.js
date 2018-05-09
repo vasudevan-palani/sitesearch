@@ -85,12 +85,22 @@ var charge = (event, context, callback) => {
 
   payments.createCustomer(request).then((response) => {
       console.log("created customer successfully", response);
-      callback(null, {
-        'status': {
-          'code': 0
-        },
-        'results': response
+      firebase.activateAccount(request.userId,response.customerid).then(resp => {
+        callback(null, {
+          'status': {
+            'code': 0
+          },
+          'results': response
+        });
+      })
+      .catch(err => {
+        callback(null, {
+          'status': {
+            'code': -1
+          }
+        });
       });
+
     })
     .catch((error) => {
       console.log(error);
@@ -146,7 +156,7 @@ var billing = (event, context, callback) => {
           console.log(" quote for customer ", customerKey, quote);
           payments.createCharge(customers[customerKey].customerId, quote.charge,customers[customerKey].email).then(resp => {
             firebase.updateAccountNextChargeDate(customerKey).catch(err => {
-              console.log("Customer payment success, but updating nextChargeDate failed", err);
+              console.log("Customer payment success, but updating nextChargeDate failed", err,customerKey,customers[customerKey],quote);
             });
           }).catch(paymentFailure => {
             //Suspend the account
