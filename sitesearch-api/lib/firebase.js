@@ -263,6 +263,30 @@ var updateAccountStatus = function(userId,status){
   return defer.promise;
 }
 
+var activateAccount = function(userId,customerId){
+  let defer = Q.defer();
+  let updates = {'status' : "ACTIVE"};
+
+  updates.activationDate = Date.now();
+
+  updates.customerId = customerId;
+
+  getToken().then(accessToken => {
+    axios.patch(process.env.firebaseUrl+"/user-preferences/"+userId+".json",updates,{
+      "headers" : {'Authorization':"Bearer "+accessToken}
+    }).then(resp => {
+      defer.resolve(resp);
+      console.log("success");
+    })
+    .catch(err => {
+      console.log("Failed updating account status "+userId,err);
+      defer.reject(err);
+    });
+  });
+
+  return defer.promise;
+}
+
 var updateAccountNextChargeDate = function(userId){
   let defer = Q.defer();
   getToken().then(accessToken => {
@@ -324,6 +348,7 @@ module.exports = {
   getCompletedWebsites : getCompletedWebsites,
   queueReCrawl : queueReCrawl,
   getReCrawlQ : getReCrawlQ,
+  activateAccount : activateAccount,
   getUserAccounts : getUserAccounts,
   updateAccountStatus : updateAccountStatus,
   getWebsite : getWebsite,

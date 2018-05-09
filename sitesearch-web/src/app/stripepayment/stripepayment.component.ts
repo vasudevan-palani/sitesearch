@@ -27,7 +27,7 @@ export class StripepaymentComponent implements OnInit {
   }
 
   purchase(order){
-
+    this.isPaymentProgress = true;
     (<any>window).Stripe.card.createToken({
       number: order.ccnumber,
       exp_month: order.exp_month,
@@ -37,6 +37,7 @@ export class StripepaymentComponent implements OnInit {
 
 	  // Wrapping inside the Angular zone
       this._zone.run(() => {
+        this.isPaymentProgress = false;
         if (status === 200) {
           this.tokenReceived.emit(response.id);
         } else {
