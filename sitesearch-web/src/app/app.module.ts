@@ -58,8 +58,8 @@ const appRoutes: Routes = [
     component : AppMainComponent,
     data :{
       meta: {
-        title: 'Sitesearch',
-        description: 'Sitesearch from svolve.com'
+        title: 'Site Search by Svolve',
+        description: 'Site Search by Svolve | Powerful site search solution for websites'
       }
     }
   },
