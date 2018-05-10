@@ -5,10 +5,10 @@
         <h4>Website : {{site?.name}}</h4>
       </div>
       <div class="col-lg-6 col-md-6 col-12 text-right">
-        <a class="card-header-right-icon" routerLinkActive="active" [routerLink]="['/home/site/overview']" [queryParams]="{'siteid':site?.$key}"><i class="fa fa-flag-o"> </i>  Overview</a>
-        <a class="card-header-right-icon" routerLinkActive="active" [routerLink]="['/home/site/config']" [queryParams]="{'siteid':site?.$key}"><i class="fa fa-gear"> </i> Config</a>
-        <a class="card-header-right-icon" routerLinkActive="active" [routerLink]="['/home/site/analytics']" [queryParams]="{'siteid':site?.$key}"><i class="fa fa-bar-chart"> </i>  Analytics</a>
-        <a class="card-header-right-icon" routerLinkActive="active" [routerLink]="['/home/site/preview']" [queryParams]="{'siteid':site?.$key}"><i class="fa fa-eye"> </i> Preview</a>
+        <a class="card-header-right-icon" routerLinkActive="active" [routerLink]="['/home/site/overview']" [queryParams]="{'siteid':site?.$key}"><i class="fa fa-flag-o"> </i>  <span class="hidden-xs-down">Overview</span></a>
+        <a class="card-header-right-icon" routerLinkActive="active" [routerLink]="['/home/site/config']" [queryParams]="{'siteid':site?.$key}"><i class="fa fa-gear"> </i> <span class="hidden-xs-down">Config</span></a>
+        <a class="card-header-right-icon" routerLinkActive="active" [routerLink]="['/home/site/analytics']" [queryParams]="{'siteid':site?.$key}"><i class="fa fa-bar-chart"> </i>  <span class="hidden-xs-down">Analytics</span></a>
+        <a class="card-header-right-icon" routerLinkActive="active" [routerLink]="['/home/site/preview']" [queryParams]="{'siteid':site?.$key}"><i class="fa fa-eye"> </i> <span class="hidden-xs-down">Preview</span></a>
       </div>
     </div>
   </div>
