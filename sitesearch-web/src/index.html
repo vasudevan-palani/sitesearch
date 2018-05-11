@@ -1,81 +1,115 @@
 <!doctype html>
 <html lang="en">
+
 <head>
 
   <!-- Google Tag Manager -->
-  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','GTM-TZFQVMN');</script>
+  <script>
+    (function(w, d, s, l, i) {
+      w[l] = w[l] || [];
+      w[l].push({
+        'gtm.start': new Date().getTime(),
+        event: 'gtm.js'
+      });
+      var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s),
+        dl = l != 'dataLayer' ? '&l=' + l : '';
+      j.async = true;
+      j.src =
+        'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+      f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-TZFQVMN');
+  </script>
   <!-- End Google Tag Manager -->
 
   <meta charset="utf-8">
-  <title>Site Search - Svolve</title>
   <base href="/">
+  <title> Site Search by Svolve | Powerful site search solution for websites</title>
+
+  <meta name="description" content="Flexible and affordable Site Search for every website. Great Google Site Search alternative. Fast and easy setup to create great user search experience." />
+
+  <meta name="keywords" content="site search, site search solution, affordable onsite search, website search solution, sitesearch, google site search alternative" />
+
+  <meta property="og:url" content="https://sitesearch.svolve.com/ " />
+
+  <meta property="og:type" content="website" />
+
+  <meta property="og:site_name" content="Svolve Site Search" />
+
+  <meta property="og:title" content="Site Search by Svolve | Powerful site search solution for websites" />
+
+  <meta property="og:description" content="Flexible and affordable Site Search for every website. Great Google Site Search alternative. Fast and easy setup to create great user search experience.">
+
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism.min.css" rel="stylesheet" />
   <style type="text/css">
-      body, html {
-        height: 100%;
+    body,
+    html {
+      height: 100%;
+    }
+
+    .app-loading {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+
+    .app-loading .spinner {
+      height: 200px;
+      width: 200px;
+      animation: rotate 2s linear infinite;
+      transform-origin: center center;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+    }
+
+    .app-loading .spinner .path {
+      stroke-dasharray: 1, 200;
+      stroke-dashoffset: 0;
+      animation: dash 1.5s ease-in-out infinite;
+      stroke-linecap: round;
+      stroke: #ddd;
+    }
+
+    @keyframes rotate {
+      100% {
+        transform: rotate(360deg);
       }
-      .app-loading {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-      }
-      .app-loading .spinner {
-        height: 200px;
-        width: 200px;
-        animation: rotate 2s linear infinite;
-        transform-origin: center center;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        margin: auto;
-      }
-      .app-loading .spinner .path {
+    }
+
+    @keyframes dash {
+      0% {
         stroke-dasharray: 1, 200;
         stroke-dashoffset: 0;
-        animation: dash 1.5s ease-in-out infinite;
-        stroke-linecap: round;
-        stroke: #ddd;
       }
-      @keyframes rotate {
-        100% {
-          transform: rotate(360deg);
-        }
+      50% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -35px;
       }
-      @keyframes dash {
-        0% {
-          stroke-dasharray: 1, 200;
-          stroke-dashoffset: 0;
-        }
-        50% {
-          stroke-dasharray: 89, 200;
-          stroke-dashoffset: -35px;
-        }
-        100% {
-          stroke-dasharray: 89, 200;
-          stroke-dashoffset: -124px;
-        }
+      100% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -124px;
       }
-    </style>
+    }
+  </style>
 </head>
+
 <body class="container-fluid">
 
   <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TZFQVMN"
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TZFQVMN"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+  <!-- End Google Tag Manager (noscript) -->
 
 
   <app-root>
@@ -90,7 +124,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <script src="assets/config/app.js"></script>
   <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
   <script type="text/javascript">
-  Stripe.setPublishableKey('pk_test_e8JHtmbINNjiITAEcUyb77Fp');
+    Stripe.setPublishableKey('pk_test_e8JHtmbINNjiITAEcUyb77Fp');
   </script>
 </body>
+
 </html>
