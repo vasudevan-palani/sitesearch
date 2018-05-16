@@ -10,3 +10,4 @@ crawlConfigFile: 'sitesearch-conf/emr-config-crawl-sdk.json'
 pcrawlConfigFile: 'sitesearch-conf/emr-config-pcrawl-sdk.json'
 recrawlConfigFile: 'sitesearch-conf/emr-config-recrawl-sdk.json'
 firebaseServiceAccount: opensearch-2a0db-firebase-adminsdk-c87oh-80d58a586e.json
+stripeKey: sk_test_P4GXFh6a1i97ieWLSKpYsdt4

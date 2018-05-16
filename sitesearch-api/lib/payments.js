@@ -1,7 +1,7 @@
 var Q = require('q');
 
 var stripe = require("stripe")(
-  "sk_test_P4GXFh6a1i97ieWLSKpYsdt4"
+  process.env.stripeKey
 );
 
 function Payments(){
