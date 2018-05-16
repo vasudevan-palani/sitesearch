@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from 'app/services/user.service';
 import {LocalStorage, SessionStorage} from 'ngx-webstorage';
 import { Subject } from 'rxjs/Subject';
@@ -31,11 +31,16 @@ export class AppHeaderComponent {
 
   public loginStatus: boolean;
 
-  constructor(public userSvc: UserService, private router: Router) {
+  public ishomePage: boolean;
+
+  constructor(public userSvc: UserService, private router: Router,private route: ActivatedRoute) {
     this.user = userSvc.user;
   }
 
   ngOnInit() {
+    this.router.events.subscribe(val => {
+      this.ishomePage = this.router.url == "/";
+    });
     this.userSvc.user.subscribe(user => {
       this.loginStatus = user.loginStatus;
       console.log(this.loginStatus);
