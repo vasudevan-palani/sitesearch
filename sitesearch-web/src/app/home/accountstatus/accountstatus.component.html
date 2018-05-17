@@ -8,7 +8,7 @@
     <div *ngIf="preferences?.status == 'NEW'">
       <p>Please <a routerLink="/pricing">Activate</a> your account now. </p>
       <p>For your account to be active you need to choose a plan OR can opt for a FREE TRIAL for 7 days.</p>
-      <p>During Free Trial you can access all services/features of the site search.</p>
+      <p>During Free Trial you can access all services/features of the Site Search.</p>
     </div>
     <div *ngIf="preferences?.status == 'TRIAL'">
       <p>You are currently on FREE TRIAL From <strong>{{preferences?.trial.startDate | date:'mediumDate'}}</strong> To <strong>{{preferences?.trial.endDate | date:'mediumDate'}}</strong>.</p>

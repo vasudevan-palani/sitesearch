@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MetaModule } from 'ng2-meta';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RecaptchaFormsModule } from 'ng-recaptcha/forms';
@@ -60,7 +60,7 @@ const appRoutes: Routes = [
     component : AppMainComponent,
     data :{
       meta: {
-        title: 'Site Search by Svolve | Powerful site search solution for websites',
+        title: 'Site Search by Svolve | Powerful Site Search solution for websites',
         description: 'Powerful, Intuitive and Advanced Search to Your Site.'
       }
     }
@@ -201,22 +201,12 @@ let loginproviders = {
     }
   };
 
-//const firebaseconfig = window["config"]["app"]["firebase"];
-// const firebaseconfig = {
-//   // apiKey: "AIzaSyALwIRzd8-0tACUGay3xa0gaT6dXoED8yQ",
-//   // authDomain: "opensearch-2a0db.firebaseapp.com",
-//   // databaseURL: "https://opensearch-2a0db.firebaseio.com",
-//   // projectId: "opensearch-2a0db",
-//   // storageBucket: "opensearch-2a0db.appspot.com",
-//   // messagingSenderId: "710024249927"
-//
-//   apiKey: "AIzaSyBopDB2Pr8VhVgWL9w9X1xiUvtTuNzS9o4",
-//   authDomain: "svolve-ss.firebaseapp.com",
-//   databaseURL: "https://svolve-ss.firebaseio.com",
-//   projectId: "svolve-ss",
-//   storageBucket: "svolve-ss.appspot.com",
-//   messagingSenderId: "894505407110"
-// }
+export function initStripe(){
+  return () => {
+    console.log("Initialized Stripe with",environment.stripeKey);
+    (<any>window).Stripe.setPublishableKey(environment.stripeKey);
+  }
+}
 
 @NgModule({
   declarations: [
@@ -260,7 +250,12 @@ let loginproviders = {
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule
   ],
-  providers: [UserService,ConfigService,AngularFireDatabase,PaymentService,AuthGuard,LogService],
+  providers: [UserService,ConfigService,AngularFireDatabase,PaymentService,AuthGuard,LogService,{
+      provide: APP_INITIALIZER,
+      useFactory: initStripe,
+      multi: true,
+      deps: [/* your dependencies */]
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
