@@ -5,6 +5,7 @@ import {LocalStorage, SessionStorage} from 'ngx-webstorage';
 import { Subject } from 'rxjs/Subject';
 import { User } from 'app/defs/user';
 import {trigger, state, style, transition, animate} from '@angular/animations';
+import {DomSanitizer} from '@angular/platform-browser'
 
 @Component({
   selector: 'app-header',
@@ -33,13 +34,16 @@ export class AppHeaderComponent {
 
   public ishomePage: boolean;
 
-  constructor(public userSvc: UserService, private router: Router,private route: ActivatedRoute) {
+  public canonicalUrl: any;
+
+  constructor(public userSvc: UserService, private router: Router,private route: ActivatedRoute,private sanitizer:DomSanitizer) {
     this.user = userSvc.user;
   }
 
   ngOnInit() {
     this.router.events.subscribe(val => {
       this.ishomePage = this.router.url == "/";
+      this.canonicalUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://sitesearch.svolve.com/"+this.router.url);
     });
     this.userSvc.user.subscribe(user => {
       this.loginStatus = user.loginStatus;

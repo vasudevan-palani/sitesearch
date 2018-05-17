@@ -51,6 +51,8 @@ import { TermsComponent } from './terms/terms.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
+import { MoveToHeadDirective } from './move-to-head.directive';
+import { GssComponent } from './gss/gss.component';
 
 const appRoutes: Routes = [
   {
@@ -81,6 +83,15 @@ const appRoutes: Routes = [
        }
      }
     },
+    { path: 'gss',
+      component: GssComponent,
+      data :{
+        meta: {
+          title: 'Replacement for Google Site Search',
+          description: 'Svolve sitesearch as replacement for GSS.'
+        }
+      }
+     },
   { path: 'signup',
     component: SignUpComponent,
     data :{
@@ -228,7 +239,9 @@ let loginproviders = {
     TermsComponent,
     PrivacyComponent,
     AboutUsComponent,
-    ContactUsComponent
+    ContactUsComponent,
+    MoveToHeadDirective,
+    GssComponent
   ],
   imports: [
     NgbModule.forRoot(),

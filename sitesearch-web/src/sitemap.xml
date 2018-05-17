@@ -8,6 +8,12 @@
       <priority>0.8</priority>
    </url>
    <url>
+      <loc>https://sitesearch.svolve.com/gss</loc>
+      <lastmod>2018-05-07</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
       <loc>https://sitesearch.svolve.com/tutorials/gettingstarted</loc>
       <lastmod>2018-05-07</lastmod>
       <changefreq>weekly</changefreq>
