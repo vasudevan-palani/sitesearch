@@ -83,6 +83,16 @@ var charge = (event, context, callback) => {
 
   console.log(event);
 
+  if(request.userId == undefined){
+    callback(null, {
+      'status': {
+        'code': 0
+      },
+      'results': {}
+    });
+    return;
+  }
+
   payments.createCustomer(request).then((response) => {
       console.log("created customer successfully", response);
       firebase.activateAccount(request.userId,response.customerid).then(resp => {
