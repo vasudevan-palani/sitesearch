@@ -53,6 +53,10 @@ var sendMailByTemplate=function(toEmail,templateName,subject){
     'TrailExpired' : `Dear customer,
         Your account is currently suspended. Your trial period has expired. Kindly email support@svolve.com with your valid credit card details to continue the service.
     Thanks.
+    Svolve Team`,
+    'NewUser' : `Dear Svolve,
+        New user has signed up.
+    Thanks.
     Svolve Team`
   }
 

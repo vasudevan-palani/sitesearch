@@ -1,6 +1,7 @@
 
 var account = require("../lib/account.js");
 var firebase = require("../lib/firebase.js");
+var email = require("../lib/email.js");
 
 module.exports.validateTrialAccounts = (event, context, callback) => {
   account.validateTrialAccounts().then(
@@ -37,11 +38,21 @@ module.exports.subscribeForTrial = (event, context, callback) => {
     return;
   }
   let userId = event.request['userId'];
-  let email = event.request['email'];
+  let userEmail = event.request['email'];
 
-  firebase.subscribeForTrial(userId,email).then(
+  firebase.subscribeForTrial(userId,userEmail).then(
     data => {
-      callback(null,data);
+      email.sendMail("sitesearch.svolve@gmail.com","New user has signed up.","New user - "+userEmail).then(
+        data => {
+          console.log(data);
+          callback(null,data);
+        }
+      ).catch(
+        err => {
+          console.log(err);
+          callback(err,null);
+        }
+      );
     }
   )
   .catch(
