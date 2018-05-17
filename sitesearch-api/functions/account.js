@@ -33,7 +33,7 @@ module.exports.validateSuspendedAccounts = (event, context, callback) => {
 
 module.exports.subscribeForTrial = (event, context, callback) => {
 
-  if(!event.request){
+  if(!event.request || event.request.userId == undefined){
     callback(null,{'status' : { 'code' : "sitesearch/analytics/error" },'msg':'required fields empty'});
     return;
   }

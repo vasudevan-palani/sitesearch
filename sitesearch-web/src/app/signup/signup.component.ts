@@ -33,4 +33,16 @@ constructor(private userSvc : UserService,private router : Router){
     });
 	}
 
+  signIn(provider){
+    this.userSvc.loginWithGmail().then( data => {
+      this.handleRedirect();
+    });
+  }
+
+  private handleRedirect(){
+
+      console.log("Redirecting to HOME");
+      this.router.navigate(['/home']);
+  }
+
 }
