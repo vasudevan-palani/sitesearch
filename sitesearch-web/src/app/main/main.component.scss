@@ -5,6 +5,21 @@
   max-height: 300px;
 }
 
+.card-noborder {
+  border : none;
+  background-color: transparent;
+  .card-header {
+    border : none;
+    background-color: transparent;
+  }
+}
+
+.features-row {
+  background: blue;
+  color:white;
+  background: linear-gradient(to bottom,#555,#EEE)
+}
+
 .highlight {
   color: magenta;
 }

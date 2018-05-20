@@ -5,10 +5,37 @@ import { PaymentService } from 'app/services/payment.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { User } from 'app/defs/user';
 import { UserPreferences } from 'app/defs/UserPreferences';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition
+} from '@angular/animations';
 @Component({
   selector: 'app-pricing',
   templateUrl: './pricing.component.html',
-  styleUrls: ['./pricing.component.scss']
+  styleUrls: ['./pricing.component.scss'],
+  animations: [
+    trigger('fadeBottom', [
+      transition(':enter', [
+        style({opacity: 0,transform: 'translateY(+10%)'}),
+        animate('500ms ease-in')
+      ])
+    ]),
+    trigger('fadeLeft', [
+      transition(':enter', [
+        style({opacity: 0,transform: 'translateX(-10%)'}),
+        animate('500ms ease-in')
+      ])
+    ]),
+    trigger('fadeRight', [
+      transition(':enter', [
+        style({opacity: 0,transform: 'translateX(+10%)'}),
+        animate('500ms ease-in')
+      ])
+    ])
+  ]
 })
 export class PricingComponent implements OnInit {
 

@@ -1,23 +1,101 @@
-<div class="card m-sm-4 m-1">
-  <div class="card-header card-primary">
-    <h4><i class="fa fa-bar-chart"></i>  Pricing</h4>
+<div class="container container-fluid">
+	<div class="row no-gutters">
+		<div class="col">
+			<div class="banner-container">
+				<div class="img-width-max img-responsive linear-grad"></div>
+				<div class="banner-caption">
+					<h1>Straight forward, Simpe and transparent pricing!</h1>
+					<p class="hidden-sm-down">Ready to create an awesome search experience?</p>
+					<a @fadeBottom routerLink="/signup" class="btn btn-round btn-primary"> GET STARTED NOW!! </a>
+					<p @fadeBottom>7 days free | No credit card required!.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+  <div class="col-lg-3 col-md-2 col-sm-12 col-xs-12">
   </div>
-  <div class="card-block">
-    <div class="row">
-      <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
-        <pricing-details></pricing-details>
-      </div>
-      <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 mt-lg-5" Markdown>
-        ##### Example :
-        If your account's usage is as below
-          * 5K documents indexed
-          * 320K search requests
+  <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
+    <table class="table up-lift">
+      <tr>
+        <th class="text-center price">Standard plan - $25/mo</th>
+      </tr>
+      <tr>
+        <td class="pl-4"><i class="pr-3 fa-2 fa fa-file-o"></i>2K documents/pages per month.</td>
+      </tr>
+			<tr>
+				<td class="pl-4"><i class="pr-3 fa-2 fa fa-search"></i>50K queries/search per month.</td>
+			</tr>
+      <tr>
+        <td class="pl-4"><i class="pr-3 fa-2 fa fa-book"></i>Unlimited websites</td>
+      </tr>
+			<tr>
+				<td class="pl-4"><i class="pr-3 fa-2 fa fa-lightbulb-o"></i>Highlight in search results.</td>
+			</tr>
+      <tr>
+        <td class="pl-4"><i class="pr-3 fa-2 fa fa-flag-checkered"></i>Spellcheck suggestions.</td>
+      </tr>
+      <tr>
+        <td class="pl-4"><i class="pr-3 fa-2 fa fa-language"></i>Query by language</td>
+      </tr>
+			<tr>
+        <td class="pl-4"><i class="pr-3 fa-2 fa fa-line-chart"></i>Search Analytics</td>
+      </tr>
+			<tr>
+        <td class="pl-4"><i class="pr-3 fa-2 fa fa-envelope"></i>Email support within 2 hrs</td>
+      </tr>
+			<tr>
+        <td class="pl-4"><i class="pr-3 fa-2 fa fa-file-pdf-o"></i>PDF Indexing</td>
+      </tr>
+			<tr>
+        <td class="pl-4"><i class="pr-3 fa-2 fa fa-clock-o"></i>Automatic re-crawl every week.</td>
+      </tr>
+    </table>
+  </div>
+  <div class="col-lg-3 col-md-2 col-sm-12 col-xs-12">
+  </div>
+</div>
+<div class="row pb-4 mb-4">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+			<div class="card card-document card-document-third">
+				<div class="card-header">
+					<h5>Want more ?</h5>
+				</div>
+				<div class="card-block">
+					<table class="table">
+						<tr>
+							<td> $1/100 additional documents </td>
+						</tr>
+						<tr>
+							<td> $10/20K additional search requests </td>
+						</tr>
+						<tr>
+							<td> $5/On demand crawl </td>
+						</tr>
+					</table>
+				</div>
+			</div>
 
-        Then the calculated price is ** $195 ** as explained below
-          * Base price = $25
-          * ( 5K - 2K )/1000 * 10 = $30
-          * ( 320K -50K )/20K * 10 = $140
-      </div>
-    </div>
-  </div>
+		</div>
+		<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+			<div class="card card-document card-document-secondary">
+				<div class="card-header">
+					<h5> Limits</h5>
+				</div>
+				<div class="card-block">
+					<table class="table">
+						<tr>
+							<td> Depth to discover Urls : 5 </td>
+						</tr>
+						<tr>
+							<td> Document size : 250kb </td>
+						</tr>
+						<tr>
+							<td> Links in a single page : 100 </td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
 </div>
