@@ -278,7 +278,7 @@ var subscribeForTrial = function(userId,email){
           'status': 'TRIAL',
           'trial': {
             startDate: Date.now(),
-            endDate: (new Date()).setTime((new Date()).getTime() + 24 * 7 * 60 * 60 * 1000)
+            endDate: (new Date()).setTime((new Date()).getTime() + 24 * 60 * 60 * 60 * 1000)
           }
         },{
           "headers" : {'Authorization':"Bearer "+accessToken}
