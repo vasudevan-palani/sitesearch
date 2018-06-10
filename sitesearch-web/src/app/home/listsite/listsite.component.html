@@ -16,8 +16,23 @@
           </div>
         </div>
         <div class="row no-gutters" >
-          <div class="col-md-6 col-12 p-md-2" >
-            <home-accountstatus [preferences]="preferences"></home-accountstatus>
+          <div class="col-md-6 col-12 p-md-2">
+            <ng-container *ngIf="sites.length > 0">
+              <home-accountstatus [preferences]="preferences"></home-accountstatus>
+            </ng-container>
+            <ng-container *ngIf="sites.length == 0">
+              <div class="card card-document card-document-third">
+                <div class="card-header">
+                  <h5>Account Status -
+                    <span>{{preferences?.status}}</span>
+                  </h5>
+                </div>
+                <div class="card-block">
+                  <p>Thank you of using svolve site search. Click <a href="javascript:void(0);" (click)="addWebsite()"> here</a> to add website.</p>
+                </div>
+              </div>
+
+            </ng-container>
           </div>
           <div class="col-md-6 col-12 p-md-2" *ngIf="preferences && preferences?.card">
             <div class="card card-document card-document-peace">

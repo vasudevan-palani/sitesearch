@@ -12,7 +12,7 @@
     </div>
     <div *ngIf="preferences?.status == 'TRIAL'">
       <p>You are currently on FREE TRIAL From <strong>{{preferences?.trial.startDate | date:'mediumDate'}}</strong> To <strong>{{preferences?.trial.endDate | date:'mediumDate'}}</strong>.</p>
-      <a [routerLink]="['/checkout']" class="btn btn-success btn-round"> <i class="fa fa-check"></i>Activate Now</a>
+      Click <a [routerLink]="['/checkout']">here</a> to  activate.
     </div>
     <div *ngIf="preferences?.status == 'ACTIVE'">
       <p>Thank you for choosing us. Please email <a href="mailTo:support@svolve.com">support@svolve.com</a> for any concerns/issues. </p>
