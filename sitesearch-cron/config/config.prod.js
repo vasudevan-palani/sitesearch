@@ -1,29 +1,34 @@
 module.exports = {
-  hdfs : 'http://hadoop-master:50070/webhdfs/v1/user/vpalan799/',
+  hdfs : 'http://hadoop-master:50070/webhdfs/v1/user/hadoop/',
   aws : {
     'region' : 'us-east-1',
     'service' : 'es',
-    'host' : 'search-sitesearch-dev-ysygv3etypruskqtfow55cgfiy.us-east-1.es.amazonaws.com'
+    'host' : 'search-sitesearch-prod-ef5brjrpuzcqee3jbd3wbzgqbe.us-east-1.es.amazonaws.com'
   },
   oozie : {
-    url : 'http://hadoop-master:11000/oozie/v1/jobs',
-    username : 'ubuntu',
-    notificationUrl : 'http://hadoop-master:8085/api/notification?id=$jobId&amp;status=$status',
-    workflowPath : 'hdfs://hadoop-master:9000/user/vpalan799/workflows/crawl'
+    url : 'http://hadoop-master:11000/oozie/v1',
+    username : 'hadoop',
+    notificationUrl : 'http://ip-172-31-52-238:8085/api/notification?id=$jobId&amp;status=$status',
+    apps : {
+      clean : 'hdfs://hadoop-master:8020/user/hadoop/oozieapps/crawl/clean.xml',
+      crawl : 'hdfs://hadoop-master:8020/user/hadoop/oozieapps/crawl',
+      recrawl : 'hdfs://hadoop-master:8020/user/hadoop/oozieapps/crawl/recrawl.xml',
+      pcrawl : 'hdfs://hadoop-master:8020/user/hadoop/oozieapps/crawl/pcrawl.xml'
+    }
   },
   firebase : {
   	auth : {
-      apiKey: "AIzaSyALwIRzd8-0tACUGay3xa0gaT6dXoED8yQ",
-      authDomain: "opensearch-2a0db.firebaseapp.com",
-      databaseURL: "https://opensearch-2a0db.firebaseio.com",
-      projectId: "opensearch-2a0db",
-      storageBucket: "opensearch-2a0db.appspot.com",
-      messagingSenderId: "710024249927"
+      apiKey: "AIzaSyA0e92EeW45AQ41mudAI26aup0coCWWUVU",
+      authDomain: "sitesearch-prod.firebaseapp.com",
+      databaseURL: "https://sitesearch-prod.firebaseio.com",
+      projectId: "sitesearch-prod",
+      storageBucket: "sitesearch-prod.appspot.com",
+      messagingSenderId: "244222106126"
   	},
-  	ppk : '/home/ubuntu/opensearch-2a0db-firebase-adminsdk-c87oh-80d58a586e.json',
+  	ppk : '/home/hadoop/sitesearch-prod-firebase-adminsdk-u5ygp-f6bf1bc9f5.json',
     admin : {
-      username : 'opensearch.svolve@gmail.com',
-      password : 'password'
+      username : 'sitesearch.svolve@gmail.com',
+      password : 'Gmail@2013'
     }
   },
   weborigin : 'http://sitesearch.svolve.com:4200'

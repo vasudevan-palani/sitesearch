@@ -80,7 +80,7 @@
                 "MetricName": "YARNMemoryAvailablePercentage",
                 "Unit": "PERCENT",
                 "Namespace": "AWS/ElasticMapReduce",
-                "Threshold": 40,
+                "Threshold": 30,
                 "Dimensions": [{
                   "Key": "JobFlowId",
                   "Value": "${emr.clusterId}"
@@ -107,7 +107,7 @@
                 "MetricName": "YARNMemoryAvailablePercentage",
                 "Unit": "PERCENT",
                 "Namespace": "AWS/ElasticMapReduce",
-                "Threshold": 80,
+                "Threshold": 75,
                 "Dimensions": [{
                   "Key": "JobFlowId",
                   "Value": "${emr.clusterId}"
