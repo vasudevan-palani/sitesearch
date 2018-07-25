@@ -47,14 +47,16 @@ a {
 //   border-left: 5px solid #a94442; /* red */
 // }
 
-
-
 .card-primary {
+  background-color: #0275d8;
   h4 {
     color : white;
   }
 }
 
+.card-block {
+  padding-left: 0.5rem;
+}
 
 
 ng-sidebar {
