@@ -53,145 +53,146 @@ import { AboutUsComponent } from './about-us/about-us.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
 import { MoveToHeadDirective } from './move-to-head.directive';
 import { GssComponent } from './gss/gss.component';
+import { SorryComponent } from './sorry/sorry.component';
 
 const appRoutes: Routes = [
   {
     path: '',
-    component : AppMainComponent,
+    component : SorryComponent,
     data :{
       meta: {
         title: 'Site Search by Svolve | Powerful Site Search solution for websites',
         description: 'Powerful, Intuitive and Advanced Search to Your Site.'
       }
     }
-  },
-  { path: 'aboutus',
-    component: AboutUsComponent,
-    data :{
-      meta: {
-        title: 'About Us',
-        description: 'About svolve.com'
-      }
-    }
-   },
-   { path: 'contactus',
-     component: ContactUsComponent,
-     data :{
-       meta: {
-         title: 'Contact Us',
-         description: 'Contact us for support and help.'
-       }
-     }
-    },
-    { path: 'gss',
-      component: GssComponent,
-      data :{
-        meta: {
-          title: 'Replacement for Google Site Search',
-          description: 'Svolve sitesearch as replacement for GSS.'
-        }
-      }
-     },
-  { path: 'signup',
-    component: SignUpComponent,
-    data :{
-      meta: {
-        title: 'SignUp',
-        description: 'Signup to svolve.com'
-      }
-    }
-   },
-  {
-    path: 'login',
-    component: LoginComponent ,
-    data :{
-      meta: {
-        title: 'Login',
-        description: 'Login to svolve.com'
-      }
-    }
-  },
-  {
-    path: 'terms',
-    component: TermsComponent ,
-    data :{
-      meta: {
-        title: 'Terms and Conditions',
-        description: 'Sitesearch terms and conditions.'
-      }
-    }
-  },
-  {
-    path: 'privacy',
-    component: PrivacyComponent,
-    data :{
-      meta: {
-        title: 'Privacy policy',
-        description: 'Sitesearch privacy policy.'
-      }
-    }
-  },
-  {
-    path: 'documentation',
-    component: DocumentationComponent ,
-    data :{
-      meta: {
-        title: 'Documentation',
-        description: 'Learn how to use sitesearch from svolve.com.'
-      }
-    }
-  },
-  {
-    path: 'developerapi',
-    component: DeveloperapiComponent,
-    data :{
-      meta: {
-        title: 'Developer API',
-        description: 'Learn how to use sitesearch from svolve.com.'
-      }
-    }
-  },
-  {
-    path: 'features',
-    component: FeaturesComponent ,
-    data :{
-      meta: {
-        title: 'Documentation',
-        description: 'Learn how to use sitesearch from svolve.com.'
-      }
-    }
-  },
-  {
-    path: 'tutorials',
-    loadChildren: 'app/tutorials/tutorials.module#TutorialsModule'
-  },
-  {
-    path: 'home',
-    loadChildren: 'app/home/home.module#HomeModule'
-  },
-  {
-    path: 'pricing',
-    component: PricingComponent ,
-    data :{
-      meta: {
-        title: 'Pricing',
-        description: 'Pricing for sitesearch from svolve.com.'
-      }
-    }
-  },
-  {
-    path: 'checkout',
-    component: CheckoutComponent,
-    canActivate : [ AuthGuard ]
-  },
-  {
-    path: 'trial',
-    component: TrialComponent
-  },
-  {
-    path: 'summary',
-    component: CheckoutSummaryComponent
   }
+  // { path: 'aboutus',
+  //   component: AboutUsComponent,
+  //   data :{
+  //     meta: {
+  //       title: 'About Us',
+  //       description: 'About svolve.com'
+  //     }
+  //   }
+  //  },
+  //  { path: 'contactus',
+  //    component: ContactUsComponent,
+  //    data :{
+  //      meta: {
+  //        title: 'Contact Us',
+  //        description: 'Contact us for support and help.'
+  //      }
+  //    }
+  //   },
+  //   { path: 'gss',
+  //     component: GssComponent,
+  //     data :{
+  //       meta: {
+  //         title: 'Replacement for Google Site Search',
+  //         description: 'Svolve sitesearch as replacement for GSS.'
+  //       }
+  //     }
+  //    },
+  // { path: 'signup',
+  //   component: SignUpComponent,
+  //   data :{
+  //     meta: {
+  //       title: 'SignUp',
+  //       description: 'Signup to svolve.com'
+  //     }
+  //   }
+  //  },
+  // {
+  //   path: 'login',
+  //   component: LoginComponent ,
+  //   data :{
+  //     meta: {
+  //       title: 'Login',
+  //       description: 'Login to svolve.com'
+  //     }
+  //   }
+  // },
+  // {
+  //   path: 'terms',
+  //   component: TermsComponent ,
+  //   data :{
+  //     meta: {
+  //       title: 'Terms and Conditions',
+  //       description: 'Sitesearch terms and conditions.'
+  //     }
+  //   }
+  // },
+  // {
+  //   path: 'privacy',
+  //   component: PrivacyComponent,
+  //   data :{
+  //     meta: {
+  //       title: 'Privacy policy',
+  //       description: 'Sitesearch privacy policy.'
+  //     }
+  //   }
+  // },
+  // {
+  //   path: 'documentation',
+  //   component: DocumentationComponent ,
+  //   data :{
+  //     meta: {
+  //       title: 'Documentation',
+  //       description: 'Learn how to use sitesearch from svolve.com.'
+  //     }
+  //   }
+  // },
+  // {
+  //   path: 'developerapi',
+  //   component: DeveloperapiComponent,
+  //   data :{
+  //     meta: {
+  //       title: 'Developer API',
+  //       description: 'Learn how to use sitesearch from svolve.com.'
+  //     }
+  //   }
+  // },
+  // {
+  //   path: 'features',
+  //   component: FeaturesComponent ,
+  //   data :{
+  //     meta: {
+  //       title: 'Documentation',
+  //       description: 'Learn how to use sitesearch from svolve.com.'
+  //     }
+  //   }
+  // },
+  // {
+  //   path: 'tutorials',
+  //   loadChildren: 'app/tutorials/tutorials.module#TutorialsModule'
+  // },
+  // {
+  //   path: 'home',
+  //   loadChildren: 'app/home/home.module#HomeModule'
+  // },
+  // {
+  //   path: 'pricing',
+  //   component: PricingComponent ,
+  //   data :{
+  //     meta: {
+  //       title: 'Pricing',
+  //       description: 'Pricing for sitesearch from svolve.com.'
+  //     }
+  //   }
+  // },
+  // {
+  //   path: 'checkout',
+  //   component: CheckoutComponent,
+  //   canActivate : [ AuthGuard ]
+  // },
+  // {
+  //   path: 'trial',
+  //   component: TrialComponent
+  // },
+  // {
+  //   path: 'summary',
+  //   component: CheckoutSummaryComponent
+  // }
 
 ];
 
@@ -231,7 +232,8 @@ export function initStripe(){
     AboutUsComponent,
     ContactUsComponent,
     MoveToHeadDirective,
-    GssComponent
+    GssComponent,
+    SorryComponent
   ],
   imports: [
     NgbModule.forRoot(),

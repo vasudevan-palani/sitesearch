@@ -1,33 +1,33 @@
 <link rel="canonical" moveToHead [attr.href]="canonicalUrl">
 <header>
   <div class="container container-fluid">
-    <div class="row" *ngIf="!loginStatus && ishomePage">
+    <!--div class="row" *ngIf="!loginStatus && ishomePage">
       <div class="col text-center promotion">
         Svolve Site Search is the recommended Google Site Search<sup>TM</sup> replacement! <a routerLink="/gss" class="btn btn-round btn-success "> Learn more <i class="fa fa-chevron-right"></i></a>
       </div>
-    </div>
+    </div-->
     <div class="row header-bar no-gutters">
       <div class="col">
         <div class="row no-gutters">
           <div class="col-lg-3 col-md-12">
-            <button (click)="_toggleSidebar(sidebar)" class="menu-button d-inline-block btn btn-default"><i class="fa fa-bars"></i></button>
+            <button  class="menu-button d-inline-block btn btn-default"><i class="fa fa-bars"></i></button>
             <a class="nav-link d-inline-block" routerLink="/"><img class="logo-image d-inline-block" src="assets/images/svolve-cube.png" /> <span class="logo-text">Svolve</span></a>
           </div>
-          <div class="col-9 hidden-md-down text-right">
+          <!--div class="col-9 hidden-md-down text-right">
             <a class="nav-link d-inline-block" *ngIf="(userSvc.user | async)?.loginStatus" (click)="sidebar.close()" routerLink="/home/list" routerLinkActive="active"><i class="fa fa-home"></i>  MyAccount</a>
             <a class="nav-link d-inline-block" routerLink="/tutorials" routerLinkActive="active" (click)="sidebar.close()"><i class="fa fa-file-text-o"></i>  Documentation</a>
             <a class="nav-link d-inline-block" routerLink="/pricing" routerLinkActive="active" (click)="sidebar.close()"><i class="fa fa-bar-chart"></i>  Pricing</a>
             <a class="nav-link d-inline-block" *ngIf="!(userSvc.user | async)?.loginStatus" routerLink="/signup" routerLinkActive="active" (click)="sidebar.close()"><i class="fa fa-user-plus"></i>  Sign Up</a>
             <a class="nav-link d-inline-block" *ngIf="(userSvc.user | async)?.loginStatus" (click)="logout();sidebar.close()"><i class="fa fa-sign-out"></i>  Logout</a>
             <a class="nav-link d-inline-block" *ngIf="!(userSvc.user | async)?.loginStatus" routerLink="/login" (click)="sidebar.close()" routerLinkActive="active"><i class="fa fa-sign-in"></i>  Login</a>
-          </div>
+          </div-->
         </div>
       </div>
     </div>
     <ng-sidebar-container>
 
       <!-- A sidebar -->
-      <ng-sidebar #sidebar [(opened)]="_opened">
+      <!--ng-sidebar #sidebar [(opened)]="_opened">
         <ul>
           <li *ngIf="(userSvc.user | async)?.loginStatus">
             <a class="nav-link d-inline-block" (click)="sidebar.close()" routerLink="/home/list" routerLinkActive="active">
@@ -71,7 +71,7 @@
           </li>
         </ul>
 
-      </ng-sidebar>
+      </ng-sidebar-->
 
     </ng-sidebar-container>
   </div>
